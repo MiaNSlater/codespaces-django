@@ -369,13 +369,15 @@ paths:
               schema:
                 type: "array"
                 items:
-                  type: "object"
-                  properties:
-                    comment:
-                      type: "string"  
-                      description: "The user's comment on the set"
-                    set:
-                      $ref: "#/components/schemas/FlashcardSet"
+                  type: "array"
+                  items:
+                    type: "object"
+                    properties:
+                      comment:
+                        type: "string"  
+                        description: "The user's comment on the set"
+                      set:
+                        $ref: "#/components/schemas/FlashcardSet"
   /users/{userID}/collections/{collectionID}:
     parameters:
       - name: userID
@@ -400,15 +402,17 @@ paths:
           content:
             application/json:
               schema:
-                type: "object"
-                properties:
-                  comment:
-                    type: "string"  
-                    description: "The user's comment on the set"
-                  set:
-                    $ref: "#/components/schemas/FlashcardSet"
-                  user:
-                    $ref: "#/components/schemas/User"  
+                type: "array"
+                items:
+                  type: "object"
+                  properties:
+                    comment:
+                      type: "string"  
+                      description: "The user's comment on the set"
+                    set:
+                      $ref: "#/components/schemas/FlashcardSet"
+                    user:
+                      $ref: "#/components/schemas/User"  
         "404":
           description: "The flashcard set collection was not found"
           content:
@@ -424,11 +428,16 @@ paths:
         content:
           application/json:
             schema:
-              type: "object"
-              properties:
-                comment:
-                  type: "string"
-                  example: "I love this set!"
+              type: "array"
+              items:
+                type: "object"                
+                properties:
+                  comment:
+                    type: "string"
+                    example: "I love this set!"
+                  setID:
+                    type: "number"
+                    example: 1
       responses:
         "200":
           description: "The updated flashcard set collection"
@@ -500,15 +509,17 @@ paths:
               schema:
                 type: "array"
                 items:
-                  type: "object"
-                  properties:
-                    comment:
-                      type: "string"  
-                      description: "The user's comment on the set"
-                    set:
-                      $ref: "#/components/schemas/FlashcardSet"
-                    User:
-                      $ref: "#/components/schemas/User"  
+                  type: "array"
+                  items:
+                    type: "object"
+                    properties:
+                      comment:
+                        type: "string"  
+                        description: "The user's comment on the set"
+                      set:
+                        $ref: "#/components/schemas/FlashcardSet"
+                      user:
+                        $ref: "#/components/schemas/User"  
     post:
       summary: "Create a new flashcard set collection"
       tags:
@@ -608,6 +619,16 @@ components:
           type: "string"
           format: "date-time"
           example: "2024-10-15T12:00:00Z"
+        comments:
+          type: "array"
+          items:
+            type: "object"
+            properties:
+              comment:
+                type: "string"
+                example: "I love this set!"
+              author:
+                $ref: "#/components/schemas/User"
     Error:
       type: "object"
       properties:
@@ -635,15 +656,29 @@ components:
           default: false
           nullable: true
           description: "The set creation limit should only apply to non-admin users"
+    Collection:
+      type: "array"
+      items:
+        type: "object"
+        properties:
+          comment:
+            type: "string"
+            example: "I love this set!"
+          set:
+            $ref: "#/components/schemas/FlashcardSet"
+            nullable: true
+          author:
+            $ref: "#/components/schemas/User"
+            nullable: true
     Comment:
-      type: "object"
-      properties:
-        comment:
-          type: "string"
-          example: "I love this set!"
-        set:
-          $ref: "#/components/schemas/FlashcardSet"
-          nullable: true
-        author:
-          $ref: "#/components/schemas/User"
-          nullable: true
+          type: "object"
+          properties:
+            comment:
+              type: "string"
+              example: "I love this set!"
+            set:
+              $ref: "#/components/schemas/FlashcardSet"
+              nullable: true
+            author:
+              $ref: "#/components/schemas/User"
+              nullable: true
