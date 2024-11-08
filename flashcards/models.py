@@ -21,16 +21,16 @@ class User(models.Model):
       admin = models.BooleanField(default=False)
 
 
+class Comment(models.Model):
+      comment = models.CharField(max_length=200)
+      author = models.ForeignKey(User, on_delete=models.CASCADE)
+
 class FlashcardSet(models.Model):
       name = models.CharField(max_length=100)
       cards = models.ManyToManyField(Flashcard, related_name="sets")
       created_at = models.DateTimeField()
       updated_at = models.DateTimeField()
-
-class Comment(models.Model):
-      comment = models.CharField(max_length=200)
-      flashcardset = models.ForeignKey(FlashcardSet, on_delete=models.CASCADE)
-      author = models.ForeignKey(User, on_delete=models.CASCADE)
+      comments = models.ForeignKey(Comment, on_delete=models.CASCADE)
 
 class Collection(models.Model):
       comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
