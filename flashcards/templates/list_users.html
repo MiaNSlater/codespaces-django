@@ -1,0 +1,29 @@
+{% load django_browser_reload %}
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="title" content="User List">
+    <meta name="author" content="MS1646">
+    <meta name="generator" content="GitHub Codespaces">
+    <meta name="theme-color" content="#333333">
+
+    <title>{% block title %}{{ title }} | User List{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+</head>
+
+<body>
+    <div class="App">
+        <header class="App-header">
+            <p>
+                User List
+            </p>
+            <p class="small">
+                This is a list of all the users.
+            </p>
+</body>

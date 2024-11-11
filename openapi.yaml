@@ -70,7 +70,7 @@ paths:
         required: true
         description: "The ID of the flashcard set"
         schema:
-          type: "string"
+          type: "integer"
     get:
       summary: "Get a flashcard set by ID"
       tags:
@@ -151,7 +151,7 @@ paths:
         required: true
         description: "The ID of the flashcard set"
         schema:
-          type: "string"
+          type: "integer"
     post:
       summary: "Comment on a flashcard set, by the current user"
       tags:
@@ -186,7 +186,7 @@ paths:
         required: true
         description: "The ID of the flashcard set"
         schema:
-          type: "string"
+          type: "integer"
     get:
       summary: "Get all flashcards in a set"
       tags:
@@ -265,7 +265,7 @@ paths:
         required: true
         description: "The ID of the user"
         schema:
-          type: "string"
+          type: "integer"
     get:
       summary: "Get a user by ID"
       tags:

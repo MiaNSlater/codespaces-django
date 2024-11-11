@@ -14,11 +14,15 @@ class Flashcard(models.Model):
         default=None,
         null=True,
         blank=True,
-    )  
+    ) 
 
 class User(models.Model):
       username = models.CharField(max_length=100)
       admin = models.BooleanField(default=False)
+      password = models.CharField(max_length=100, null=True)
+
+      def __str__(self):
+            return f"Id: {self.id}, Username: {self.username}, Admin: {self.admin}"
 
 
 class Comment(models.Model):
