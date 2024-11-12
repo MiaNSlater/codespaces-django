@@ -18,6 +18,16 @@ def list_users(request):
     ujson_data = json.dumps(udata)
     return render(request, 'list_users.html', {'listuserdata_json': ujson_data})
 
+def search_id(request):
+    user = None
+    if request.method == 'POST':
+        user_id = request.POST.get('user_id')
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            user = None
+    return render(request, 'user_by_id.html', {'user': user})
+
 def submit_form(request):
     if request.method == 'POST':
         username = request.POST.get('username')

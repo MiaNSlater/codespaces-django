@@ -29,6 +29,7 @@ urlpatterns = [
     path("userlist", core_views.list_users, name='list_users'),
     path("createuser", core_views.submit_form, name='submit_form'),
     path("success.html", core_views.success, name='success.html'),
+    path("user_by_id", core_views.search_id, name='search_id')
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
