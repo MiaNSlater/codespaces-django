@@ -12,18 +12,24 @@
     <meta name="generator" content="GitHub Codespaces">
     <meta name="theme-color" content="#333333">
 
-    <title>{% block title %}{{ title }} | User List{% endblock %}</title>
+    <title>User List</title>
 
     <link rel="stylesheet" href="{% static 'main.css' %}">
 </head>
 
 <body>
-    <div class="App">
-        <header class="App-header">
-            <p>
-                User List
-            </p>
-            <p class="small">
-                This is a list of all the users.
-            </p>
+    <h1>Here is the list of users:</h1>
+    <div id="User Data Container"></div>
+    <script>
+        const listUserData = JSON.parse('{{ listuserdata_json|escapejs }}');
+
+        const userDataDiv = document.getElementById('User Data Container');
+        listUserData.forEach(user => {
+            const userList = document.createElement('p');
+            userList.textContent = `ID: ${user.id} | Username: ${user.username} | Admin?: ${user.admin}`;
+            userDataDiv.appendChild(userList);
+        });
+    </script>
+            
 </body>
+</html>
