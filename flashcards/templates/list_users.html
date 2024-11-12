@@ -26,7 +26,7 @@
         const userDataDiv = document.getElementById('User Data Container');
         listUserData.forEach(user => {
             const userList = document.createElement('p');
-            userList.textContent = `ID: ${user.id} | Username: ${user.username} | Admin?: ${user.admin}`;
+            userList.textContent = `Username: ${user.username} | Admin?: ${user.admin}`;
             userDataDiv.appendChild(userList);
         });
     </script>

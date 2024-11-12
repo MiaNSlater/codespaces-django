@@ -1,0 +1,31 @@
+{% load django_browser_reload %}
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="title" content="User List">
+        <meta name="author" content="MS1646">
+        <meta name="generator" content="GitHub Codespaces">
+        <meta name="theme-color" content="#333333">
+
+        <title>Create a new User</title>
+    </head>
+    <body>
+        <form action="{% url 'submit_form' %}" method = "post">
+            {% csrf_token %}
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username"><br><br>
+
+            <label for="password">Password:</label>
+            <input type="text" id="password" name="password"><br><br>
+
+            <label for="admin">Admin:</label>
+            <input type="checkbox" id="admin" name="admin"><br><br>
+
+            <input type="submit" value="Submit">
+        </form>
+    </body>
+</html>

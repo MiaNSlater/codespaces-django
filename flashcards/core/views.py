@@ -1,6 +1,6 @@
 #from django.http import JsonResponse
 import json
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from flashcards.models import User
 from flashcards.models import Flashcard
 from flashcards.models import FlashcardSet
@@ -17,16 +17,18 @@ def list_users(request):
     udata = list(User.objects.values('id', 'username', 'admin'))
     ujson_data = json.dumps(udata)
     return render(request, 'list_users.html', {'listuserdata_json': ujson_data})
-    #uqueryset = User.objects.all().values('id', 'username', 'admin')
-    #udata = list(uqueryset)
-    #return JsonResponse(udata, safe=False)
 
+def submit_form(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        admin = request.POST.get('admin') == 'on'
 
-#def list_users(request):
-    #users = User.objects.all()
-    #return render(request, 'list_users.html', {'users': users})
+        user_input = User(username = username, password = password, admin = admin)
+        user_input.save()
 
-#def list_users(request):
-  #  users = User.objects.all()
-   # users_json = serialize('json', users)
-   # return render(request, 'list_users.html', {'users_json': users_json})
+        return redirect('success.html')
+    return render(request, 'create_user.html')
+
+def success(request):
+    return render(request, 'success.html')
