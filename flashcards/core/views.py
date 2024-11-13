@@ -55,5 +55,15 @@ def delete_user(request):
         return redirect('success.html')
     return render(request, 'delete_user.html')
 
+def search_user(request):
+    user = None
+    if request.method == 'POST':
+        user_id = request.POST.get('user_id')
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            user = None
+    return render(request, 'user_by_id.html', {'user': user})
+
 def success(request):
     return render(request, 'success.html')

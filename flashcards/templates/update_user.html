@@ -13,4 +13,16 @@
 
         <title>Update User</title>
     </head>
+    <body>
+        <h1>
+            Update a User by Id
+        </h1>
+        <h2>
+            Type in an Id number to update a user:
+        </h2>
+        <form action="{% url 'search_user' %}" method = "post">
+            {% csrf_token %}
+            <input type="text" placeholder="Search by Id..." id="user_id" name="user_id">
+            <button type="submit">Look Up<i class="fa fa-search"></i></button>
+        </form>
 </html>
