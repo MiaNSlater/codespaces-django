@@ -59,10 +59,17 @@ def search_user(request):
     user = None
     if request.method == 'POST':
         user_id = request.POST.get('user_id')
-        try:
+        if user_id:
             user = User.objects.get(id=user_id)
-        except User.DoesNotExist:
-            user = None
+        
+        if user:
+            if 'update' in request.POST:
+                user.username = request.POST.get('username', user.username)
+                user.password = request.POST.get('password', user.password)
+
+                user.save()
+
+                return redirect('success.html')
     return render(request, 'update_user.html', {'user': user})
 
 def success(request):
