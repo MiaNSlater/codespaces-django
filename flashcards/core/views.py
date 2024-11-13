@@ -63,7 +63,7 @@ def search_user(request):
             user = User.objects.get(id=user_id)
         except User.DoesNotExist:
             user = None
-    return render(request, 'user_by_id.html', {'user': user})
+    return render(request, 'update_user.html', {'user': user})
 
 def success(request):
     return render(request, 'success.html')
