@@ -1,6 +1,7 @@
 #from django.http import JsonResponse
 import json
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponseForbidden
 from flashcards.models import User
 from flashcards.models import Flashcard
 from flashcards.models import FlashcardSet
@@ -39,6 +40,20 @@ def submit_form(request):
 
         return redirect('success.html')
     return render(request, 'create_user.html')
+
+def delete_user(request):
+    if request.method == 'POST':
+        user_id = request.POST.get('id')
+        try:
+            user_to_delete = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return HttpResponseForbidden("Forbidden: You cannot delete a non-existent user.")
+        if user_to_delete.admin:
+            return HttpResponseForbidden("Forbidden: You cannot delete an admin user. This attempt has been logged.")
+        user_to_delete.delete()
+
+        return redirect('success.html')
+    return render(request, 'delete_user.html')
 
 def success(request):
     return render(request, 'success.html')
