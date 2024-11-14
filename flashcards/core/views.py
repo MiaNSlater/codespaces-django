@@ -19,6 +19,19 @@ def list_users(request):
     ujson_data = json.dumps(udata)
     return render(request, 'list_users.html', {'listuserdata_json': ujson_data})
 
+def list_sets(request):
+    if request.method == 'POST':
+        user_id = request.POST.get('user_id')
+        if user_id:
+            try:
+                user_sets = FlashcardSet.objects.filter(author_id=user_id)
+
+                context = {
+                'flashcard_sets' : user_sets
+                }
+                return render(request, 'flashcard_set_list.html', context)
+    return render(request, 'flashcard_set_list.html')
+
 def search_id(request):
     user = None
     if request.method == 'POST':

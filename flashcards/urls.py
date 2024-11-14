@@ -32,6 +32,7 @@ urlpatterns = [
     path("userbyid", core_views.search_id, name='search_id'),
     path("deleteuser", core_views.delete_user, name='delete_user'),
     path("updateuser", core_views.search_user, name='search_user'),
+    path("flashcardsetsearch", core_views.list_sets, name='list_sets'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
