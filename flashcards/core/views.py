@@ -22,14 +22,11 @@ def list_users(request):
 def list_sets(request):
     if request.method == 'POST':
         user_id = request.POST.get('user_id')
-        if user_id:
-                user_sets = FlashcardSet.objects.filter(author_id=user_id)
-                
-                context = {
-                'flashcard_sets' : user_sets
-                }
-                return render(request, 'flashcard_set_list.html', context)
-    return render(request, 'flashcard_set_list.html')
+        try:
+            flashcard_sets = FlashcardSet.objects.filter(author_id=user_id)
+        except FlashcardSet.DoesNotExist:
+            flashcard_sets = None
+    return render(request, 'flashcard_set_list.html', {'flashcard_sets': flashcard_sets})
 
 def search_id(request):
     user = None

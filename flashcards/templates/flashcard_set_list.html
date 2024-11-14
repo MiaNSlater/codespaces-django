@@ -34,8 +34,8 @@
                     <p><strong>Comments:</strong> {{ flashcard_sets.comments_id }}</p>
                     <p><strong>User:</strong> {{ flashcard_sets.author_id }}</p>
                 </div>
-        {% elif request.method == "POST" %}
-            <p>No Flashcard Set found by user.</p>
+        {% elif flashcard_sets is None and request.method == "POST" %}
+            <p>No Flashcard Set found by this user.</p>
         {% endif %}
     </body>
 </html>
