@@ -31,7 +31,7 @@ class Comment(models.Model):
 
 class FlashcardSet(models.Model):
       name = models.CharField(max_length=100)
-      cards = models.ManyToManyField(Flashcard, related_name="sets")
+      cards = models.ForeignKey(Flashcard, default=None, on_delete=models.CASCADE,related_name="sets")
       created_at = models.DateTimeField()
       updated_at = models.DateTimeField()
       comments = models.ForeignKey(Comment, on_delete=models.CASCADE)
