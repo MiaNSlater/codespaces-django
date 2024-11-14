@@ -24,7 +24,7 @@ def list_sets(request):
     if request.method == 'POST':
         user_id = request.POST.get('user_id')
         try:
-            flashcard_sets = FlashcardSet.objects.filter(author_id=user_id)
+            flashcard_sets = FlashcardSet.objects.get(author_id=user_id)
         except FlashcardSet.DoesNotExist:
             flashcard_sets = None
     return render(request, 'flashcard_set_list.html', {'flashcard_sets': flashcard_sets})
