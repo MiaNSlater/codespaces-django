@@ -20,6 +20,7 @@ def list_users(request):
     return render(request, 'list_users.html', {'listuserdata_json': ujson_data})
 
 def list_sets(request):
+    flashcard_sets = None
     if request.method == 'POST':
         user_id = request.POST.get('user_id')
         try:
