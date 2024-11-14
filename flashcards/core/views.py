@@ -24,7 +24,7 @@ def list_sets(request):
         user_id = request.POST.get('user_id')
         if user_id:
                 user_sets = FlashcardSet.objects.filter(author_id=user_id)
-
+                
                 context = {
                 'flashcard_sets' : user_sets
                 }
