@@ -22,7 +22,7 @@ class FlashcardSet(models.Model):
       author = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
 
       def __str__(self):
-            return f"Name: {self.name}, Cards: {self.cards}, Created: {self.created_at}, Updated: {self.updated_at}, Author: {self.author}"
+            return f"Name: {self.name}, Created: {self.created_at}, Updated: {self.updated_at}, Author: {self.author}"
       
 class Flashcard(models.Model):
     question = models.CharField(max_length=100)
