@@ -5,17 +5,6 @@ class DifficultyLevel(models.TextChoices):
         MEDIUM = 'M', 'Medium'
         HARD = 'H', 'Hard'
 
-class Flashcard(models.Model):
-    question = models.CharField(max_length=100)
-    answer = models.CharField(max_length=100)
-    flashcardset = models.ForeignKey(FlashcardSet, on_delete.models.CASCADE)
-    difficulty = models.CharField(
-        max_length=1,
-        choices=DifficultyLevel.choices,
-        default=None,
-        null=True,
-        blank=True,
-    ) 
 
 class User(models.Model):
       username = models.CharField(max_length=100)
@@ -34,6 +23,18 @@ class FlashcardSet(models.Model):
 
       def __str__(self):
             return f"Name: {self.name}, Cards: {self.cards}, Created: {self.created_at}, Updated: {self.updated_at}, Author: {self.author}"
+      
+class Flashcard(models.Model):
+    question = models.CharField(max_length=100)
+    answer = models.CharField(max_length=100)
+    flashcardset = models.ForeignKey(FlashcardSet, default=None, null=True, blank=True, on_delete=models.CASCADE)
+    difficulty = models.CharField(
+        max_length=1,
+        choices=DifficultyLevel.choices,
+        default=None,
+        null=True,
+        blank=True,
+    ) 
       
 class Comment(models.Model):
       comment = models.CharField(max_length=200)
