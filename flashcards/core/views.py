@@ -55,8 +55,9 @@ def create_flashcard_set(request):
     if request.method == 'POST':
         user_id = request.POST.get('user_id')
         set_name = request.POST.get('set_name')
+        author = get_object_or_404(User, id=user_id)
 
-        set_input = FlashcardSet(name=set_name, author=user_id)
+        set_input = FlashcardSet(name=set_name, author=author)
         set_input.save()
 
         return redirect('success.html')
