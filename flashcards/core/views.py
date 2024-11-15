@@ -87,6 +87,19 @@ def delete_user(request):
         return redirect('success.html')
     return render(request, 'delete_user.html')
 
+def delete_set(request):
+    if request.method == 'POST':
+        set_id = request.POST.get('set_id')
+        try:
+            set_to_delete = FlashcardSet.objects.get(id=set_id)
+        except FlashcardSet.DoesNotExist:
+            return HttpResponseForbidden("Forbidden: You cannot delete a non-existent set.")
+            
+        set_to_delete.delete()
+
+        return redirect('success.html')
+    return render(request, 'delete_set.html')
+
 def search_user(request):
     user = None
     if request.method == 'POST':

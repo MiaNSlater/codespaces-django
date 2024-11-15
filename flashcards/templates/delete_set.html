@@ -1,0 +1,29 @@
+{% load django_browser_reload %}
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="title" content="User List">
+        <meta name="author" content="MS1646">
+        <meta name="generator" content="GitHub Codespaces">
+        <meta name="theme-color" content="#333333">
+
+        <title>Delete a Flashcard Set</title>
+    </head>
+    <body>
+        <h1>
+            Delete a Flashcard Set by Id
+        </h1>
+        <h2>
+            Type in a valid Id number to delete a Flashcard Set
+        </h2>
+        <form action="{% url 'delete_set' %}" method = "post">
+            {% csrf_token %}
+            <input type="text" placeholder="Delete by Id..." id="id" name="id">
+            <button type="submit">Delete<i class="fa fa-search"></i></button>
+        </form>
+    </body>
+</html>
