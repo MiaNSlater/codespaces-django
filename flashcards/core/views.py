@@ -39,6 +39,16 @@ def search_id(request):
             user = None
     return render(request, 'user_by_id.html', {'user': user})
 
+def search_set(request):
+    reqset = None
+    if request.method == 'POST':
+        set_id = request.POST.get('set_id')
+        try:
+            reqset = FlashcardSet.objects.get(id=set_id)
+        except FlashcardSet.DoesNotExist:
+            reqset = None
+    return render(request, 'sets_by_id.html', {'reqset': reqset})
+
 def submit_form(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -62,7 +72,6 @@ def create_flashcard_set(request):
 
         return redirect('success.html')
     return render(request, 'create_flashcard_set.html')
-
 
 def delete_user(request):
     if request.method == 'POST':

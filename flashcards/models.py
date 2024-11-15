@@ -40,6 +40,9 @@ class FlashcardSet(models.Model):
       comments = models.ForeignKey(Comment, default=None, null=True, blank=True, on_delete=models.CASCADE)
       author = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
 
+      def __str__(self):
+            return f"Name: {self.name}, Cards: {self.cards}, Created: {self.created_at}, Updated: {self.updated_at}, Comments: {self.comments}, Author: {self.author}"
+
 class Collection(models.Model):
       comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
       set = models.ForeignKey(FlashcardSet, on_delete=models.CASCADE)

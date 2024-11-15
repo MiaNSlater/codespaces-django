@@ -1,0 +1,41 @@
+{% load django_browser_reload %}
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="title" content="User List">
+        <meta name="author" content="MS1646">
+        <meta name="generator" content="GitHub Codespaces">
+        <meta name="theme-color" content="#333333">
+
+        <title>Get a Flashcard Set by ID</title>
+    </head>
+    <body>
+        <h1>
+            Find a Flashcard Set by Id
+        </h1>
+        <h2>
+            Type in an Id number to find a set:
+        </h2>
+        <form action="{% url 'search_set' %}" method = "post">
+            {% csrf_token %}
+            <input type="text" placeholder="Search by Id..." id="set_id" name="set_id">
+            <button type="submit">Look Up<i class="fa fa-search"></i></button>
+        </form>
+        {% if reqset %}
+            <h2>Results</h2>
+            <p><strong>ID:</strong> {{ reqset.id }}</p>
+            <p><strong>Name:</strong> {{ reqset.name }}</p>
+            <p><strong>Cards:</strong> {{ reqset.cards_id }}</p>
+            <p><strong>Created:</strong> {{ reqset.created_at }}</p>
+            <p><strong>Updated:</strong>:</strong> {{ reqset.updated_at }}</p>
+            <p><strong>Comments:</strong> {{ reqset.comments_id }}</p>
+            <p><strong>Author:</strong> {{ reqset.author_id }}</p>
+        {% elif reqset is None and request.method == "POST" %}
+            <p>No flashcard set found with that Id.</p>
+        {% endif %}
+    </body>
+</html>
