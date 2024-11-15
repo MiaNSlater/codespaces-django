@@ -8,6 +8,7 @@ class DifficultyLevel(models.TextChoices):
 class Flashcard(models.Model):
     question = models.CharField(max_length=100)
     answer = models.CharField(max_length=100)
+    flashcardset = models.ForeignKey(FlashcardSet, on_delete.models.CASCADE)
     difficulty = models.CharField(
         max_length=1,
         choices=DifficultyLevel.choices,
@@ -35,7 +36,6 @@ class Comment(models.Model):
 
 class FlashcardSet(models.Model):
       name = models.CharField(max_length=100)
-      cards = models.ForeignKey(Flashcard, default=None, null=True, blank=True, on_delete=models.CASCADE,related_name="sets")
       created_at = models.DateTimeField(auto_now_add=True)
       updated_at = models.DateTimeField(auto_now=True)
       author = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
