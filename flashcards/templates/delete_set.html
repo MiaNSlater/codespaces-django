@@ -22,7 +22,7 @@
         </h2>
         <form action="{% url 'delete_set' %}" method = "post">
             {% csrf_token %}
-            <input type="text" placeholder="Delete by Id..." id="id" name="id">
+            <input type="text" placeholder="Delete by Id..." id="set_id" name="set_id">
             <button type="submit">Delete<i class="fa fa-search"></i></button>
         </form>
     </body>
