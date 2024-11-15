@@ -51,6 +51,18 @@ def submit_form(request):
         return redirect('success.html')
     return render(request, 'create_user.html')
 
+def create_flashcard_set(request):
+    if request.method == 'POST':
+        user_id = request.POST.get('user_id')
+        set_name = request.POST.get('set_name')
+
+        set_input = FlashcardSet(name=set_name, author=user_id)
+        set_input.save()
+
+        return redirect('success.html')
+    return render(request, 'create_flashcard_set.html')
+
+
 def delete_user(request):
     if request.method == 'POST':
         user_id = request.POST.get('id')
