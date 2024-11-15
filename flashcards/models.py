@@ -37,7 +37,7 @@ class FlashcardSet(models.Model):
       cards = models.ForeignKey(Flashcard, default=None, null=True, blank=True, on_delete=models.CASCADE,related_name="sets")
       created_at = models.DateTimeField(auto_now_add=True)
       updated_at = models.DateTimeField(auto_now=True)
-      comments = models.ForeignKey(Comment, default=None, null=True, blank=True on_delete=models.CASCADE)
+      comments = models.ForeignKey(Comment, default=None, null=True, blank=True, on_delete=models.CASCADE)
       author = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
 
 class Collection(models.Model):
