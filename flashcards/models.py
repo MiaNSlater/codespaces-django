@@ -28,6 +28,7 @@ class User(models.Model):
 class Comment(models.Model):
       comment = models.CharField(max_length=200)
       author = models.ForeignKey(User, on_delete=models.CASCADE)
+      flashcardset = models.ForeignKey(FlashcardSet, on_delete.models.CASCADE)
 
       def __str__(self):
             return f"Comment: {self.comment}"
@@ -37,11 +38,10 @@ class FlashcardSet(models.Model):
       cards = models.ForeignKey(Flashcard, default=None, null=True, blank=True, on_delete=models.CASCADE,related_name="sets")
       created_at = models.DateTimeField(auto_now_add=True)
       updated_at = models.DateTimeField(auto_now=True)
-      comments = models.ForeignKey(Comment, default=None, null=True, blank=True, on_delete=models.CASCADE)
       author = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
 
       def __str__(self):
-            return f"Name: {self.name}, Cards: {self.cards}, Created: {self.created_at}, Updated: {self.updated_at}, Comments: {self.comments}, Author: {self.author}"
+            return f"Name: {self.name}, Cards: {self.cards}, Created: {self.created_at}, Updated: {self.updated_at}, Author: {self.author}"
 
 class Collection(models.Model):
       comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
