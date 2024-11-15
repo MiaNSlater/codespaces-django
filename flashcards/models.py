@@ -29,6 +29,9 @@ class Comment(models.Model):
       comment = models.CharField(max_length=200)
       author = models.ForeignKey(User, on_delete=models.CASCADE)
 
+      def __str__(self):
+            return f"Comment: {self.comment}"
+
 class FlashcardSet(models.Model):
       name = models.CharField(max_length=100)
       cards = models.ForeignKey(Flashcard, default=None, on_delete=models.CASCADE,related_name="sets")
