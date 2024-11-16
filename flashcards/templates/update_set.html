@@ -14,6 +14,29 @@
         <title>Update Flashcard Sets</title>
     </head>
     <body>
-        
+        <h1>
+            Update a Flashcard Set by Id
+        </h1>
+        <h2>
+            Type in an Id number to update a flashcard set:
+        </h2>
+        <form action="{% url 'update_set' %}" method = "post">
+            {% csrf_token %}
+            <input type="text" placeholder="Search by Id..." id="set_id" name="set_id">
+            <button type="submit">Look Up<i class="fa fa-search"></i></button>
+        </form>
+
+        {% if reqset %}
+            <h2>Update Flashcard Set Details:</h2>
+            <form action="{% url 'update_set' %}" method = "post">
+                {% csrf_token %}
+                <input type="hidden" name="set_id" value="{{ reqset.id }}">
+
+                <h3><strong>New Flashcard Set Name:</strong></h3>
+                <input type="text" id="name" name="name" value="{{ reqset.name }}"><br><br>
+
+                <button type="submit" name="update">Update</button>
+            </form>
+        {% endif %}
     </body>
 </html>

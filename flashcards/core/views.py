@@ -117,5 +117,21 @@ def search_user(request):
                 return redirect('success.html')
     return render(request, 'update_user.html', {'user': user})
 
+def update_set(request):
+    reqset = None
+    if request.method == 'POST':
+        set_id = request.POST.get('set_id')
+        if set_id:
+            reqset = FlashcardSet.objects.get(id=set_id)
+        
+        if reqset:
+            if 'update' in request.POST:
+                reqset.name = request.POST.get('name', reqset.name)
+
+                reqset.save()
+
+                return redirect('success.html')
+    return render(request, 'update_set.html', {'reqset': reqset})
+
 def success(request):
     return render(request, 'success.html')
