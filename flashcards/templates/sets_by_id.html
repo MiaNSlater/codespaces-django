@@ -47,7 +47,7 @@
                     <li>{{ comment.comment }}</li>
                 {% empty %}
                 <li>No comments found for this set.</li>
-                {% end for %}
+                {% endfor %}
             </ul>
         {% elif reqset is None and request.method == "POST" %}
             <li>No flashcard set found with that Id.</li>
