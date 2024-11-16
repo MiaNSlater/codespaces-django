@@ -29,13 +29,28 @@
             <h2>Results</h2>
             <p><strong>ID:</strong> {{ reqset.id }}</p>
             <p><strong>Name:</strong> {{ reqset.name }}</p>
-            <p><strong>Cards:</strong> {{ reqset.cards_id }}</p>
             <p><strong>Created:</strong> {{ reqset.created_at }}</p>
-            <p><strong>Updated:</strong>:</strong> {{ reqset.updated_at }}</p>
-            <p><strong>Comments:</strong> {{ reqset.comments_id }}</p>
-            <p><strong>Author:</strong> {{ reqset.author_id }}</p>
+            <p><strong>Updated:</strong> {{ reqset.updated_at }}</p>
+            <p><strong>Author:</strong> {{ reqset.author.username }}</p>
+
+            <h3>Flashcards:</h3>
+            <ul>
+                {% for card in reqset.flashcards.all %}
+                    <li><strong>Question:</strong> {{ card.question }} | <strong>Answer:</strong> {{ card.answer }} | <strong>Difficulty:</strong> {{ card.difficulty }} </li>
+                {% empty %}
+                    <li>No flashcards available in this set.</li>
+                {% endfor %}
+            </ul>
+            <h3>Comments:</h3>
+            <ul>
+                {% for comment in reqset.comments.all %}
+                    <li>{{ comment.comment }}</li>
+                {% empty %}
+                <li>No comments found for this set.</li>
+                {% end for %}
+            </ul>
         {% elif reqset is None and request.method == "POST" %}
-            <p>No flashcard set found with that Id.</p>
+            <li>No flashcard set found with that Id.</li>
         {% endif %}
     </body>
 </html>

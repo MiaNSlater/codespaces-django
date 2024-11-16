@@ -19,7 +19,7 @@ class FlashcardSet(models.Model):
       name = models.CharField(max_length=100)
       created_at = models.DateTimeField(auto_now_add=True)
       updated_at = models.DateTimeField(auto_now=True)
-      author = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
+      author = models.ForeignKey(User, default=None, on_delete=models.CASCADE, related_name='flashcard_set')
 
       def __str__(self):
             return f"Name: {self.name}, Created: {self.created_at}, Updated: {self.updated_at}, Author: {self.author}"
@@ -27,7 +27,7 @@ class FlashcardSet(models.Model):
 class Flashcard(models.Model):
     question = models.CharField(max_length=100)
     answer = models.CharField(max_length=100)
-    flashcardset = models.ForeignKey(FlashcardSet, default=None, null=True, blank=True, on_delete=models.CASCADE)
+    flashcardset = models.ForeignKey(FlashcardSet, default=None, null=True, blank=True, on_delete=models.CASCADE, related_name='flashcard')
     difficulty = models.CharField(
         max_length=1,
         choices=DifficultyLevel.choices,
@@ -39,12 +39,12 @@ class Flashcard(models.Model):
 class Comment(models.Model):
       comment = models.CharField(max_length=200)
       author = models.ForeignKey(User, on_delete=models.CASCADE)
-      flashcardset = models.ForeignKey(FlashcardSet, default=None, null=True, blank=True, on_delete=models.CASCADE)
+      flashcardset = models.ForeignKey(FlashcardSet, default=None, null=True, blank=True, on_delete=models.CASCADE, related_name='comments')
 
       def __str__(self):
             return f"Comment: {self.comment}"
 
 class Collection(models.Model):
-      comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
-      set = models.ForeignKey(FlashcardSet, on_delete=models.CASCADE)
-      author = models.ForeignKey(User, on_delete=models.CASCADE)
+      comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='collection')
+      flashcard_set = models.ForeignKey(FlashcardSet, on_delete=models.CASCADE, related_name='collection')
+      author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='collection')
