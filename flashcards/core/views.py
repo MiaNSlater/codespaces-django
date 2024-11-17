@@ -144,8 +144,6 @@ def comment_set(request):
 
         comment = request.POST.get('comment')
         author = request.POST.get('author')
-        if not author or not comment:
-            return HttpResponseForbidden("Forbidden. Cannot submit a new comment without a valid author or comment.")
 
         set_input = Comment(comment = comment, author = author, set_id = reqset)
         set_input.save()
