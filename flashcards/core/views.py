@@ -137,16 +137,18 @@ def comment_set(request):
     set_id = None
     if request.method == 'POST':
         set_id = request.POST.get('set_id')
-        if not set_id:
+        try:
+            reqset = get_object_or_404(FlashcardSet, id=set_id)
+        except FlashcardSet.DoesNotExist:
             return HttpResponseForbidden("Forbidden. Cannot submit a new comment without a valid flashcard set id.")
-        
-        reqset = get_object_or_404(FlashcardSet, id=set_id)
 
-        comment = request.POST.get('comment')
-        author = request.POST.get('author')
+        if reqset:
 
-        set_input = Comment(comment = comment, author = author, flashcardset_id = reqset)
-        set_input.save()
+            comment = request.POST.get('comment')
+            author = request.POST.get('author')
+
+            set_input = Comment(comment = comment, author = author, flashcardset_id = reqset)
+            set_input.save()
 
         return redirect('success.html')
     return render(request, 'post_comment.html')
