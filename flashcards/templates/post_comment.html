@@ -1,0 +1,44 @@
+{% load django_browser_reload %}
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="title" content="User List">
+        <meta name="author" content="MS1646">
+        <meta name="generator" content="GitHub Codespaces">
+        <meta name="theme-color" content="#333333">
+
+        <title>Post a Comment</title>
+    </head>
+    <body>
+        <h1>
+            Post a Comment on a Flashcard Set
+        </h1>
+        <h2>
+            Type in an Id number to search for a Flashcard Set:
+        </h2>
+        <form action="{% url 'comment_set' %}" method = "post">
+            {% csrf_token %}
+            <input type="text" placeholder="Search by Id..." id="set_id" name="set_id">
+            <button type="submit">Look Up<i class="fa fa-search"></i></button>
+        </form>
+
+        {% if reqset %}
+            <h2>Add a Comment:</h2>
+            <form action="{% url 'comment_set' %}" method = "post">
+                {% csrf_token %}
+                <input type="hidden" name="set_id" value="{{ reqset.id }}">
+
+                <h3><strong>Comment:</strong></h3>
+                <input type="text" id="comment" name="comment"><br><br>
+
+                <h3><strong>Author:</strong></h3>
+                <input type="text" id="author" name="author"><br><br>
+
+                <button type="submit" value="submit">Post</button>
+            </form>
+        {% endif %}
+</html>

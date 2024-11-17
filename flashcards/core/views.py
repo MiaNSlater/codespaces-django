@@ -133,5 +133,16 @@ def update_set(request):
                 return redirect('success.html')
     return render(request, 'update_set.html', {'reqset': reqset})
 
+def comment_set(request):
+    set_id = None
+    if request.method == 'POST':
+        set_id = request.POST.get('set_id')
+        if set_id:
+            reqset = FlashcardSet.objects.get(id=set_id)
+
+        if reqset:
+            
+        
+
 def success(request):
     return render(request, 'success.html')
