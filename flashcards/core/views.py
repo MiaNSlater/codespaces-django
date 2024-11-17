@@ -145,7 +145,7 @@ def comment_set(request):
         comment = request.POST.get('comment')
         author = request.POST.get('author')
 
-        set_input = Comment(comment = comment, author = author, set_id = reqset)
+        set_input = Comment(comment = comment, author = author, flashcardset_id = reqset)
         set_input.save()
 
         return redirect('success.html')
