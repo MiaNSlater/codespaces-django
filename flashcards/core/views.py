@@ -148,7 +148,7 @@ def comment_set(request):
             reqset = get_object_or_404(FlashcardSet, id=set_id)
             if not comment or not author:
                 return HttpResponseForbidden("Forbidden. Cannot submit a new comment without a valid comment or author.")
-            set_input = Comment(comment = comment, author = author, flashcardset_id = reqset.id)
+            set_input = Comment(comment = comment, author = author.id, flashcardset_id = reqset.id)
             set_input.save()
         return redirect('success.html')
     return render(request, 'post_comment.html', {'reqset': reqset})
