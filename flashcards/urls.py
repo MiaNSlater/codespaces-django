@@ -38,6 +38,7 @@ urlpatterns = [
     path("deleteset", core_views.delete_set, name='delete_set'),
     path("updateset", core_views.update_set, name='update_set'),
     path("postcomment", core_views.comment_set, name='comment_set'),
+    path("getflashcards", core_views.search_flashcard, name='search_flashcard'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

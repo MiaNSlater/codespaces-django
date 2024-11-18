@@ -1,0 +1,37 @@
+{% load django_browser_reload %}
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="title" content="User List">
+        <meta name="author" content="MS1646">
+        <meta name="generator" content="GitHub Codespaces">
+        <meta name="theme-color" content="#333333">
+
+        <title>Get Flashcards by ID</title>
+    </head>
+    <body>
+        <h1>
+            Search Flashcards by a Flashcard Set's ID
+        </h1>
+        <h2>
+            Type in an Id number to find flashcards in a flashcard set:
+        </h2>
+        <form action="{% url 'search_flashcard' %}" method = "post">
+            {% csrf_token %}
+            <input type="text" placeholder="Search by Id..." id="set_id" name="set_id">
+            <button type="submit">Look Up<i class="fa fa-search"></i></button>
+        </form>
+        {% if reqcard %}
+            <h2>Results</h2>
+                    <p><strong>Question:</strong> {{ reqcard.question }}</p>
+                    <p><strong>Answer:</strong> {{ reqcard.answer }}</p>
+                    <p><strong>Difficulty:</strong> {{ reqcard.difficulty }}</p>
+        {% elif reqcard is None and request.method == "POST" %}
+            <p>No flashcards in this set. Try adding some!</p>
+        {% endif %}
+    </body>
+</html>

@@ -156,6 +156,16 @@ def comment_set(request):
             set_input.save()
         return redirect('success.html')
     return render(request, 'post_comment.html', {'reqset': reqset})
+
+def search_flashcard(request):
+    reqcard = None
+    if request.method == 'POST':
+        set_id = request.POST.get('set_id')
+        try:
+            reqcard = Flashcard.objects.get(flashcardset_id=set_id)
+        except Flashcard.DoesNotExist:
+            reqcard = None
+    return render(request, 'get_flashcards.html', {'reqcard': reqcard})
         
 
 def success(request):
