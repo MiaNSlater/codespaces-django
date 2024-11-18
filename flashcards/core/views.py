@@ -136,23 +136,20 @@ def update_set(request):
 def comment_set(request):
     reqset = None
     if request.method == 'POST':
-        if 'set_id' in request.POST and 'comment' not in request.POST:
-            set_id = request.POST.get('set_id')
-        if not set_id:
-            return HttpResponseForbidden("Forbidden. Cannot submit a new comment without a valid flashcard set id.")
+        set_id = request.POST.get('set_id')
+        comment = request.POST.get('comment')
+        author = request.POST.get('author')
 
-        reqset = get_object_or_404(FlashcardSet, id=set_id)
+        if set_id and not comment and not author:
+            reqset = get_object_or_404(FlashcardSet, id=set_id)
+            return render(request, 'post_comment.html', {'reqset': reqset})
 
-        if reqset:
-                comment = request.POST.get('comment')
-                author = request.POST.get('author')
-
-        if not comment or not author:
-            return HttpResponseForbidden("Forbidden. Cannot submit a new comment without a valid comment or author.")
-
-        set_input = Comment(comment = comment, author = author, flashcardset_id = reqset.id)
-        set_input.save()
-
+        elif set_id and comment and author:
+            reqset = get_object_or_404(FlashcardSet, id=set_id)
+            if not comment or not author:
+                return HttpResponseForbidden("Forbidden. Cannot submit a new comment without a valid comment or author.")
+            set_input = Comment(comment = comment, author = author, flashcardset_id = reqset.id)
+            set_input.save()
         return redirect('success.html')
     return render(request, 'post_comment.html', {'reqset': reqset})
         

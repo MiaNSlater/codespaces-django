@@ -26,10 +26,6 @@
             <button type="submit">Look Up<i class="fa fa-search"></i></button>
         </form>
 
-        {% if error %}
-        <p style="color: red;">{{ error }}</p>
-        {% endif %}
-
         {% if reqset %}
             <h2>Add a Comment:</h2>
             <form action="{% url 'comment_set' %}" method = "post">
