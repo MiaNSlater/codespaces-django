@@ -153,6 +153,23 @@ def update_set(request):
                 return redirect('success.html')
     return render(request, 'update_set.html', {'reqset': reqset})
 
+def update_collection(request):
+    reqcol = None
+    if request.method == 'POST':
+        col_id = request.POST.get('col_id')
+        if col_id:
+            reqcol = Collection.objects.get(id=col_id)
+        
+        if reqcol:
+            if 'update' in request.POST:
+                reqcol.comment = request.POST.get('comment', reqcol.comment)
+                reqcol.flashcardset = request.POST.get('flashcardset', reqcol.flashcardset)
+
+                reqcol.save()
+
+                return redirect('success.html')
+    return render(request, 'update_set.html', {'reqcol': reqcol})
+
 def comment_set(request):
     reqset = None
     if request.method == 'POST':

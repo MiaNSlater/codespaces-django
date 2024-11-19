@@ -41,6 +41,7 @@ urlpatterns = [
     path("getflashcards", core_views.search_flashcard, name='search_flashcard'),
     path("listcollections", core_views.list_collections, name='list_collections'),
     path("collectionsbyid", core_views.search_col, name='search_col'),
+    path("updatecollections", core_views.update_collection, name='update_collection'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
