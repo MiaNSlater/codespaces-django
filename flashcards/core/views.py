@@ -38,7 +38,7 @@ def list_collections(request):
         except Collection.DoesNotExist:
             collectionsets = None
         print(f"Requested Collection Set: {collectionsets}")
-    return render(request, 'list_collections.html', {'collection_sets': collection_sets})
+    return render(request, 'list_collections.html', {'collectionsets': collectionsets})
 
 def search_id(request):
     user = None
