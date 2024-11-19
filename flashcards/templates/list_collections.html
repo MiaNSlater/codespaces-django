@@ -27,11 +27,12 @@
         </form>
         {% if collection_sets %}
             <h2>Results</h2>
+            {% for collection in collection_sets %}
                     <p><strong>Collection ID:</strong> {{ collection_sets.id }}</p>
                     <p><strong>Flashcard Set:</strong> {{ collection_sets.flashcardset.name }}</p>
                     <p><strong>Author:</strong> {{ collection_sets.author.username }}</p>
                     <p><strong>Comment(s)</strong> {{ collection_sets.comment.comment }}</p>
-                </div>
+            {% endfor %}
         {% elif collection_sets is None and request.method == "POST" %}
             <p>No Flashcard Collection found by this user.</p>
         {% endif %}
