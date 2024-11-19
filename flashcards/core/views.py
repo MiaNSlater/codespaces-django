@@ -162,8 +162,7 @@ def update_collection(request):
         
         if reqcol:
             if 'update' in request.POST:
-                reqcol.comment = request.POST.get('comment', reqcol.comment)
-                reqcol.flashcardset = request.POST.get('flashcardset', reqcol.flashcardset)
+                reqcol.comment = request.POST.get('name', reqcol.name)
 
                 reqcol.save()
 

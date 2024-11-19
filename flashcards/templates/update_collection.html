@@ -32,11 +32,8 @@
                 {% csrf_token %}
                 <input type="hidden" name="col_id" value="{{ reqcol.id }}">
 
-                <h3><strong>New Comment (Type in ID):</strong></h3>
-                <input type="text" id="comment" name="comment" value="{{ reqcol.comment }}"><br><br>
-
-                <h3><strong>New Flashcard Set (Type in ID):</strong></h3>
-                <input type="text" id="flashcardset" name="flashcardset" value="{{ reqcol.flashcardset }}"><br><br>
+                <h3><strong>New Collection Name:</strong></h3>
+                <input type="text" id="name" name="name" value="{{ reqcol.name }}"><br><br>
 
                 <button type="submit" name="update">Update</button>
             </form>
