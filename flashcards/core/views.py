@@ -162,7 +162,7 @@ def update_collection(request):
         
         if reqcol:
             if 'update' in request.POST:
-                reqcol.comment = request.POST.get('name', reqcol.name)
+                reqcol.name = request.POST.get('name', reqcol.name)
 
                 reqcol.save()
 
