@@ -168,7 +168,7 @@ def update_collection(request):
                 reqcol.save()
 
                 return redirect('success.html')
-    return render(request, 'update_set.html', {'reqcol': reqcol})
+    return render(request, 'update_collection.html', {'reqcol': reqcol})
 
 def comment_set(request):
     reqset = None

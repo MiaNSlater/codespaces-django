@@ -27,8 +27,8 @@
         </form>
 
         {% if reqcol %}
-            <h2>Update Flashcard Set Details:</h2>
-            <form action="{% url 'update_set' %}" method = "post">
+            <h2>Update Flashcard Collection Details:</h2>
+            <form action="{% url 'update_collection' %}" method = "post">
                 {% csrf_token %}
                 <input type="hidden" name="col_id" value="{{ reqcol.id }}">
 
