@@ -46,5 +46,5 @@ class Comment(models.Model):
 
 class Collection(models.Model):
       comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='collection')
-      flashcard_set = models.ForeignKey(FlashcardSet, on_delete=models.CASCADE, related_name='collection')
+      flashcardset = models.ForeignKey(FlashcardSet, on_delete=models.CASCADE, related_name='collection')
       author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='collection')
