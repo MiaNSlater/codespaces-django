@@ -39,6 +39,10 @@ def list_collections(request):
             collectionsets = None
     return render(request, 'list_collections.html', {'collectionsets': collectionsets})
 
+def list_all_collections(request):
+    collections = Collection.objects.all()
+    return render(request, 'get_collections.html', {'collections': collections})
+
 def search_id(request):
     user = None
     if request.method == 'POST':

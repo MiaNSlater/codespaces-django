@@ -43,6 +43,7 @@ urlpatterns = [
     path("collectionsbyid", core_views.search_col, name='search_col'),
     path("updatecollections", core_views.update_collection, name='update_collection'),
     path("createcollections", core_views.create_collection, name='create_collection'),
+    path("getallcollections", core_view.list_all_collections, name='list_all_collections'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
