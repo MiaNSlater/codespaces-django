@@ -25,15 +25,15 @@
             <input type="text" placeholder="Search by Id..." id="user_id" name="user_id">
             <button type="submit">Look Up<i class="fa fa-search"></i></button>
         </form>
-        {% if collection_sets %}
+        {% if collectionsets %}
             <h2>Results</h2>
-            {% for collection in collection_sets %}
-                    <p><strong>Collection ID:</strong> {{ collection_sets.id }}</p>
-                    <p><strong>Flashcard Set:</strong> {{ collection_sets.flashcardset.name }}</p>
-                    <p><strong>Author:</strong> {{ collection_sets.author.username }}</p>
-                    <p><strong>Comment(s)</strong> {{ collection_sets.comment.comment }}</p>
+            {% for collection in collectionsets %}
+                <p><strong>Collection ID:</strong> {{ collectionsets.id }}</p>
+                <p><strong>Flashcard Set:</strong> {{ collectionsets.flashcardset.name }}</p>
+                <p><strong>Author:</strong> {{ collectionsets.author.username }}</p>
+                <p><strong>Comment(s)</strong> {{ collectionsets.comment.comment }}</p>
             {% endfor %}
-        {% elif collection_sets is None and request.method == "POST" %}
+        {% elif collectionsets is None and request.method == "POST" %}
             <p>No Flashcard Collection found by this user.</p>
         {% endif %}
     </body>
