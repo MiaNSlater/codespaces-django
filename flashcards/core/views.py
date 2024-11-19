@@ -30,10 +30,13 @@ def list_sets(request):
     return render(request, 'flashcard_set_list.html', {'flashcard_sets': flashcard_sets})
 
 def list_collections(request):
-    collection_sets = None
+    collectionsets = None
     if request.method == 'POST':
         user_id = request.POST.get('user_id')
-        collectionsets = Collection.objects.filter(author__id=user_id)
+        try:
+            collectionsets = Collection.objects.get(author_id=user_id)
+        except Collection.DoesNotExist:
+            collectionsets = None
         print(f"Requested Collection Set: {collectionsets}")
     return render(request, 'list_collections.html', {'collection_sets': collection_sets})
 
