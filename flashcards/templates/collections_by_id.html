@@ -14,6 +14,26 @@
         <title>List Collections by ID</title>
     </head>
     <body>
-        
+        <h1>
+            Find a Flashcard Collection by Id
+        </h1>
+        <h2>
+            Type in an Id number to find a collection:
+        </h2>
+        <form action="{% url 'search_col' %}" method = "post">
+            {% csrf_token %}
+            <input type="text" placeholder="Search by Id..." id="col_id" name="col_id">
+            <button type="submit">Look Up<i class="fa fa-search"></i></button>
+        </form>
+        {% if collectionsets %}
+            <h2>Results</h2>
+            <p><strong>Collection ID:</strong> {{ collectionsets.id }}</p>
+            <p><strong>Flashcard Set:</strong> {{ collectionsets.flashcardset.name }}</p>
+            <p><strong>Author:</strong> {{ collectionsets.author.username }}</p>
+            <p><strong>Comment(s)</strong> {{ collectionsets.comment.comment }}</p>
+
+        {% elif collectionsets is None and request.method == "POST" %}
+            <li>No flashcard collection found with that Id.</li>
+        {% endif %}
     </body>
 </html>

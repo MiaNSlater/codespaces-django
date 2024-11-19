@@ -59,6 +59,16 @@ def search_set(request):
             reqset = None
     return render(request, 'sets_by_id.html', {'reqset': reqset})
 
+def search_col(request):
+    collectionsets = None
+    if request.method == 'POST':
+        col_id = request.POST.get('col_id')
+        try:
+            collectionsets = Collection.objects.get(id=col_id)
+        except Collection.DoesNotExist:
+            collectionsets = None
+    return render(request, 'collections_by_id.html', {'collectionsets': collectionsets})
+
 def submit_form(request):
     if request.method == 'POST':
         username = request.POST.get('username')
