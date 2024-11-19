@@ -46,6 +46,6 @@ class Comment(models.Model):
 
 class Collection(models.Model):
       name = models.CharField(max_length=200, default=None, null=True, blank=True)
-      comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='collection')
+      comment = models.ForeignKey(Comment, default=None, null=True, blank=True, on_delete=models.CASCADE, related_name='collection')
       flashcardset = models.ForeignKey(FlashcardSet, on_delete=models.CASCADE, default=None, null=True, blank=True, related_name='collection')
-      author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='collection')
+      author = models.ForeignKey(User, default=None, null=True, blank=True, on_delete=models.CASCADE, related_name='collection')

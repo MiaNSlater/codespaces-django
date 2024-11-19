@@ -1,0 +1,27 @@
+{% load django_browser_reload %}
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="title" content="User List">
+        <meta name="author" content="MS1646">
+        <meta name="generator" content="GitHub Codespaces">
+        <meta name="theme-color" content="#333333">
+
+        <title>Create a New Collection</title>
+    </head>
+    <body>
+        <h1>Create a New Flashcard Collection</h1>
+        <h2>Create a new Flashcard Collection by filling in the form:</h2>
+        <form action="{% url 'create_collection' %}" method = "post">
+            {% csrf_token %}
+            <label for="user_id">Collection Name:</label>
+            <input type="text" id="colname" name="colname"><br><br>
+
+            <input type="submit" value="Submit">
+        </form>
+    </body>
+</html>

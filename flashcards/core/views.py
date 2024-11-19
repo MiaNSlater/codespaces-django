@@ -93,6 +93,16 @@ def create_flashcard_set(request):
         return redirect('success.html')
     return render(request, 'create_flashcard_set.html')
 
+def create_collection(request):
+    if request.method == 'POST':
+        colname = request.POST.get('colname')
+
+        col_input = Collection(name=colname)
+        col_input.save()
+
+        return redirect('success.html')
+    return render(request, 'create_collection.html')
+
 def delete_user(request):
     if request.method == 'POST':
         user_id = request.POST.get('id')
