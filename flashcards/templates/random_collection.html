@@ -1,0 +1,34 @@
+{% load django_browser_reload %}
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="title" content="User List">
+        <meta name="author" content="MS1646">
+        <meta name="generator" content="GitHub Codespaces">
+        <meta name="theme-color" content="#333333">
+
+        <title>A Random Flashcard Collection</title>
+    </head>
+    <body>
+        <h1>
+            A Random Flashcard Collection
+        </h1>
+        <h2>
+            Here is your random Flashcard Collection:
+        </h2>
+            {% if collection %}
+                <h3><strong>Collection Name:</strong>{{collection.name}}</h3>
+                <h3><strong>Collection Set:</strong>{{collection.flashcardset.name}}</h3>
+                <h3><strong>Collection Author:</strong>{{collection.author.username}}</h3>
+                <h3><strong>Collection Comments:</strong>{{collection.comment.comment}}</h3>
+
+                <a href="/randomcollection">Get another random Collection</a>
+            {% else %}
+                <p>No Collections found.</p>
+            {% endif %}
+    </body>
+</html>

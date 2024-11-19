@@ -1,4 +1,5 @@
 #from django.http import JsonResponse
+import random
 import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseForbidden
@@ -229,7 +230,11 @@ def search_flashcard(request):
         except Flashcard.DoesNotExist:
             reqcard = None
     return render(request, 'get_flashcards.html', {'reqcard': reqcard})
-        
+
+def random_collection(request):
+    collections = Collection.objects.all()
+    random_col = random.choice(collections) if collections else None
+    return render(request, 'random_collection.html', {'collection': random_col})
 
 def success(request):
     return render(request, 'success.html')
