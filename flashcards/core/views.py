@@ -134,6 +134,19 @@ def delete_set(request):
         return redirect('success.html')
     return render(request, 'delete_set.html')
 
+def delete_collection(request):
+    if request.method == 'POST':
+        col_id = request.POST.get('col_id')
+        try:
+            col_to_delete = Collection.objects.get(id=col_id)
+        except FlashcardSet.DoesNotExist:
+            return HttpResponseForbidden("Forbidden: You cannot delete a non-existent collection.")
+            
+        col_to_delete.delete()
+
+        return redirect('success.html')
+    return render(request, 'delete_collection.html')
+
 def search_user(request):
     user = None
     if request.method == 'POST':
