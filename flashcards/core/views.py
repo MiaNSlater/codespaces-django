@@ -34,7 +34,7 @@ def list_collections(request):
     if request.method == 'POST':
         user_id = request.POST.get('user_id')
         try:
-            collection_sets = Collection.objects.get(author_id=user_id)
+            collection_sets = Collection.objects.filter(author_id=user_id)
         except Collection.DoesNotExist:
             collection_sets = None
     return render(request, 'list_collections.html', {'collection_sets': collection_sets})
