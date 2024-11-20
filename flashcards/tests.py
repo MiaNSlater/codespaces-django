@@ -286,4 +286,52 @@ class DeleteSetTest(TestCase):
 
         self.assertEqual(FlashcardSet.objects.count(), 1)
 
-class CreateSetTest(TestCase)
+class CreateSetTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = User.objects.create(username='testuser', password='testpassword')
+    
+    def test_create_flashcardset_success(self):
+        url = reverse('create_flashcard_set')
+        form_data = {
+            'user_id': self.user.id,
+            'set_name': 'testset'
+        }
+
+        response = self.client.post(url, form_data)
+        self.assertRedirects(response, 'success.html')
+        self.assertEqual(FlashcardSet.objects.count(), 1)
+
+        flashcard_set = FlashcardSet.objects.first()
+        self.assertEqual(flashcard_set.name, "Test Flashcard Set")
+        self.assertEqual(flashcard_set.author, self.user)
+
+    def test_create_flashcardset_invalid_user_id(self):
+        url = reverse('create_flashcard_set')
+         form_data = {
+            'user_id': 999,
+            'set_name': 'testset'
+        }
+
+        response = self.client.post(url, form_data)
+        self.assertEqual(FlashcardSet.objects.count(), 0)
+    
+    def test_create_flashcardset_no_set_name(self):
+        url = reverse('create_flashcard_set')
+         form_data = {
+            'user_id': self.user.id,
+            'set_name': ''
+        }
+
+        response = self.client.post(url, form_data)
+        self.assertEqual(FlashcardSet.objects.count(), 0)
+
+    def test_create_flashcardset_no_user_id(self):
+        url = reverse('create_flashcard_set')
+         form_data = {
+            'user_id': '',
+            'set_name': 'testset'
+        }
+
+        response = self.client.post(url, form_data)
+        self.assertEqual(FlashcardSet.objects.count(), 0)
