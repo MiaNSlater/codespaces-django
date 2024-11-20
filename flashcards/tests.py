@@ -2,9 +2,11 @@ import json
 from django.test import TestCase
 from django.urls import reverse
 from django.http import HttpResponseForbidden
-from flashcards.models import User
+from flashcards.models import User, FlashcardSet
 
 class UserListViewTest(TestCase):
+
+    @classmethod
     def setUpTestData(cls):
         cls.user1 = User.objects.create(username="user1", admin=True)
         cls.user2 = User.objects.create(username="user2", admin=False)
@@ -30,6 +32,8 @@ class UserListViewTest(TestCase):
         self.assertContains(response, 'Username: user2 | Admin?: false')
 
 class SearchUserByIdViewTest(TestCase):
+
+    @classmethod
     def setUpTestData(cls):
         cls.user1 = User.objects.create(username="jamesdoe")
         cls.user2 = User.objects.create(username="jeweldoe")
@@ -73,6 +77,8 @@ class SearchUserByIdViewTest(TestCase):
         self.assertEqual(response.status_code, 403)
     
 class DeleteUserViewTest(TestCase):
+
+    @classmethod
     def setUpTestData(cls):
         cls.noadminuser = User.object.create(username=noadmin, admin=False)
         cls.adminuser = User.object.create(username=admin, admin=True)
@@ -110,6 +116,8 @@ class DeleteUserViewTest(TestCase):
         self.assertContains(response, "Forbidden: You cannot delete a non-existent user.")
 
 class UpdateUserViewTest(TestCase):
+
+    @classmethod
     def setUpTestData(cls):
         cls.user = User.object.create(username=oldusername, password=oldpassword)
     
@@ -177,3 +185,105 @@ class CreateUserViewTest(TestCase):
         self.assertEqual(user.username, 'normaluser')
         self.assertEqual(user.password, 'normalpassword')
         self.assertFalse(user.admin)
+
+class SetListViewTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = User.objects.create(username='testuser', password='testpassword')
+
+        cls.flashcard_set = FlashcardSet.objects.create(
+            name="Test Set",
+            cards_id=1,
+            created_at="2024-01-01",
+            updated_at="2024-01-02",
+            author_id=cls.user.id
+        )
+    
+    def test_list_sets_found(self):
+        url = reverse('list_sets')
+        response = self.client.post(url, {'user_id': self.user.id})
+
+        self.assertContains(response, self.flashcard_set.name)
+        self.assertContains(response, self.flashcard_set.cards_id)
+        self.assertContains(response, self.flashcard_set.created_at)
+        self.assertContains(response, self.flashcard_set.updated_at)
+        self.assertContains(response, self.flashcard_set.author_id)
+
+    def test_list_sets_not_found(self):
+        url = reverse('list_sets')
+        response = self.client.post(url, {'user_id': 999})
+
+        self.assertNotContains(response, "Set Name:")
+        self.assertContains(response, "No Flashcard Set found by this user.")
+
+class SearchSetByIdTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.set = FlashcardSet.objects.create(
+            name="Test Set1",
+            cards_id=2,
+            created_at="2024-01-01",
+            updated_at="2024-01-02",
+            author_id=3
+        )
+    
+    def test_search_set_found(self):
+        url = reverse('search_set')
+        response = self.client.post(url, {'set_id': self.flashcard_set.id})
+
+        self.assertContains(response, self.flashcard_set.id)
+        self.assertContains(response, self.flashcard_set.name)
+        self.assertContains(response, self.flashcard_set.created_at)
+        self.assertContains(response, self.flashcard_set.updated_at)
+        self.assertContains(response, self.author_id)
+        self.assertContains(response, self.cards_id)
+
+    def test_search_set_not_found(self):
+        url = reverse('search_set')
+        response = self.client.post(url, {'set_id': 999})
+
+        self.assertContains(response, "No flashcard set found with that Id.")
+        self.assertNotContains(response, "ID:")
+        self.assertNotContains(response, "Name:")
+        self.assertNotContains(response, "Created:")
+        self.assertNotContains(response, "Updated:")
+        self.assertNotContains(response, "Author:")
+    
+class DeleteSetTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.set = FlashcardSet.objects.create(
+            name="Test Set2",
+            cards_id=1,
+            created_at="2024-01-01",
+            updated_at="2024-01-02",
+            author_id=2
+        )
+    
+    def test_delete_set_success(self):
+        url = reverse('delete_set')
+        response = self.client.post(url, {'set_id': self.flashcard_set.id})
+
+        self.assertRedirects(response, 'success.html')
+
+        self.assertEqual(FlashcardSet.objects.count(), 0)
+
+    def test_delete_non_existent_set(self):
+        url = reverse('delete_set')
+        response = self.client.post(url, {'set_id': 999})
+
+        self.assertEqual(response.status_code, 403)
+        self.assertContains(response, "Forbidden: You cannot delete a non-existent set.")
+
+        self.assertEqual(FlashcardSet.objects.count(), 1)
+    
+    def test_delete_invalid_set(self):
+        url = reverse('delete_set')
+        response = self.client.post(url, {'set_id': ''})
+
+        self.assertEqual(response.status_code, 403)
+        self.assertContains(response, "Forbidden: You cannot delete a non-existent set.")
+
+        self.assertEqual(FlashcardSet.objects.count(), 1)
+
+class CreateSetTest(TestCase)
