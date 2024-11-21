@@ -286,6 +286,76 @@ class DeleteSetTest(TestCase):
 
         self.assertEqual(FlashcardSet.objects.count(), 1)
 
+class UpdateSetTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = User.objects.create(username='testuser', password='testpassword')
+        cls.flashcard_set = Flashcard.objects.create(
+            name="Original Name"
+            author=cls.user
+        )
+    
+    def test_update_flashcardset_success(self):
+        url = reverse('update_set')
+        form_data = {
+            'set_id': self.flashcard_set.id,
+            'name': 'Updated Name',
+            'update': 'Update'
+        }
+
+        response = self.client.post(url, form_data)
+
+        self.assertRedirects(response, 'success.html')
+
+        self.flashcard_set.refresh_from_db()
+        self.assertEqual(self.flashcard_set.name, "Updated Name")
+    
+    def test_update_flashcardset_invalid_id(self):
+        url = reverse('update_set')
+        invalid_set_id = 999
+        form_data = {
+            'set_id': invalid_set_id,
+            'name': 'Updated Name',
+            'update': 'Update'
+        }
+
+        response = self.client.post(url, form_data)
+
+        self.assertEqual(response.status_code, 200)
+
+        self.flashcard_set.refresh_from_db()
+        self.assertEqual(self.flashcard_set.name, "Original Name")
+    
+    def test_update_flashcardset_missing_name(self):
+        url = reverse('update_set')
+        form_data = {
+            'set_id': self.flashcard_set.id,
+            'name': '',
+            'update': 'Update'
+        }
+
+        response = self.client.post(url, form_data)
+
+        self.assertEqual(response.status_code, 200)
+
+        self.flashcard_set.refresh_from_db()
+        self.assertEqual(self.flashcard_set.name, "Original Name")
+    
+    def test_update_flashcardset_missing_set_id(self):
+        url = reverse('update_set')
+        form_data = {
+            'set_id': '',
+            'name': 'Updated Name',
+            'update': 'Update'
+        }
+
+        response = self.client.post(url, form_data)
+
+        self.assertEqual(response.status_code, 200)
+
+        self.flashcard_set.refresh_from_db()
+        self.assertEqual(self.flashcard_set.name, "Original Name")
+
 class CreateSetTest(TestCase):
     @classmethod
     def setUpTestData(cls):
