@@ -2,7 +2,7 @@ import json
 from django.test import TestCase
 from django.urls import reverse
 from django.http import HttpResponseForbidden
-from flashcards.models import User, FlashcardSet
+from flashcards.models import User, FlashcardSet, Comment
 
 class UserListViewTest(TestCase):
 
@@ -405,3 +405,71 @@ class CreateSetTest(TestCase):
 
         response = self.client.post(url, form_data)
         self.assertEqual(FlashcardSet.objects.count(), 0)
+
+class PostCommentTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = User.objects.create(username="testuser", password="testpassword")
+        cls.flashcard_set = Flashcard.objects.create(
+            name="Test Flashcard Set"
+            author=cls.user
+        )
+
+    def test_search_flashcard_set(self):
+        url = reverse('comment_set')
+        form_data = {
+            'set_id': self.flashcard_set.id
+        }
+
+        response = self.client.post(url, form_data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.flashcard_set.name)
+
+    def test_add_valid_comment(self):
+        url = reverse('comment_set')
+        form_data = {
+            'set_id': self.flashcard_set.id,
+            'comment': "This is a test comment.",
+            'author': self.user.id
+        }
+
+        response = self.client.post(url, form_data)
+
+        self.assertRedirects(response, 'success.html')
+
+        comment = Comments.objects.get(flashcardset_id=self.flashcard_set.id)
+        self.assertEqual(comment.comment, "This is a test comment.")
+        self.assertEqual(comment.author, self.user)
+    
+    def test_add_comment_missing_fields(self):
+        url = reverse('comment_set')
+        form_data = {
+            'set_id': self.flashcard_set.id,
+            'comment': "",
+            'author': self.user.id
+        }
+
+        response = self.client.post(url, form_data)
+
+        self.assertEqual(response.status_code, 403)
+
+        self.assertFalse(Comment.objects.filter(flashcardset_id=self.flashcard_set.id).exists())
+
+    def test_add_comment_invalid_author(self):
+        url = reverse('comment_set')
+        invalid_user_id = 999
+        form_data = {
+            'set_id': self.flashcard_set.id,
+            'comment': "",
+            'author': invalid_user_id
+        }
+
+        response = self.client.post(url, form_data)
+
+        self.assertEqual(response.status_code, 403)
+
+        self.assertFalse(Comment.objects.filter(flashcardset_id=self.flashcard_set.id).exists())
+
+class CollectionListViewTest(TestCase):
+    
