@@ -2,7 +2,7 @@ import json
 from django.test import TestCase
 from django.urls import reverse
 from django.http import HttpResponseForbidden
-from flashcards.models import User, FlashcardSet, Comment
+from flashcards.models import User, FlashcardSet, Comment, Collection
 
 class UserListViewTest(TestCase):
 
@@ -472,4 +472,182 @@ class PostCommentTest(TestCase):
         self.assertFalse(Comment.objects.filter(flashcardset_id=self.flashcard_set.id).exists())
 
 class CollectionListViewTest(TestCase):
+    def setUpTestData(cls):
+        @classmethod
+        cls.user = User.objects.create(username="testuser", password="testpassword")
+        cls.flashcard_set = Flashcard.objects.create(
+            name="Test Flashcard Set"
+            author=cls.user
+        )
+        cls.comment = Comment.objects.create(
+            comment="This is a test comment.",
+            author=cls.user,
+            flashcardset=cls.flashcard_set
+        )
+        cls.collection = Collection.objects.create(
+            name="Test Collection",
+            flashcardset=cls.flashcard_set,
+            author=cls.user,
+            comment=cls.comment
+        )
     
+    def test_list_all_collections(self):
+        url = reverse('list_all_collections')
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertContains(response, "Test Collection")
+        self.assertContains(response, "Test Flashcard Set")
+        self.assertContains(response, "testuser")
+        self.assertContains(response, "This is a test comment.")
+    
+    def test_no_collections(self):
+        Collection.objects.all().delete()
+
+        url = reverse('list_all_collections')
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertContains(response, "No collections found.")
+
+class SearchCollectionByColIdTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = User.objects.create(username="testuser", password="testpassword")
+        cls.flashcard_set = Flashcard.objects.create(
+            name="Test Flashcard Set"
+            author=cls.user
+        )
+        cls.comment = Comment.objects.create(
+            comment="This is a test comment.",
+            author=cls.user,
+            flashcardset=cls.flashcard_set
+        )
+        cls.collection = Collection.objects.create(
+            name="Test Collection",
+            flashcardset=cls.flashcard_set,
+            author=cls.user,
+            comment=cls.comment
+        )
+
+    def test_list_collections_by_id_valid(self):
+        url = reverse('search_col')
+        response = self.client.post(url, data={'col_id': self.collection.id})
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertContains(response, f"Collection ID: {self.collection.id}")
+        self.assertContains(response, "Test Flashcard Set")
+        self.assertContains(response, "testuser")
+        self.assertContains(response, "This is a test comment.")
+
+    def test_list_collections_by_id_invalid(self):
+        url = reverse('search_col')
+        response = self.client.post(url, data={'col_id': 999})
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertContains(response, "No flashcard collection found with that Id.")
+
+    def test_list_collections_by_id_none(self):
+        url = reverse('search_col')
+        response = self.client.post(url, data={})
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertNotContains(response, "Collection ID:")
+        self.assertContains(response, "No flashcard collection found with that Id.")
+    
+class SearchCollectionByUserIdTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = User.objects.create(username="testuser", password="testpassword")
+        cls.otheruser = User.objects.create(username="othertestuser", password="othertestpassword")
+        cls.flashcard_set = Flashcard.objects.create(
+            name="Test Flashcard Set"
+            author=cls.user
+        )
+        cls.comment = Comment.objects.create(
+            comment="This is a test comment.",
+            author=cls.user,
+            flashcardset=cls.flashcard_set
+        )
+        cls.collection = Collection.objects.create(
+            name="Test Collection",
+            flashcardset=cls.flashcard_set,
+            author=cls.user,
+            comment=cls.comment
+        )
+    
+    def test_collection_search_user_id_valid(self):
+        url = reverse('list_collections')
+        response = self.client.post(url, data={'user_id': self.user.id})
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertContains(response, f"Collection ID: {self.collection.id}")
+        self.assertContains(response, "Test Flashcard Set")
+        self.assertContains(response, "testuser")
+        self.assertContains(response, "This is a test comment.")
+    
+    def test_collection_search_user_id_invalid(self):
+        url = reverse('list_collections')
+        response = self.client.post(url, data={'user_id': self.otheruser.id})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "No Flashcard Collection found by this user.")
+    
+    def test_collection_search_user_id_none(self):
+        url = reverse('list_collections')
+        response = self.client.post(url, data={})
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertNotContains(response, "Collection ID:")
+        self.assertContains(response, "No Flashcard Collection found by this user.")
+
+class DeleteCollectionTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = User.objects.create(username="testuser", password="testpassword")
+        cls.flashcard_set = Flashcard.objects.create(
+            name="Test Flashcard Set"
+            author=cls.user
+        )
+        cls.comment = Comment.objects.create(
+            comment="This is a test comment.",
+            author=cls.user,
+            flashcardset=cls.flashcard_set
+        )
+        cls.collection = Collection.objects.create(
+            name="Test Collection",
+            flashcardset=cls.flashcard_set,
+            author=cls.user,
+            comment=cls.comment
+        )
+    
+    def test_delete_collection_valid_id(self):
+        url = reverse('delete_collection')
+        response = self.client.post(url, data={'col_id': self.collection.id})
+
+        self.assertRedirects(response, 'success.html')
+
+        self.assertEqual(Collection.objects.count(), 0)
+
+    def test_delete_collection_invalid_id(self):
+        url = reverse('delete_collection')
+        response = self.client.post(url, data={'col_id': 999})
+
+        self.assertEqual(response.status_code, 403)
+        self.assertContains(response, "Forbidden: You cannot delete a non-existent collection.")
+    
+    def test_delete_collection_get_request(self):
+        url = reverse('delete_collection')
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertTrue(Collection.objects.filter(id=self.collection.id).exists())
+
