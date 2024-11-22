@@ -80,6 +80,9 @@ def submit_form(request):
         password = request.POST.get('password')
         admin = request.POST.get('admin') == 'on'
 
+        if not username or not password:
+             return HttpResponseForbidden("Forbidden: You cannot create a new user without a valid username or password.")
+
         user_input = User(username = username, password = password, admin = admin)
         user_input.save()
 
