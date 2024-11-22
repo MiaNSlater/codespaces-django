@@ -146,6 +146,10 @@ class UpdateUserViewTest(TestCase):
     def test_search_and_update_non_existent_user(self):
         search_url = reverse('search_user')
         response = self.client.post(search_url, {'user_id': 999}, follow=True)
+
+        self.assertEqual(response.status_code, 403)
+        self.assertContains(response, "Forbidden: Cannot update a non-existent user.")
+
         self.assertNotContains(response, 'Update User Details:')
     
 class CreateUserViewTest(TestCase):
@@ -347,7 +351,8 @@ class UpdateSetTest(TestCase):
 
         response = self.client.post(url, form_data)
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 403)
+        self.assertContains(response, "Forbidden: Cannot update a non-existent set.")
 
         self.flashcard_set.refresh_from_db()
         self.assertEqual(self.flashcard_set.name, "Original Name")
@@ -730,10 +735,10 @@ class UpdateCollectionTest(TestCase):
         
         response = self.client.post(url, form_data)
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 403)
+        self.assertContains(response, "Forbidden: You cannot update a non-existent collection.")
 
         self.assertNotEqual(Collection.objects.count(), 0)
-        self.assertEqual(Collection.objects.get(id=self.collection.id).name, "Test Collection")
     
     def test_update_collection_get_request(self):
         url = reverse('update_collection')
@@ -747,3 +752,57 @@ class UpdateCollectionTest(TestCase):
 class CreateCollectionTest(TestCase):
     @classmethod
     def setUpTestData(cls):
+        cls.user = User.objects.create(username="testuser", password="testpassword")
+
+    def test_create_collection_valid(self):
+        url = reverse('create_collection')
+        form_data = {
+            'colname': 'New Collection',
+            'user_id': self.user.id
+        }
+
+        response = self.client.post(url, form_data)
+
+        self.assertRedirects(response, 'success.html')
+
+        collection = Collection.objects.get(name='New Collection')
+        self.assertEqual(collection.name, 'New Collection')
+        self.assertEqual(collection.author, self.user)
+    
+    def test_create_collection_missing_name(self):
+        url = reverse('create_collection')
+        form_data = {
+            'colname': '',
+            'user_id': self.user.id
+        }
+
+        response = self.client.post(url, form_data)
+
+        self.assertEqual(response.status_code, 403)
+        self.assertContains(response, "Forbidden: You cannot create a new collection without a Collection Name or an Author Id.")
+
+    def test_create_collection_missing_user_id(self):
+        url = reverse('create_collection')
+        form_data = {
+            'colname': 'New Collection',
+            'user_id': ''
+        }
+
+        response = self.client.post(url, form_data)
+
+        self.assertEqual(response.status_code, 403)
+        self.assertContains(response, "Forbidden: You cannot create a new collection without a Collection Name or an Author Id.")
+
+    def test_create_collection_invalid_user_id(self):
+        url = reverse('create_collection')
+        form_data = {
+            'colname': 'New Collection',
+            'user_id': 999
+        }
+
+        response = self.client.post(url, form_data)
+
+        self.assertEqual(response.status_code, 403)
+        self.assertContains(response, "Forbidden: Invalid User Id.")
+    
+    

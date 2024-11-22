@@ -170,7 +170,10 @@ def search_user(request):
     if request.method == 'POST':
         user_id = request.POST.get('user_id')
         if user_id:
-            user = User.objects.get(id=user_id)
+            try:
+                user = User.objects.get(id=user_id)
+            except User.DoesNotExist:
+                return HttpResponseForbidden("Forbidden: Cannot update a non-existent user.")
         
         if user:
             if 'update' in request.POST:
@@ -187,7 +190,10 @@ def update_set(request):
     if request.method == 'POST':
         set_id = request.POST.get('set_id')
         if set_id:
-            reqset = FlashcardSet.objects.get(id=set_id)
+            try:
+                reqset = FlashcardSet.objects.get(id=set_id)
+            except FlashcardSet.DoesNotExist:
+                return HttpResponseForbidden("Forbidden: Cannot update a non-existent set.")
         
         if reqset:
             if 'update' in request.POST:
@@ -203,7 +209,10 @@ def update_collection(request):
     if request.method == 'POST':
         col_id = request.POST.get('col_id')
         if col_id:
-            reqcol = Collection.objects.get(id=col_id)
+            try:
+                reqcol = Collection.objects.get(id=col_id)
+            except Collection.DoesNotExist:
+                return HttpResponseForbidden("Forbidden: Cannot update a non-existent collection.")
         
         if reqcol:
             if 'update' in request.POST:
