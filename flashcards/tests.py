@@ -651,3 +651,60 @@ class DeleteCollectionTest(TestCase):
 
         self.assertTrue(Collection.objects.filter(id=self.collection.id).exists())
 
+class UpdateCollectionTest(TestCase):
+    def setUpTestData(cls):
+        cls.user = User.objects.create(username="testuser", password="testpassword")
+        cls.flashcard_set = Flashcard.objects.create(
+            name="Test Flashcard Set"
+            author=cls.user
+        )
+        cls.comment = Comment.objects.create(
+            comment="This is a test comment.",
+            author=cls.user,
+            flashcardset=cls.flashcard_set
+        )
+        cls.collection = Collection.objects.create(
+            name="Test Collection",
+            flashcardset=cls.flashcard_set,
+            author=cls.user,
+            comment=cls.comment
+        )
+    
+    def test_update_collection_valid_id(self):
+        url = reverse('update_collection')
+        form_data = {
+            'col_id': self.collection.id,
+            'name': "Updated Collection Name",
+            'update': 'Update'
+        }
+
+        response = self.client.post(url, form_data)
+        self.assertRedirects(response, 'success.html')
+
+        self.collection.refresh_from_db()
+        self.assertEqual(self.collection.name, "Updated Collection Name")
+    
+    def test_update_collection_invalid_id(self):
+        url = reverse('update_collection')
+        form_data = {
+            'col_id': 999,
+            'name': "Updated Collection Name",
+            'update': 'Update'
+        }
+        
+        response = self.client.post(url, form_data)
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertNotEqual(Collection.objects.count(), 0)
+        self.assertEqual(Collection.objects.get(id=self.collection.id).name, "Test Collection")
+    
+    def test_update_collection_get_request(self):
+        url = reverse('update_collection')
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+
+        self.collection.refresh_from_db()
+        self.assertEqual(self.collection.name, "Test Collection")
+
