@@ -805,4 +805,60 @@ class CreateCollectionTest(TestCase):
         self.assertEqual(response.status_code, 403)
         self.assertContains(response, "Forbidden: Invalid User Id.")
     
+class RandomCollectionTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user1 = User.objects.create(username="testuser1", password="testpassword1")
+        cls.flashcardset1 = FlashcardSet.objects.create(
+            name="Flashcard Set 1", author=cls.user1
+        )
+        cls.comment1 = Comment.objects.create(
+            comment="This is a test comment", 
+            author=cls.user1, 
+            flashcardset=cls.flashcardset1
+        )
+        cls.collection1 = Collection.objects.create(
+            name="Collection 1",
+            comment=cls.comment1,
+            flashcardset=cls.flashcardset1,
+            author=cls.user1
+        )
+
+
+        cls.user2 = User.objects.create(username="testuser2", password="testpassword2")
+        cls.flashcardset2 = FlashcardSet.objects.create(
+            name="Flashcard Set 2", author=cls.user2
+        )
+        cls.comment2 = Comment.objects.create(
+            comment="This is a 2nd test comment", 
+            author=cls.user2, 
+            flashcardset=cls.flashcardset2
+        )
+        cls.collection2 = Collection.objects.create(
+            name="Collection 2",
+            comment=cls.comment2,
+            flashcardset=cls.flashcardset2,
+            author=cls.user2
+        )
+
+    def test_random_collection_with_collections(self):
+        url = reverse('random_collection')
+        response = self.client.get(url)
+
+        self.assertContains(response, "Collection Name:")
+        self.assertContains(response, "Collection Set:")
+        self.assertContains(response, "Collection Author:")
+        self.assertContains(response, "Collection Comments:")
+
+        self.assertContains(response, self.collection.name)
+        self.assertContains(response, self.collection.flashcardset.name)
+        self.assertContains(response, self.collection.author.username)
+        self.assertContains(response, self.collection.comment.comment)
     
+    def test_random_collection_no_collections(self):
+        Collection.objects.all().delete()
+
+        url = reverse('random_collection')
+        response = self.client.get(url)
+
+        self.assertContains(response, "No Collections Found.")
