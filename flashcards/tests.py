@@ -384,6 +384,9 @@ class CreateSetTest(TestCase):
         }
 
         response = self.client.post(url, form_data)
+
+        self.assertEqual(response.status_code, 403)
+        self.assertContains(response, "Forbidden: You cannot create a new set without a valid user id or set name.")
         self.assertEqual(FlashcardSet.objects.count(), 0)
     
     def test_create_flashcardset_no_set_name(self):
@@ -394,6 +397,9 @@ class CreateSetTest(TestCase):
         }
 
         response = self.client.post(url, form_data)
+
+        self.assertEqual(response.status_code, 403)
+        self.assertContains(response, "Forbidden: You cannot create a new set without a valid user id or set name.")
         self.assertEqual(FlashcardSet.objects.count(), 0)
 
     def test_create_flashcardset_no_user_id(self):
@@ -404,6 +410,9 @@ class CreateSetTest(TestCase):
         }
 
         response = self.client.post(url, form_data)
+
+        self.assertEqual(response.status_code, 403)
+        self.assertContains(response, "Forbidden: You cannot create a new set without a valid user id or set name.")
         self.assertEqual(FlashcardSet.objects.count(), 0)
 
 class PostCommentTest(TestCase):
@@ -652,6 +661,7 @@ class DeleteCollectionTest(TestCase):
         self.assertTrue(Collection.objects.filter(id=self.collection.id).exists())
 
 class UpdateCollectionTest(TestCase):
+    @classmethod
     def setUpTestData(cls):
         cls.user = User.objects.create(username="testuser", password="testpassword")
         cls.flashcard_set = Flashcard.objects.create(
@@ -708,3 +718,6 @@ class UpdateCollectionTest(TestCase):
         self.collection.refresh_from_db()
         self.assertEqual(self.collection.name, "Test Collection")
 
+class CreateCollectionTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):

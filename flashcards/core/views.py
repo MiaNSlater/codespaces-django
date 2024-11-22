@@ -90,6 +90,11 @@ def create_flashcard_set(request):
     if request.method == 'POST':
         user_id = request.POST.get('user_id')
         set_name = request.POST.get('set_name')
+        ##author = get_object_or_404(User, id=user_id)
+
+        if not user_id or not set_name:
+             return HttpResponseForbidden("Forbidden: You cannot create a new set without a valid user id or set name.")
+            
         author = get_object_or_404(User, id=user_id)
 
         set_input = FlashcardSet(name=set_name, author=author)
@@ -101,8 +106,17 @@ def create_flashcard_set(request):
 def create_collection(request):
     if request.method == 'POST':
         colname = request.POST.get('colname')
+        user_id = request.POST.get('user_id')
 
-        col_input = Collection(name=colname)
+        if not colname or not user_id:
+            return HttpResponseForbidden("Forbidden: You cannot create a new collection without a Collection Name or an Author Id.")
+
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return HttpResponseForbidden("Forbidden: Invalid User Id.")
+
+        col_input = Collection(name=colname, author=user_id)
         col_input.save()
 
         return redirect('success.html')

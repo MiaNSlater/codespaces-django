@@ -18,8 +18,11 @@
         <h2>Create a new Flashcard Collection by filling in the form:</h2>
         <form action="{% url 'create_collection' %}" method = "post">
             {% csrf_token %}
-            <label for="user_id">Collection Name:</label>
+            <label for="col_name">Collection Name:</label>
             <input type="text" id="colname" name="colname"><br><br>
+
+            <label for="user_id">Author (Enter by Id):</label>
+            <input type="text" id="user_id" name="user_id"><br><br>
 
             <input type="submit" value="Submit">
         </form>
