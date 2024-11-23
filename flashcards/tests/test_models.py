@@ -237,7 +237,7 @@ class FlashcardModelTest(TestCase):
         flashcard = Flashcard.objects.create(
             question="What is 'God' in Japanese?",
             answer="Kami",
-            flashcardset=cls.flashcard_set,
+            flashcardset=self.flashcard_set,
             difficulty=DifficultyLevel.MEDIUM
         )
         self.assertEqual(flashcard.difficulty, DifficultyLevel.MEDIUM)
@@ -245,7 +245,7 @@ class FlashcardModelTest(TestCase):
         flashcard = Flashcard.objects.create(
             question="What does は mean in a Japanese sentence?",
             answer="Topic marker particle",
-            flashcardset=cls.flashcard_set,
+            flashcardset=self.flashcard_set,
             difficulty=DifficultyLevel.HARD
         )
         self.assertEqual(flashcard.difficulty, DifficultyLevel.HARD)
