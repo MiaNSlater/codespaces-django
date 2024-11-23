@@ -280,7 +280,7 @@ class FlashcardModelTest(TestCase):
         self.assertIsNone(flashcard.flashcardset)
     
     def test_flashcard_without_difficulty(self):
-         flashcard = Flashcard.objects.create(
+        flashcard = Flashcard.objects.create(
             question="Independent Question?",
             answer="Independent Answer",
             flashcardset=self.flashcard_set

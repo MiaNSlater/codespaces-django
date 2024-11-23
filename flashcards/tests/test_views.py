@@ -321,7 +321,7 @@ class UpdateSetTest(TestCase):
     def setUpTestData(cls):
         cls.user = User.objects.create(username='testuser', password='testpassword')
         cls.flashcard_set = Flashcard.objects.create(
-            name="Original Name"
+            name="Original Name",
             author=cls.user
         )
     
@@ -557,7 +557,7 @@ class SearchCollectionByColIdTest(TestCase):
     def setUpTestData(cls):
         cls.user = User.objects.create(username="testuser", password="testpassword")
         cls.flashcard_set = Flashcard.objects.create(
-            name="Test Flashcard Set"
+            name="Test Flashcard Set",
             author=cls.user
         )
         cls.comment = Comment.objects.create(
@@ -606,7 +606,7 @@ class SearchCollectionByUserIdTest(TestCase):
         cls.user = User.objects.create(username="testuser", password="testpassword")
         cls.otheruser = User.objects.create(username="othertestuser", password="othertestpassword")
         cls.flashcard_set = Flashcard.objects.create(
-            name="Test Flashcard Set"
+            name="Test Flashcard Set",
             author=cls.user
         )
         cls.comment = Comment.objects.create(
@@ -653,7 +653,7 @@ class DeleteCollectionTest(TestCase):
     def setUpTestData(cls):
         cls.user = User.objects.create(username="testuser", password="testpassword")
         cls.flashcard_set = Flashcard.objects.create(
-            name="Test Flashcard Set"
+            name="Test Flashcard Set",
             author=cls.user
         )
         cls.comment = Comment.objects.create(
@@ -696,7 +696,7 @@ class UpdateCollectionTest(TestCase):
     def setUpTestData(cls):
         cls.user = User.objects.create(username="testuser", password="testpassword")
         cls.flashcard_set = Flashcard.objects.create(
-            name="Test Flashcard Set"
+            name="Test Flashcard Set",
             author=cls.user
         )
         cls.comment = Comment.objects.create(
