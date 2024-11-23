@@ -1,5 +1,5 @@
 from django.test import TestCase
-from flashcards.models import User, FlashcardSet, Comment, Collection
+from flashcards.models import User, FlashcardSet, Comment, Collection, Flashcard, DifficultyLevel
 
 class UserModelTest(TestCase):
     @classmethod
@@ -160,5 +160,130 @@ class CollectionModelTest(TestCase):
     def test_collection_str_method(self):
         collection = self.collection
         self.assertEqual(str(collection), f"Collection Name: {collection.name}")
+
+    def test_collection_name_max_length(self):
+        max_length = self.collection._meta.get_field('name').max_length
+        self.assertEqual(max_length, 200)
     
+    def test_collection_comment_relationship(self):
+        collection = self.collection
+        self.assertEqual(collection.comment.comment, "This is a test comment.")
     
+    def test_collection_flashcardset_relationship(self):
+        collection = self.collection
+        self.assertEqual(collection.flashcardset.name, "Test Flashcard Set")
+    
+    def test_collection_author_relationship(self):
+        collection = self.collection
+        self.assertEqual(collection.author.username, "username1")
+    
+    def test_collection_flashcardset_on_delete_cascade(self):
+        self.flashcard_set.delete()
+        with self.assertRaises(Collection.DoesNotExist):
+            Collection.objects.get(id=self.collection.id)
+        
+    def test_collection_comment_on_delete_cascade(self):
+        self.comment.delete()
+        with self.assertRaises(Collection.DoesNotExist):
+            Collection.objects.get(id=self.collection.id)
+        
+    def test_collection_author_on_delete_cascade(self):
+        self.user.delete()
+        with self.assertRaises(Collection.DoesNotExist):
+            Collection.objects.get(id=self.collection.id)
+    
+    def test_collection_without_optional_fields(self):
+        collection = Collection.objects.create(name="No relations")
+        self.assertEqual(collection.name, "No relations")
+        self.assertIsNone(collection.comment)
+        self.assertIsNone(collection.flashcardset)
+        self.assertIsNone(collection.author)
+    
+class FlashcardModelTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = User.objects.create(username="username1", admin=False, password="password1")
+        cls.flashcard_set = FlashcardSet.objects.create(name="Test Flashcard Set", author=cls.user)
+        cls.flashcard = Flashcard.objects.create(
+            question="What is the capital of Japan?",
+            answer="Tokyo",
+            flashcardset=cls.flashcard_set,
+            difficulty=DifficultyLevel.EASY
+        )
+
+    def test_flashcard_creation(self):
+        flashcard = self.flashcard
+        self.assertEqual(flashcard.question, "What is the capital of Japan?")
+        self.assertEqual(flashcard.answer, "Tokyo")
+        self.assertEqual(flashcard.flashcardset, self.flashcard_set)
+        self.assertEqual(flashcard.difficulty, DifficultyLevel.EASY)
+    
+    def test_flashcard_str_method(self):
+        flashcard = self.flashcard
+        self.assertEqual(
+            str(flashcard),
+            f"Question: {flashcard.question}, Answer: {flashcard.answer}, Difficulty: {flashcard.difficulty}"
+        )
+
+    def test_flashcard_question_max_length(self):
+        max_length = self.flashcard._meta.get_field('question').max_length
+        self.assertEqual(max_length, 100)
+    
+    def test_flashcard_answer_max_length(self):
+        max_length = self.flashcard._meta.get_field('answer').max_length
+        self.assertEqual(max_length, 100)
+    
+    def test_flashcard_difficulty_choices(self):
+        flashcard = Flashcard.objects.create(
+            question="What is 'God' in Japanese?",
+            answer="Kami",
+            flashcardset=cls.flashcard_set,
+            difficulty=DifficultyLevel.MEDIUM
+        )
+        self.assertEqual(flashcard.difficulty, DifficultyLevel.MEDIUM)
+
+        flashcard = Flashcard.objects.create(
+            question="What does は mean in a Japanese sentence?",
+            answer="Topic marker particle",
+            flashcardset=cls.flashcard_set,
+            difficulty=DifficultyLevel.HARD
+        )
+        self.assertEqual(flashcard.difficulty, DifficultyLevel.HARD)
+
+        with self.assertRaises(ValueError):
+            Flashcard.objects.create(
+            question="Invalid difficulty test?",
+            answer="Error",
+            flashcardset=cls.flashcard_set,
+            difficulty="Z"
+        )
+    
+    def test_flashcard_flashcardset_relationship(self):
+        flashcard = self.flashcard
+        self.assertEqual(flashcard.flashcardset.name, "Test Flashcard Set")
+    
+    def test_flashcard_flashcardset_on_delete_cascade(self):
+        self.flashcard_set.delete()
+        with self.assertRaises(Flashcard.DoesNotExist):
+            Flashcard.objects.get(id=self.flashcard.id)
+    
+    def test_flashcard_without_flashcardset(self):
+        flashcard = Flashcard.objects.create(
+            question="Independent Question?",
+            answer="Independent Answer",
+            difficulty=DifficultyLevel.EASY
+        )
+
+        self.assertEqual(flashcard.question, "Independent Question?")
+        self.assertEqual(flashcard.answer, "Independent Answer")
+        self.assertEqual(flashcard.difficulty, DifficultyLevel.EASY)
+        self.assertIsNone(flashcard.flashcardset)
+    
+    def test_flashcard_without_difficulty(self):
+         flashcard = Flashcard.objects.create(
+            question="Independent Question?",
+            answer="Independent Answer",
+            flashcardset=self.flashcard_set
+        )
+
+        self.assertIsNone(flashcard.difficulty)
