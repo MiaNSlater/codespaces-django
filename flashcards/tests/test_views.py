@@ -2,7 +2,7 @@ import json
 from django.test import TestCase
 from django.urls import reverse
 from django.http import HttpResponseForbidden
-from flashcards.models import User, FlashcardSet, Comment, Collection
+from flashcards.models import User, FlashcardSet, Comment, Collection, Flashcard
 
 class UserListViewTest(TestCase):
 
