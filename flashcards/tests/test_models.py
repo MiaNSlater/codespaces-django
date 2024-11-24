@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.db import IntegrityError
 from flashcards.models import User, FlashcardSet, Comment, Collection, Flashcard, DifficultyLevel
 
 class UserModelTest(TestCase):
@@ -49,8 +50,7 @@ class FlashcardSetModelTest(TestCase):
     def test_flashcardset_str_method(self):
         flashcard_set = self.flashcard_set
         expected_str = (
-            f"Name: {flashcard_set.name}, Created: {flashcard_set.created_at}"
-            f"Updated: {flashcard_set.updated_at}, Author: {flashcard_set.author}"
+            f"Name: {flashcard_set.name}, Created: {flashcard_set.created_at}, Updated: {flashcard_set.updated_at}, Author: {flashcard_set.author}"
         )
 
         self.assertEqual(str(flashcard_set), expected_str)
@@ -153,7 +153,7 @@ class CollectionModelTest(TestCase):
     def test_collection_creation(self):
         collection = self.collection
         self.assertEqual(collection.name, "Test Collection")
-        self.assertEqual(collection.comment, "This is a test comment.")
+        self.assertEqual(collection.comment.comment, "This is a test comment.")
         self.assertEqual(collection.flashcardset, self.flashcard_set)
         self.assertEqual(collection.author, self.user)
     
@@ -254,7 +254,7 @@ class FlashcardModelTest(TestCase):
             Flashcard.objects.create(
             question="Invalid difficulty test?",
             answer="Error",
-            flashcardset=cls.flashcard_set,
+            flashcardset=self.flashcard_set,
             difficulty="Z"
         )
     
