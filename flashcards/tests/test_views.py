@@ -512,8 +512,8 @@ class PostCommentTest(TestCase):
         self.assertFalse(Comment.objects.filter(flashcardset_id=self.flashcard_set.id).exists())
 
 class CollectionListViewTest(TestCase):
+    @classmethod
     def setUpTestData(cls):
-        @classmethod
         cls.user = User.objects.create(username="testuser", password="testpassword")
         cls.flashcard_set = Flashcard.objects.create(
             name="Test Flashcard Set"
