@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.db import IntegrityError
+from django.core.exceptions import ValidationError
 from flashcards.models import User, FlashcardSet, Comment, Collection, Flashcard, DifficultyLevel
 
 class UserModelTest(TestCase):
@@ -250,7 +251,7 @@ class FlashcardModelTest(TestCase):
         )
         self.assertEqual(flashcard.difficulty, DifficultyLevel.HARD)
 
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ValidationError):
             flashcard = Flashcard(
                 question="Invalid difficulty test?",
                 answer="Error",

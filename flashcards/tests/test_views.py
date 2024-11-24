@@ -451,7 +451,7 @@ class PostCommentTest(TestCase):
     def setUpTestData(cls):
         cls.user = User.objects.create(username="testuser", password="testpassword")
         cls.flashcard_set = Flashcard.objects.create(
-            name="Test Flashcard Set"
+            name="Test Flashcard Set",
             author=cls.user
         )
 
