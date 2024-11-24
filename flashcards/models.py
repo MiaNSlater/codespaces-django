@@ -35,9 +35,8 @@ class Flashcard(models.Model):
         null=True,
         blank=True,
       )
-
-      def __str__(self):
-            return f"Question: {self.question}, Answer: {self.answer}, Difficulty: {self.difficulty}"
+    def __str__(self):
+        return f"Question: {self.question}, Answer: {self.answer}, Difficulty: {self.difficulty}"
       
 class Comment(models.Model):
       comment = models.CharField(max_length=200)
