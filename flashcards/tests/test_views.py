@@ -435,7 +435,7 @@ class CreateSetTest(TestCase):
 
     def test_create_flashcardset_no_user_id(self):
         url = reverse('create_flashcard_set')
-         form_data = {
+        form_data = {
             'user_id': '',
             'set_name': 'testset'
         }

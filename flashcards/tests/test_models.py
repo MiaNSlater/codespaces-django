@@ -251,12 +251,14 @@ class FlashcardModelTest(TestCase):
         self.assertEqual(flashcard.difficulty, DifficultyLevel.HARD)
 
         with self.assertRaises(ValueError):
-            Flashcard.objects.create(
-            question="Invalid difficulty test?",
-            answer="Error",
-            flashcardset=self.flashcard_set,
-            difficulty="Z"
-        )
+            flashcard = Flashcard(
+                question="Invalid difficulty test?",
+                answer="Error",
+                flashcardset=self.flashcard_set,
+                difficulty="Z"
+            )
+            flashcard.full_clean()
+
     
     def test_flashcard_flashcardset_relationship(self):
         flashcard = self.flashcard
