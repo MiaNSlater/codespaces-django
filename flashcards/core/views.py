@@ -125,6 +125,9 @@ def create_collection(request):
         return redirect('success.html')
     return render(request, 'create_collection.html')
 
+def create_flashcards(request):
+    
+
 def delete_user(request):
     if request.method == 'POST':
         user_id = request.POST.get('id')
