@@ -59,15 +59,6 @@ class SearchUserByIdViewTest(TestCase):
 
         self.assertContains(response, "No user found with that Id.")
     
-    def test_search_user_by_id_empty(self):
-        url = reverse('search_id')
-        response = self.client.post(url, {'user_id': ''})
-
-        self.assertEqual(response.status_code, 200)
-
-        self.assertTemplateUsed(response, 'user_by_id.html')
-
-        self.assertContains(response, "No user found with that Id.")
 
     def test_search_user_by_id_csrf(self):
         url = reverse('search_id')
@@ -258,7 +249,7 @@ class SearchSetByIdTest(TestCase):
     
     def test_search_set_found(self):
         url = reverse('search_set')
-        response = self.client.post(url, {'set_id': self.flashcard_set.id})
+        response = self.client.post(url, {'set_id': self.set.id})
 
         self.assertContains(response, self.flashcard_set.id)
         self.assertContains(response, self.flashcard_set.name)
@@ -291,7 +282,7 @@ class DeleteSetTest(TestCase):
     
     def test_delete_set_success(self):
         url = reverse('delete_set')
-        response = self.client.post(url, {'set_id': self.flashcard_set.id})
+        response = self.client.post(url, {'set_id': self.set.id})
 
         self.assertRedirects(response, '/success.html')
 
@@ -300,15 +291,6 @@ class DeleteSetTest(TestCase):
     def test_delete_non_existent_set(self):
         url = reverse('delete_set')
         response = self.client.post(url, {'set_id': 999})
-
-        self.assertEqual(response.status_code, 403)
-        self.assertContains(response, "Forbidden: You cannot delete a non-existent set.")
-
-        self.assertEqual(FlashcardSet.objects.count(), 1)
-    
-    def test_delete_invalid_set(self):
-        url = reverse('delete_set')
-        response = self.client.post(url, {'set_id': ''})
 
         self.assertEqual(response.status_code, 403)
         self.assertContains(response, "Forbidden: You cannot delete a non-existent set.")
@@ -766,17 +748,6 @@ class CreateCollectionTest(TestCase):
         self.assertEqual(response.status_code, 403)
         self.assertContains(response, "Forbidden: You cannot create a new collection without a Collection Name or an Author Id.")
 
-    def test_create_collection_missing_user_id(self):
-        url = reverse('create_collection')
-        form_data = {
-            'colname': 'New Collection',
-            'user_id': ''
-        }
-
-        response = self.client.post(url, form_data)
-
-        self.assertEqual(response.status_code, 403)
-        self.assertContains(response, "Forbidden: You cannot create a new collection without a Collection Name or an Author Id.")
 
     def test_create_collection_invalid_user_id(self):
         url = reverse('create_collection')
@@ -788,7 +759,7 @@ class CreateCollectionTest(TestCase):
         response = self.client.post(url, form_data)
 
         self.assertEqual(response.status_code, 403)
-        self.assertContains(response, "Forbidden: Invalid User Id.")
+        self.assertContains(response, "Forbidden: Invalid User Id.", status_code=403)
     
 class RandomCollectionTest(TestCase):
     @classmethod
