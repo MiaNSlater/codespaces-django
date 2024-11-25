@@ -145,6 +145,10 @@ def create_flashcards(request):
                 if not question or not answer or not difficulty:
                     return HttpResponseForbidden("Forbidden: Cannot create a new flashcard without a question, answer, or difficulty.")
                 
+                valid_difficulties = {choice[0]: choice[1] for choice in DifficultyLevel.choices}
+                if difficulty not in valid_difficulties and difficulty not in valid_difficulties.values():
+                    return HttpResponseForbidden("Forbidden: You must enter a valid difficulty.")
+                
                 card_input = Flashcard(question=question, answer=answer, difficulty=difficulty, flashcardset=reqset)
                 card_input.save()
                 
