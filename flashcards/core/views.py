@@ -123,7 +123,7 @@ def create_collection(request):
         col_input = Collection(name=colname, author=user)
         col_input.save()
 
-        return redirect('success.html')
+        return redirect('success')
     return render(request, 'create_collection.html')
 
 def create_flashcards(request):
