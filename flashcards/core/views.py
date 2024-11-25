@@ -121,7 +121,6 @@ def create_collection(request):
             return HttpResponseForbidden("Forbidden: Invalid User Id.")
 
         col_input = Collection(name=colname, author=user)
-        print(f"Collection Input: {col_input}")
         col_input.save()
 
         return redirect('success.html')
@@ -151,7 +150,6 @@ def create_flashcards(request):
                     return HttpResponseForbidden("Forbidden: You must enter a valid difficulty.")
                 
                 card_input = Flashcard(question=question, answer=answer, difficulty=difficulty, flashcardset=reqset)
-                print(f"Card Input: {card_input}")
                 card_input.save()
                 
                 return redirect('success.html')
@@ -189,7 +187,7 @@ def delete_collection(request):
         col_id = request.POST.get('col_id')
         try:
             col_to_delete = Collection.objects.get(id=col_id)
-        except FlashcardSet.DoesNotExist:
+        except Collection.DoesNotExist:
             return HttpResponseForbidden("Forbidden: You cannot delete a non-existent collection.")
             
         col_to_delete.delete()

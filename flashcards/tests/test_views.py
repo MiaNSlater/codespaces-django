@@ -79,8 +79,8 @@ class DeleteUserViewTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        cls.noadminuser = User.objects.create(username=noadmin, admin=False)
-        cls.adminuser = User.objects.create(username=admin, admin=True)
+        cls.noadminuser = User.objects.create(username="noadmin", admin=False)
+        cls.adminuser = User.objects.create(username="admin", admin=True)
     
     def test_delete_non_admin_user(self):
         url = reverse('delete_user')
@@ -118,7 +118,7 @@ class UpdateUserViewTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        cls.user = User.object.create(username=oldusername, password=oldpassword)
+        cls.user = User.objects.create(username="oldusername", password="oldpassword")
     
     def test_search_and_update_user(self):
         search_url = reverse('search_user')
@@ -219,7 +219,7 @@ class SetListViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.user = User.objects.create(username='testuser', password='testpassword')
-        cls.card = Flashcard.object.create(question='What is 4 x 5?', answer='20', difficulty='Easy')
+        cls.card = Flashcard.objects.create(question='What is 4 x 5?', answer='20', difficulty='Easy')
         cls.flashcard_set = FlashcardSet.objects.create(
             name="Test Set",
             cards_id=cls.card.id,
@@ -323,7 +323,7 @@ class UpdateSetTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.user = User.objects.create(username='testuser', password='testpassword')
-        cls.flashcard_set = Flashcard.objects.create(
+        cls.flashcard_set = FlashcardSet.objects.create(
             name="Original Name",
             author=cls.user
         )
@@ -481,7 +481,7 @@ class PostCommentTest(TestCase):
 
         self.assertRedirects(response, '/success.html')
 
-        comment = Comments.objects.get(flashcardset_id=self.flashcard_set.id)
+        comment = Comment.objects.get(flashcardset_id=self.flashcard_set.id)
         self.assertEqual(comment.comment, "This is a test comment.")
         self.assertEqual(comment.author, self.user)
     
