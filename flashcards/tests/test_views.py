@@ -251,10 +251,10 @@ class SearchSetByIdTest(TestCase):
         url = reverse('search_set')
         response = self.client.post(url, {'set_id': self.set.id})
 
-        self.assertContains(response, self.flashcard_set.id)
-        self.assertContains(response, self.flashcard_set.name)
-        self.assertContains(response, self.flashcard_set.created_at)
-        self.assertContains(response, self.flashcard_set.updated_at)
+        self.assertContains(response, self.set.id)
+        self.assertContains(response, self.set.name)
+        self.assertContains(response, self.set.created_at)
+        self.assertContains(response, self.set.updated_at)
         self.assertContains(response, self.author_id)
 
     def test_search_set_not_found(self):
@@ -746,7 +746,7 @@ class CreateCollectionTest(TestCase):
         response = self.client.post(url, form_data)
 
         self.assertEqual(response.status_code, 403)
-        self.assertContains(response, "Forbidden: You cannot create a new collection without a Collection Name or an Author Id.")
+        self.assertContains(response, "Forbidden: You cannot create a new collection without a Collection Name or an Author Id.", status_code=403)
 
 
     def test_create_collection_invalid_user_id(self):
@@ -822,7 +822,7 @@ class CreateNewFlashcardTest(TestCase):
         }
 
         response = self.client.post(url, form_data)
-        self.assertRedirects(response, '/success.html')
+        self.assertRedirects(response, 'success.html')
 
         flashcard = Flashcard.objects.get(question='What language does Django use?')
         self.assertEqual(flashcard.question, 'What language does Django use?')
@@ -839,7 +839,7 @@ class CreateNewFlashcardTest(TestCase):
         response = self.client.post(url, form_data)
 
         self.assertEqual(response.status_code, 403)
-        self.assertContains(response, "Forbidden: You must enter a valid difficulty.")
+        self.assertContains(response, "Forbidden: You must enter a valid difficulty.", status_code=403)
     
     def test_create_flashcard_missing_question(self):
         url = reverse('create_flashcards')
@@ -853,7 +853,7 @@ class CreateNewFlashcardTest(TestCase):
         response = self.client.post(url, form_data)
 
         self.assertEqual(response.status_code, 403)
-        self.assertContains(response, "Forbidden: Cannot create a new flashcard without a question, answer, or difficulty.")
+        self.assertContains(response, "Forbidden: Cannot create a new flashcard without a question, answer, or difficulty.", status_code=403)
     
     def test_create_flashcard_missing_answer(self):
         url = reverse('create_flashcards')
@@ -867,7 +867,7 @@ class CreateNewFlashcardTest(TestCase):
         response = self.client.post(url, form_data)
 
         self.assertEqual(response.status_code, 403)
-        self.assertContains(response, "Forbidden: Cannot create a new flashcard without a question, answer, or difficulty.")
+        self.assertContains(response, "Forbidden: Cannot create a new flashcard without a question, answer, or difficulty.", status_code=403)
 
     def test_create_flashcard_invalid_set(self):
         url = reverse('create_flashcards')
@@ -881,5 +881,5 @@ class CreateNewFlashcardTest(TestCase):
         response = self.client.post(url, form_data)
 
         self.assertEqual(response.status_code, 403)
-        self.assertContains(response, "Forbidden: Cannot add cards to a non-existent set.")
+        self.assertContains(response, "Forbidden: Cannot add cards to a non-existent set.", status_code=403)
     
