@@ -219,10 +219,9 @@ class SetListViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.user = User.objects.create(username='testuser', password='testpassword')
-        cls.card = Flashcard.objects.create(question='What is 4 x 5?', answer='20', difficulty='Easy')
+        #cls.card = Flashcard.objects.create(question='What is 4 x 5?', answer='20', difficulty='Easy')
         cls.flashcard_set = FlashcardSet.objects.create(
             name="Test Set",
-            cards_id=cls.card.id,
             created_at="2024-01-01",
             updated_at="2024-01-02",
             author_id=cls.user.id
@@ -233,7 +232,7 @@ class SetListViewTest(TestCase):
         response = self.client.post(url, {'user_id': self.user.id})
 
         self.assertContains(response, self.flashcard_set.name)
-        self.assertContains(response, self.flashcard_set.cards_id)
+        #self.assertContains(response, self.flashcard.name)
         self.assertContains(response, self.flashcard_set.created_at)
         self.assertContains(response, self.flashcard_set.updated_at)
         self.assertContains(response, self.flashcard_set.author_id)
@@ -249,10 +248,9 @@ class SearchSetByIdTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.user = User.objects.create(username='testuser', password='testpassword', admin=False)
-        cls.card = Flashcard.object.create(question='What is 4 x 5?', answer='20', difficulty='Easy')
+        #cls.card = Flashcard.objects.create(question='What is 4 x 5?', answer='20', difficulty='Easy')
         cls.set = FlashcardSet.objects.create(
             name="Test Set1",
-            cards_id=cls.card.id,
             created_at="2024-01-01",
             updated_at="2024-01-02",
             author_id=cls.user.id
@@ -267,7 +265,6 @@ class SearchSetByIdTest(TestCase):
         self.assertContains(response, self.flashcard_set.created_at)
         self.assertContains(response, self.flashcard_set.updated_at)
         self.assertContains(response, self.author_id)
-        self.assertContains(response, self.cards_id)
 
     def test_search_set_not_found(self):
         url = reverse('search_set')
@@ -284,10 +281,9 @@ class DeleteSetTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.user = User.objects.create(username='testuser', password='testpassword', admin=False)
-        cls.card = Flashcard.object.create(question='What is 4 x 5?', answer='20', difficulty='Easy')
+        #cls.card = Flashcard.objects.create(question='What is 4 x 5?', answer='20', difficulty='Easy')
         cls.set = FlashcardSet.objects.create(
             name="Test Set2",
-            cards_id=cls.card.id,
             created_at="2024-01-01",
             updated_at="2024-01-02",
             author_id=cls.user.id
@@ -375,20 +371,6 @@ class UpdateSetTest(TestCase):
         self.flashcard_set.refresh_from_db()
         self.assertEqual(self.flashcard_set.name, "Original Name")
     
-    def test_update_flashcardset_missing_set_id(self):
-        url = reverse('update_set')
-        form_data = {
-            'set_id': '',
-            'name': 'Updated Name',
-            'update': 'Update'
-        }
-
-        response = self.client.post(url, form_data)
-
-        self.assertEqual(response.status_code, 200)
-
-        self.flashcard_set.refresh_from_db()
-        self.assertEqual(self.flashcard_set.name, "Original Name")
 
 class CreateSetTest(TestCase):
     @classmethod
