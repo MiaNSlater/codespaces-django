@@ -87,7 +87,7 @@ def submit_form(request):
         user_input = User(username = username, password = password, admin = admin)
         user_input.save()
 
-        return redirect('success.html')
+        return redirect('success')
     return render(request, 'create_user.html')
 
 def create_flashcard_set(request):
@@ -132,7 +132,7 @@ def create_flashcards(request):
         set_id = request.POST.get('set_id')
         if not set_id:
             return HttpResponseForbidden("Forbidden: Cannot add cards to a non-existent set.")
-            
+
         try:
             reqset = FlashcardSet.objects.get(id=set_id)
         except FlashcardSet.DoesNotExist:

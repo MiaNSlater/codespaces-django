@@ -367,12 +367,13 @@ class CreateSetTest(TestCase):
         }
 
         response = self.client.post(url, form_data)
-        self.assertRedirects(response, 'success')
         self.assertEqual(FlashcardSet.objects.count(), 1)
 
         flashcard_set = FlashcardSet.objects.first()
         self.assertEqual(flashcard_set.name, "Test Flashcard Set")
         self.assertEqual(flashcard_set.author, self.user)
+
+        self.assertRedirects(response, 'success')
 
     def test_create_flashcardset_invalid_user_id(self):
         url = reverse('create_flashcard_set')
@@ -384,7 +385,7 @@ class CreateSetTest(TestCase):
         response = self.client.post(url, form_data)
 
         self.assertEqual(response.status_code, 403)
-        self.assertContains(response, "Forbidden: You cannot create a new set without a valid user id or set name.")
+        self.assertContains(response, "Forbidden: You cannot create a new set without a valid user id or set name.", status_code=403)
         self.assertEqual(FlashcardSet.objects.count(), 0)
     
     def test_create_flashcardset_no_set_name(self):
@@ -397,7 +398,7 @@ class CreateSetTest(TestCase):
         response = self.client.post(url, form_data)
 
         self.assertEqual(response.status_code, 403)
-        self.assertContains(response, "Forbidden: You cannot create a new set without a valid user id or set name.")
+        self.assertContains(response, "Forbidden: You cannot create a new set without a valid user id or set name.", status_code=403)
         self.assertEqual(FlashcardSet.objects.count(), 0)
 
     def test_create_flashcardset_no_user_id(self):
@@ -730,11 +731,11 @@ class CreateCollectionTest(TestCase):
 
         response = self.client.post(url, form_data)
 
-        self.assertRedirects(response, 'success')
-
         collection = Collection.objects.get(name='New Collection')
         self.assertEqual(collection.name, 'New Collection')
         self.assertEqual(collection.author.id, self.user.id)
+
+        self.assertRedirects(response, 'success')
     
     def test_create_collection_missing_name(self):
         url = reverse('create_collection')
@@ -822,7 +823,7 @@ class CreateNewFlashcardTest(TestCase):
         }
 
         response = self.client.post(url, form_data)
-        self.assertRedirects(response, 'success.html')
+        self.assertRedirects(response, 'success')
 
         flashcard = Flashcard.objects.get(question='What language does Django use?')
         self.assertEqual(flashcard.question, 'What language does Django use?')
