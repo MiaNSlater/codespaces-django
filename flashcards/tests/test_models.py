@@ -1,4 +1,6 @@
 from django.test import TestCase
+from django.db import IntegrityError
+from django.core.exceptions import ValidationError
 from flashcards.models import User, FlashcardSet, Comment, Collection, Flashcard, DifficultyLevel
 
 class UserModelTest(TestCase):
@@ -49,8 +51,7 @@ class FlashcardSetModelTest(TestCase):
     def test_flashcardset_str_method(self):
         flashcard_set = self.flashcard_set
         expected_str = (
-            f"Name: {flashcard_set.name}, Created: {flashcard_set.created_at}"
-            f"Updated: {flashcard_set.updated_at}, Author: {flashcard_set.author}"
+            f"Name: {flashcard_set.name}, Created: {flashcard_set.created_at}, Updated: {flashcard_set.updated_at}, Author: {flashcard_set.author}"
         )
 
         self.assertEqual(str(flashcard_set), expected_str)
@@ -153,7 +154,7 @@ class CollectionModelTest(TestCase):
     def test_collection_creation(self):
         collection = self.collection
         self.assertEqual(collection.name, "Test Collection")
-        self.assertEqual(collection.comment, "This is a test comment.")
+        self.assertEqual(collection.comment.comment, "This is a test comment.")
         self.assertEqual(collection.flashcardset, self.flashcard_set)
         self.assertEqual(collection.author, self.user)
     
@@ -237,7 +238,7 @@ class FlashcardModelTest(TestCase):
         flashcard = Flashcard.objects.create(
             question="What is 'God' in Japanese?",
             answer="Kami",
-            flashcardset=cls.flashcard_set,
+            flashcardset=self.flashcard_set,
             difficulty=DifficultyLevel.MEDIUM
         )
         self.assertEqual(flashcard.difficulty, DifficultyLevel.MEDIUM)
@@ -245,18 +246,20 @@ class FlashcardModelTest(TestCase):
         flashcard = Flashcard.objects.create(
             question="What does は mean in a Japanese sentence?",
             answer="Topic marker particle",
-            flashcardset=cls.flashcard_set,
+            flashcardset=self.flashcard_set,
             difficulty=DifficultyLevel.HARD
         )
         self.assertEqual(flashcard.difficulty, DifficultyLevel.HARD)
 
-        with self.assertRaises(ValueError):
-            Flashcard.objects.create(
-            question="Invalid difficulty test?",
-            answer="Error",
-            flashcardset=cls.flashcard_set,
-            difficulty="Z"
-        )
+        with self.assertRaises(ValidationError):
+            flashcard = Flashcard(
+                question="Invalid difficulty test?",
+                answer="Error",
+                flashcardset=self.flashcard_set,
+                difficulty="Z"
+            )
+            flashcard.full_clean()
+
     
     def test_flashcard_flashcardset_relationship(self):
         flashcard = self.flashcard
@@ -280,7 +283,7 @@ class FlashcardModelTest(TestCase):
         self.assertIsNone(flashcard.flashcardset)
     
     def test_flashcard_without_difficulty(self):
-         flashcard = Flashcard.objects.create(
+        flashcard = Flashcard.objects.create(
             question="Independent Question?",
             answer="Independent Answer",
             flashcardset=self.flashcard_set

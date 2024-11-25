@@ -2,7 +2,7 @@ import json
 from django.test import TestCase
 from django.urls import reverse
 from django.http import HttpResponseForbidden
-from flashcards.models import User, FlashcardSet, Comment, Collection
+from flashcards.models import User, FlashcardSet, Comment, Collection, Flashcard
 
 class UserListViewTest(TestCase):
 
@@ -321,7 +321,7 @@ class UpdateSetTest(TestCase):
     def setUpTestData(cls):
         cls.user = User.objects.create(username='testuser', password='testpassword')
         cls.flashcard_set = Flashcard.objects.create(
-            name="Original Name"
+            name="Original Name",
             author=cls.user
         )
     
@@ -409,7 +409,7 @@ class CreateSetTest(TestCase):
 
     def test_create_flashcardset_invalid_user_id(self):
         url = reverse('create_flashcard_set')
-         form_data = {
+        form_data = {
             'user_id': 999,
             'set_name': 'testset'
         }
@@ -422,7 +422,7 @@ class CreateSetTest(TestCase):
     
     def test_create_flashcardset_no_set_name(self):
         url = reverse('create_flashcard_set')
-         form_data = {
+        form_data = {
             'user_id': self.user.id,
             'set_name': ''
         }
@@ -435,7 +435,7 @@ class CreateSetTest(TestCase):
 
     def test_create_flashcardset_no_user_id(self):
         url = reverse('create_flashcard_set')
-         form_data = {
+        form_data = {
             'user_id': '',
             'set_name': 'testset'
         }
@@ -451,7 +451,7 @@ class PostCommentTest(TestCase):
     def setUpTestData(cls):
         cls.user = User.objects.create(username="testuser", password="testpassword")
         cls.flashcard_set = Flashcard.objects.create(
-            name="Test Flashcard Set"
+            name="Test Flashcard Set",
             author=cls.user
         )
 
@@ -512,11 +512,11 @@ class PostCommentTest(TestCase):
         self.assertFalse(Comment.objects.filter(flashcardset_id=self.flashcard_set.id).exists())
 
 class CollectionListViewTest(TestCase):
+    @classmethod
     def setUpTestData(cls):
-        @classmethod
         cls.user = User.objects.create(username="testuser", password="testpassword")
         cls.flashcard_set = Flashcard.objects.create(
-            name="Test Flashcard Set"
+            name="Test Flashcard Set",
             author=cls.user
         )
         cls.comment = Comment.objects.create(
@@ -557,7 +557,7 @@ class SearchCollectionByColIdTest(TestCase):
     def setUpTestData(cls):
         cls.user = User.objects.create(username="testuser", password="testpassword")
         cls.flashcard_set = Flashcard.objects.create(
-            name="Test Flashcard Set"
+            name="Test Flashcard Set",
             author=cls.user
         )
         cls.comment = Comment.objects.create(
@@ -606,7 +606,7 @@ class SearchCollectionByUserIdTest(TestCase):
         cls.user = User.objects.create(username="testuser", password="testpassword")
         cls.otheruser = User.objects.create(username="othertestuser", password="othertestpassword")
         cls.flashcard_set = Flashcard.objects.create(
-            name="Test Flashcard Set"
+            name="Test Flashcard Set",
             author=cls.user
         )
         cls.comment = Comment.objects.create(
@@ -653,7 +653,7 @@ class DeleteCollectionTest(TestCase):
     def setUpTestData(cls):
         cls.user = User.objects.create(username="testuser", password="testpassword")
         cls.flashcard_set = Flashcard.objects.create(
-            name="Test Flashcard Set"
+            name="Test Flashcard Set",
             author=cls.user
         )
         cls.comment = Comment.objects.create(
@@ -696,7 +696,7 @@ class UpdateCollectionTest(TestCase):
     def setUpTestData(cls):
         cls.user = User.objects.create(username="testuser", password="testpassword")
         cls.flashcard_set = Flashcard.objects.create(
-            name="Test Flashcard Set"
+            name="Test Flashcard Set",
             author=cls.user
         )
         cls.comment = Comment.objects.create(

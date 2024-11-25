@@ -25,16 +25,18 @@ class FlashcardSet(models.Model):
             return f"Name: {self.name}, Created: {self.created_at}, Updated: {self.updated_at}, Author: {self.author}"
       
 class Flashcard(models.Model):
-    question = models.CharField(max_length=100)
-    answer = models.CharField(max_length=100)
-    flashcardset = models.ForeignKey(FlashcardSet, default=None, null=True, blank=True, on_delete=models.CASCADE, related_name='flashcard')
-    difficulty = models.CharField(
-        max_length=1,
-        choices=DifficultyLevel.choices,
-        default=None,
-        null=True,
-        blank=True,
-    ) 
+      question = models.CharField(max_length=100)
+      answer = models.CharField(max_length=100)
+      flashcardset = models.ForeignKey(FlashcardSet, default=None, null=True, blank=True, on_delete=models.CASCADE, related_name='flashcard')
+      difficulty = models.CharField(
+            max_length=1,
+            choices=DifficultyLevel.choices,
+            default=None,
+            null=True,
+            blank=True,
+      )
+      def __str__(self):
+            return f"Question: {self.question}, Answer: {self.answer}, Difficulty: {self.difficulty}"
       
 class Comment(models.Model):
       comment = models.CharField(max_length=200)
@@ -49,3 +51,6 @@ class Collection(models.Model):
       comment = models.ForeignKey(Comment, default=None, null=True, blank=True, on_delete=models.CASCADE, related_name='collection')
       flashcardset = models.ForeignKey(FlashcardSet, on_delete=models.CASCADE, default=None, null=True, blank=True, related_name='collection')
       author = models.ForeignKey(User, default=None, null=True, blank=True, on_delete=models.CASCADE, related_name='collection')
+
+      def __str__(self):
+            return f"Collection Name: {self.name}"

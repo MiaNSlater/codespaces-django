@@ -1,0 +1,45 @@
+{% load django_browser_reload %}
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="title" content="User List">
+        <meta name="author" content="MS1646">
+        <meta name="generator" content="GitHub Codespaces">
+        <meta name="theme-color" content="#333333">
+
+        <title>Create Flashcards</title>
+    </head>
+    <body>
+        <h1>Create Flashcards for a Flashcard Set</h1>
+        <h2>Put in a valid flashcard set and create flashcards for it:</h2>
+        <form action="{% url 'create_flashcards' %}" method = "post">
+            {% csrf_token %}
+            <input type="text" placeholder="Search by Id..." id="set_id" name="set_id">
+            <button type="submit">Look Up<i class="fa fa-search"></i></button>
+        </form>
+
+        {% if reqset %}
+            <h2>Add a new flashcard:</h2>
+            <form action="{% url 'create_flashcards' %}" method = "post">
+                {% csrf_token %}
+                <input type="hidden" name="set_id" value="{{ reqset.id }}">
+
+                <h3><strong>New Flashcard:</strong></h3>
+                <label for="question">Question:</label>
+                <input type="text" id="question" name="question"><br><br>
+
+                <label for="answer">Answer:</label>
+                <input type="text" id="answer" name="answer"><br><br>
+
+                <label for="difficulty">Difficulty(Easy, Medium, Hard):</label>
+                <input type="text" id="difficulty" name="difficulty"><br><br>
+
+                <button type="submit" name="add">Add</button>
+            </form>
+        {% endif %}
+    </body>
+</html>
