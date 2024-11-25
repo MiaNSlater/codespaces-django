@@ -120,7 +120,8 @@ def create_collection(request):
         except User.DoesNotExist:
             return HttpResponseForbidden("Forbidden: Invalid User Id.")
 
-        col_input = Collection(name=colname, author=user_id)
+        col_input = Collection(name=colname, author=user)
+        print(f"Collection Input: {col_input}")
         col_input.save()
 
         return redirect('success.html')
@@ -150,6 +151,7 @@ def create_flashcards(request):
                     return HttpResponseForbidden("Forbidden: You must enter a valid difficulty.")
                 
                 card_input = Flashcard(question=question, answer=answer, difficulty=difficulty, flashcardset=reqset)
+                print(f"Card Input: {card_input}")
                 card_input.save()
                 
                 return redirect('success.html')
