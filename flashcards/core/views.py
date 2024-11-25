@@ -140,9 +140,9 @@ def create_flashcards(request):
         
         if reqset:
             if 'add' in request.POST:
-                question=request.POST.get('question')
-                answer=request.POST.get('answer')
-                difficulty=request.POST.get('difficulty')
+                question = request.POST.get('question')
+                answer = request.POST.get('answer')
+                difficulty = request.POST.get('difficulty')
 
                 if not question or not answer or not difficulty:
                     return HttpResponseForbidden("Forbidden: Cannot create a new flashcard without a question, answer, or difficulty.")
