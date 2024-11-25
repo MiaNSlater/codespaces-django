@@ -735,7 +735,7 @@ class CreateCollectionTest(TestCase):
         self.assertEqual(collection.name, 'New Collection')
         self.assertEqual(collection.author.id, self.user.id)
 
-        self.assertRedirects(response, '/success.html')
+        self.assertRedirects(response, '/success')
     
     def test_create_collection_missing_name(self):
         url = reverse('create_collection')
