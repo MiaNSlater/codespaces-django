@@ -862,3 +862,83 @@ class RandomCollectionTest(TestCase):
         response = self.client.get(url)
 
         self.assertContains(response, "No Collections Found.")
+
+class CreateNewFlashcardTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = User.objects.create(username="testuser", password="testpassword")
+        cls.flashcard_set = FlashcardSet.objects.create(
+            name="Test Flashcard Set", author=cls.user
+        )
+    
+    def test_create_flashcard_success(self):
+        url = reverse('create_flashcards')
+        form_data = {
+            'set_id': self.flashcard_set.id,
+            'question': 'What language does Django use?',
+            'answer': 'Python',
+            'difficulty': 'Easy'
+        }
+
+        response = self.client.post(url, form_data)
+        self.assertRedirects(response, 'success.html')
+
+        flashcard = Flashcard.objects.get(question='What language does Django use?')
+        self.assertEqual(flashcard.question, 'What language does Django use?')
+    
+    def test_create_flashcard_invalid_difficulty(self):
+        url = reverse('create_flashcards')
+        form_data = {
+            'set_id': self.flashcard_set.id,
+            'question': 'What language does Django use?',
+            'answer': 'Python',
+            'difficulty': 'Z'
+        }
+
+        response = self.client.post(url, form_data)
+
+        self.assertEqual(response.status_code, 403)
+        self.assertContains(response, "Forbidden: You must enter a valid difficulty.")
+    
+    def test_create_flashcard_missing_question(self):
+        url = reverse('create_flashcards')
+        form_data = {
+            'set_id': self.flashcard_set.id,
+            'question': '',
+            'answer': 'Python',
+            'difficulty': 'Easy'
+        }
+
+        response = self.client.post(url, form_data)
+
+        self.assertEqual(response.status_code, 403)
+        self.assertContains(response, "Forbidden: Cannot create a new flashcard without a question, answer, or difficulty.")
+    
+    def test_create_flashcard_missing_answer(self):
+        url = reverse('create_flashcards')
+        form_data = {
+            'set_id': self.flashcard_set.id,
+            'question': 'What language does Django use?',
+            'answer': '',
+            'difficulty': 'Easy'
+        }
+
+        response = self.client.post(url, form_data)
+
+        self.assertEqual(response.status_code, 403)
+        self.assertContains(response, "Forbidden: Cannot create a new flashcard without a question, answer, or difficulty.")
+
+    def test_create_flashcard_invalid_set(self):
+        url = reverse('create_flashcards')
+        form_data = {
+            'set_id': 999,
+            'question': 'What language does Django use?',
+            'answer': 'Python',
+            'difficulty': 'Easy'
+        }
+
+        response = self.client.post(url, form_data)
+
+        self.assertEqual(response.status_code, 403)
+        self.assertContains(response, "Forbidden: Cannot add cards to a non-existent set.")
+    
