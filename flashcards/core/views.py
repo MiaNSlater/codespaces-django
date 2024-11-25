@@ -87,7 +87,7 @@ def submit_form(request):
         user_input = User(username = username, password = password, admin = admin)
         user_input.save()
 
-        return redirect('success.html')
+        return redirect('success')
     return render(request, 'create_user.html')
 
 def create_flashcard_set(request):
@@ -104,7 +104,7 @@ def create_flashcard_set(request):
         set_input = FlashcardSet(name=set_name, author=author)
         set_input.save()
 
-        return redirect('success.html')
+        return redirect('success')
     return render(request, 'create_flashcard_set.html')
 
 def create_collection(request):
@@ -154,7 +154,7 @@ def create_flashcards(request):
                 card_input = Flashcard(question=question, answer=answer, difficulty=difficulty, flashcardset=reqset)
                 card_input.save()
                 
-                return redirect('success.html')
+                return redirect('success')
     return render(request, 'create_flashcards.html', {'reqset': reqset})
 
 def delete_user(request):
@@ -168,7 +168,7 @@ def delete_user(request):
             return HttpResponseForbidden("Forbidden: You cannot delete an admin user. This attempt has been logged.")
         user_to_delete.delete()
 
-        return redirect('success.html')
+        return redirect('success')
     return render(request, 'delete_user.html')
 
 def delete_set(request):
@@ -181,7 +181,7 @@ def delete_set(request):
             
         set_to_delete.delete()
 
-        return redirect('success.html')
+        return redirect('success')
     return render(request, 'delete_set.html')
 
 def delete_collection(request):
@@ -194,7 +194,7 @@ def delete_collection(request):
             
         col_to_delete.delete()
 
-        return redirect('success.html')
+        return redirect('success')
     return render(request, 'delete_collection.html')
 
 def search_user(request):
@@ -214,7 +214,7 @@ def search_user(request):
 
                 user.save()
 
-                return redirect('success.html')
+                return redirect('success')
     return render(request, 'update_user.html', {'user': user})
 
 def update_set(request):
@@ -233,7 +233,7 @@ def update_set(request):
 
                 reqset.save()
 
-                return redirect('success.html')
+                return redirect('success')
     return render(request, 'update_set.html', {'reqset': reqset})
 
 def update_collection(request):
@@ -252,7 +252,7 @@ def update_collection(request):
 
                 reqcol.save()
 
-                return redirect('success.html')
+                return redirect('success')
     return render(request, 'update_collection.html', {'reqcol': reqcol})
 
 def comment_set(request):
@@ -276,7 +276,7 @@ def comment_set(request):
                 return HttpResponseForbidden("Forbidden. Cannot submit a new comment without a valid comment or author.")
             set_input = Comment(comment = comment, author = author_user, flashcardset_id = reqset.id)
             set_input.save()
-        return redirect('success.html')
+        return redirect('success')
     return render(request, 'post_comment.html', {'reqset': reqset})
 
 def search_flashcard(request):

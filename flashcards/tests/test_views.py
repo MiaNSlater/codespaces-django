@@ -79,7 +79,7 @@ class DeleteUserViewTest(TestCase):
 
         response = self.client.post(url, data, follow=True)
 
-        self.assertRedirects(response, 'success')
+        self.assertRedirects(response, '/success')
 
         with self.assertRaises(User.DoesNotExist):
             User.objects.get(id=self.noadminuser.id)
@@ -127,7 +127,7 @@ class UpdateUserViewTest(TestCase):
         }
         response = self.client.post(search_url, update_data, follow=True)
 
-        self.assertRedirects(response, 'success')
+        self.assertRedirects(response, '/success')
 
         self.user.refresh_from_db()
         self.assertEqual(self.user.username, updated_username)
@@ -153,7 +153,7 @@ class CreateUserViewTest(TestCase):
         url = reverse('submit_form')
         response = self.client.post(url, form_data, follow=True)
 
-        self.assertRedirects(response, 'success')
+        self.assertRedirects(response, '/success')
 
         self.assertTrue(User.objects.filter(username='testuser').exists())
 
@@ -171,7 +171,7 @@ class CreateUserViewTest(TestCase):
         url = reverse('submit_form')
         response = self.client.post(url, form_data, follow=True)
 
-        self.assertRedirects(response, 'success')
+        self.assertRedirects(response, '/success')
 
         self.assertTrue(User.objects.filter(username='normaluser').exists())
 
@@ -284,7 +284,7 @@ class DeleteSetTest(TestCase):
         url = reverse('delete_set')
         response = self.client.post(url, {'set_id': self.set.id})
 
-        self.assertRedirects(response, 'success')
+        self.assertRedirects(response, '/success')
 
         self.assertEqual(FlashcardSet.objects.count(), 0)
 
@@ -316,7 +316,7 @@ class UpdateSetTest(TestCase):
 
         response = self.client.post(url, form_data)
 
-        self.assertRedirects(response, 'success')
+        self.assertRedirects(response, '/success')
 
         self.flashcard_set.refresh_from_db()
         self.assertEqual(self.flashcard_set.name, "Updated Name")
@@ -373,7 +373,7 @@ class CreateSetTest(TestCase):
         self.assertEqual(flashcard_set.name, "Test Flashcard Set")
         self.assertEqual(flashcard_set.author, self.user)
 
-        self.assertRedirects(response, 'success')
+        self.assertRedirects(response, '/success')
 
     def test_create_flashcardset_invalid_user_id(self):
         url = reverse('create_flashcard_set')
@@ -444,7 +444,7 @@ class PostCommentTest(TestCase):
 
         response = self.client.post(url, form_data)
 
-        self.assertRedirects(response, 'success')
+        self.assertRedirects(response, '/success')
 
         comment = Comment.objects.get(flashcardset_id=self.flashcard_set.id)
         self.assertEqual(comment.comment, "This is a test comment.")
@@ -640,7 +640,7 @@ class DeleteCollectionTest(TestCase):
         url = reverse('delete_collection')
         response = self.client.post(url, data={'col_id': self.collection.id})
 
-        self.assertRedirects(response, 'success')
+        self.assertRedirects(response, '/success')
 
         self.assertEqual(Collection.objects.count(), 0)
 
@@ -688,7 +688,7 @@ class UpdateCollectionTest(TestCase):
         }
 
         response = self.client.post(url, form_data)
-        self.assertRedirects(response, 'success')
+        self.assertRedirects(response, '/success')
 
         self.collection.refresh_from_db()
         self.assertEqual(self.collection.name, "Updated Collection Name")
@@ -823,7 +823,7 @@ class CreateNewFlashcardTest(TestCase):
         }
 
         response = self.client.post(url, form_data)
-        self.assertRedirects(response, 'success')
+        self.assertRedirects(response, '/success')
 
         flashcard = Flashcard.objects.get(question='What language does Django use?')
         self.assertEqual(flashcard.question, 'What language does Django use?')
