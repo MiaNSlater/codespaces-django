@@ -8,6 +8,7 @@ from flashcards.models import Flashcard
 from flashcards.models import FlashcardSet
 from flashcards.models import Comment
 from flashcards.models import Collection
+from flashcards.models import DifficultyLevel
 
 def index(request):
     context = {
@@ -126,7 +127,29 @@ def create_collection(request):
     return render(request, 'create_collection.html')
 
 def create_flashcards(request):
-    
+    reqset = None
+    if request.method == 'POST':
+        set_id = request.POST.get('set_id')
+        if set_id:
+            try:
+                reqset = FlashcardSet.objects.get(id=set_id)
+            except FlashcardSet.DoesNotExist:
+                return HttpResponseForbidden("Forbidden: Cannot add cards to a non-existent set.")
+        
+        if reqset:
+            if 'add' in request.POST:
+                question=request.POST.get('question')
+                answer=request.POST.get('answer')
+                difficulty=request.POST.get('difficulty')
+
+                if not question or not answer or not difficulty:
+                    return HttpResponseForbidden("Forbidden: Cannot create a new flashcard without a question, answer, or difficulty.")
+                
+                card_input = Flashcard(question=question, answer=answer, difficulty=difficulty, flashcardset=reqset)
+                card_input.save()
+                
+                return redirect('success.html')
+    return render(request, 'create_flashcards.html', {'reqset': reqset})
 
 def delete_user(request):
     if request.method == 'POST':
