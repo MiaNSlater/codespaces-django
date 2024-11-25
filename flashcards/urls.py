@@ -28,7 +28,7 @@ urlpatterns = [
     path("__reload__/", include("django_browser_reload.urls")),
     path("userlist", core_views.list_users, name='list_users'),
     path("createuser", core_views.submit_form, name='submit_form'),
-    path("success.html", core_views.success.html, name='success.html'),
+    path("success.html", core_views.success, name='success'),
     path("userbyid", core_views.search_id, name='search_id'),
     path("deleteuser", core_views.delete_user, name='delete_user'),
     path("updateuser", core_views.search_user, name='search_user'),
