@@ -79,7 +79,7 @@ class DeleteUserViewTest(TestCase):
 
         response = self.client.post(url, data, follow=True)
 
-        self.assertRedirects(response, '/success.html')
+        self.assertRedirects(response, 'success')
 
         with self.assertRaises(User.DoesNotExist):
             User.objects.get(id=self.noadminuser.id)
@@ -127,7 +127,7 @@ class UpdateUserViewTest(TestCase):
         }
         response = self.client.post(search_url, update_data, follow=True)
 
-        self.assertRedirects(response, '/success.html')
+        self.assertRedirects(response, 'success')
 
         self.user.refresh_from_db()
         self.assertEqual(self.user.username, updated_username)
@@ -153,7 +153,7 @@ class CreateUserViewTest(TestCase):
         url = reverse('submit_form')
         response = self.client.post(url, form_data, follow=True)
 
-        self.assertRedirects(response, '/success.html')
+        self.assertRedirects(response, 'success')
 
         self.assertTrue(User.objects.filter(username='testuser').exists())
 
@@ -171,7 +171,7 @@ class CreateUserViewTest(TestCase):
         url = reverse('submit_form')
         response = self.client.post(url, form_data, follow=True)
 
-        self.assertRedirects(response, '/success.html')
+        self.assertRedirects(response, 'success')
 
         self.assertTrue(User.objects.filter(username='normaluser').exists())
 
@@ -284,7 +284,7 @@ class DeleteSetTest(TestCase):
         url = reverse('delete_set')
         response = self.client.post(url, {'set_id': self.set.id})
 
-        self.assertRedirects(response, '/success.html')
+        self.assertRedirects(response, 'success')
 
         self.assertEqual(FlashcardSet.objects.count(), 0)
 
@@ -316,7 +316,7 @@ class UpdateSetTest(TestCase):
 
         response = self.client.post(url, form_data)
 
-        self.assertRedirects(response, '/success.html')
+        self.assertRedirects(response, 'success')
 
         self.flashcard_set.refresh_from_db()
         self.assertEqual(self.flashcard_set.name, "Updated Name")
@@ -367,7 +367,7 @@ class CreateSetTest(TestCase):
         }
 
         response = self.client.post(url, form_data)
-        self.assertRedirects(response, '/success.html')
+        self.assertRedirects(response, 'success')
         self.assertEqual(FlashcardSet.objects.count(), 1)
 
         flashcard_set = FlashcardSet.objects.first()
@@ -443,7 +443,7 @@ class PostCommentTest(TestCase):
 
         response = self.client.post(url, form_data)
 
-        self.assertRedirects(response, '/success.html')
+        self.assertRedirects(response, 'success')
 
         comment = Comment.objects.get(flashcardset_id=self.flashcard_set.id)
         self.assertEqual(comment.comment, "This is a test comment.")
@@ -639,7 +639,7 @@ class DeleteCollectionTest(TestCase):
         url = reverse('delete_collection')
         response = self.client.post(url, data={'col_id': self.collection.id})
 
-        self.assertRedirects(response, '/success.html')
+        self.assertRedirects(response, 'success')
 
         self.assertEqual(Collection.objects.count(), 0)
 
@@ -687,7 +687,7 @@ class UpdateCollectionTest(TestCase):
         }
 
         response = self.client.post(url, form_data)
-        self.assertRedirects(response, '/success.html')
+        self.assertRedirects(response, 'success')
 
         self.collection.refresh_from_db()
         self.assertEqual(self.collection.name, "Updated Collection Name")
@@ -730,11 +730,11 @@ class CreateCollectionTest(TestCase):
 
         response = self.client.post(url, form_data)
 
-        self.assertRedirects(response, '/success.html')
+        self.assertRedirects(response, 'success')
 
         collection = Collection.objects.get(name='New Collection')
         self.assertEqual(collection.name, 'New Collection')
-        self.assertEqual(collection.author, self.user.id)
+        self.assertEqual(collection.author.id, self.user.id)
     
     def test_create_collection_missing_name(self):
         url = reverse('create_collection')
@@ -833,7 +833,7 @@ class CreateNewFlashcardTest(TestCase):
             'set_id': self.flashcard_set.id,
             'question': 'What language does Django use?',
             'answer': 'Python',
-            'difficulty': 'Z'
+            'difficulty': 'Xenu'
         }
 
         response = self.client.post(url, form_data)

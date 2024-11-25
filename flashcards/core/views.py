@@ -130,11 +130,13 @@ def create_flashcards(request):
     reqset = None
     if request.method == 'POST':
         set_id = request.POST.get('set_id')
-        if set_id:
-            try:
-                reqset = FlashcardSet.objects.get(id=set_id)
-            except FlashcardSet.DoesNotExist:
-                return HttpResponseForbidden("Forbidden: Cannot add cards to a non-existent set.")
+        if not set_id:
+            return HttpResponseForbidden("Forbidden: Cannot add cards to a non-existent set.")
+            
+        try:
+            reqset = FlashcardSet.objects.get(id=set_id)
+        except FlashcardSet.DoesNotExist:
+            return HttpResponseForbidden("Forbidden: Cannot add cards to a non-existent set.")
         
         if reqset:
             if 'add' in request.POST:
