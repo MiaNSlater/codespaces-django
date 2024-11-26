@@ -169,7 +169,7 @@ def create_flashcards(request):
                 card_input = Flashcard(question=question, answer=answer, difficulty=difficulty, flashcardset=reqset)
                 card_input.save()
                 
-                return redirect('success')
+            return redirect('success')
     return render(request, 'create_flashcards.html', {'reqset': reqset})
 
 def delete_user(request):
