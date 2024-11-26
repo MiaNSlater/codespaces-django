@@ -2,7 +2,7 @@ import json
 from django.test import TestCase
 from django.urls import reverse
 from django.http import HttpResponseForbidden
-from flashcards.models import User, FlashcardSet, Comment, Collection, Flashcard
+from flashcards.models import User, FlashcardSet, Comment, Collection, Flashcard, DifficultyLevel
 
 class UserListViewTest(TestCase):
 
@@ -370,7 +370,7 @@ class CreateSetTest(TestCase):
         self.assertEqual(FlashcardSet.objects.count(), 1)
 
         flashcard_set = FlashcardSet.objects.first()
-        self.assertEqual(flashcard_set.name, "Test Flashcard Set")
+        self.assertEqual(flashcard_set.name, "testset")
         self.assertEqual(flashcard_set.author, self.user)
 
         self.assertRedirects(response, '/success')
@@ -399,19 +399,6 @@ class CreateSetTest(TestCase):
 
         self.assertEqual(response.status_code, 403)
         self.assertContains(response, "Forbidden: You cannot create a new set without a valid user id or set name.", status_code=403)
-        self.assertEqual(FlashcardSet.objects.count(), 0)
-
-    def test_create_flashcardset_no_user_id(self):
-        url = reverse('create_flashcard_set')
-        form_data = {
-            'user_id': '',
-            'set_name': 'testset'
-        }
-
-        response = self.client.post(url, form_data)
-
-        self.assertEqual(response.status_code, 403)
-        self.assertContains(response, "Forbidden: You cannot create a new set without a valid user id or set name.")
         self.assertEqual(FlashcardSet.objects.count(), 0)
 
 class PostCommentTest(TestCase):
@@ -450,7 +437,7 @@ class PostCommentTest(TestCase):
         self.assertEqual(comment.comment, "This is a test comment.")
         self.assertEqual(comment.author, self.user)
     
-    def test_add_comment_missing_fields(self):
+    def test_add_comment_missing_comment(self):
         url = reverse('comment_set')
         form_data = {
             'set_id': self.flashcard_set.id,

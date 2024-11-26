@@ -98,6 +98,11 @@ def create_flashcard_set(request):
 
         if not user_id or not set_name:
              return HttpResponseForbidden("Forbidden: You cannot create a new set without a valid user id or set name.")
+
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return HttpResponseForbidden("Forbidden: You cannot create a new set without a valid user id or set name.")
             
         author = get_object_or_404(User, id=user_id)
 
