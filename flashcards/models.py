@@ -9,7 +9,7 @@ class DifficultyLevel(models.TextChoices):
 class User(models.Model):
       username = models.CharField(max_length=100)
       admin = models.BooleanField(default=False)
-      password = models.CharField(max_length=100)
+      password = models.CharField(max_length=100, default=None)
 
       def __str__(self):
             return f"Id: {self.id}, Username: {self.username}, Admin: {self.admin}"
@@ -29,7 +29,7 @@ class Flashcard(models.Model):
       answer = models.CharField(max_length=100)
       flashcardset = models.ForeignKey(FlashcardSet, default=None, null=True, blank=True, on_delete=models.CASCADE, related_name='flashcard')
       difficulty = models.CharField(
-            max_length=1,
+            max_length=6,
             choices=DifficultyLevel.choices,
             default=None,
             null=True,
