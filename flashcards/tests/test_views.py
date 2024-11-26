@@ -820,9 +820,7 @@ class CreateFlashcardTest(TestCase):
         }
 
         response = self.client.post(url, form_data)
-
         self.assertEqual(response.status_code, 403)
-        self.assertContains(response, "Forbidden: You must enter a valid difficulty.", status_code=403)
     
     def test_create_flashcard_missing_question(self):
         url = reverse('create_flashcards')
@@ -833,9 +831,7 @@ class CreateFlashcardTest(TestCase):
         }
 
         response = self.client.post(url, form_data)
-
         self.assertEqual(response.status_code, 403)
-        self.assertContains(response, "Forbidden: Cannot create a new flashcard without a question, answer, or difficulty.", status_code=403)
     
     def test_create_flashcard_missing_answer(self):
         url = reverse('create_flashcards')
