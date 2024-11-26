@@ -799,7 +799,10 @@ class CreateFlashcardTest(TestCase):
         url = reverse('create_flashcards')
 
         response = self.client.post(url, {'set_id': self.flashcard_set.id}, follow=False)
-        print(response.content.decode())
+        print("First POST response code:", response.status_code)
+        print("First POST response content:", response.content.decode())
+
+        self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Add a new flashcard:')
 
         form_data = {
