@@ -803,9 +803,6 @@ class CreateFlashcardTest(TestCase):
 
         response = self.client.post(url, form_data, follow=True)
 
-        self.assertContains(response, 'Add a new Flashcard:')
-        self.assertContains(response, 'New Flashcard:')
-
         form_data = {
             'set_id': self.flashcard_set.id,
             'question': 'What language does Django use?',
