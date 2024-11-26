@@ -802,6 +802,7 @@ class CreateFlashcardTest(TestCase):
        # }
 
         response = self.client.post(url, {'set_id': self.flashcard_set.id})
+        self.assertContains(response, 'Add a new flashcard:')
 
         form_data = {
             'set_id': self.flashcard_set.id,
