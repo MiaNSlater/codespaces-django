@@ -801,6 +801,8 @@ class CreateFlashcardTest(TestCase):
             'set_id': self.flashcard_set.id,
         }
 
+        print(f"Set Id: {form_data}")
+
         response = self.client.post(url, form_data, follow=True)
 
         form_data = {
@@ -809,6 +811,8 @@ class CreateFlashcardTest(TestCase):
             'answer': 'Python',
             'difficulty': 'Easy'
         }
+
+        print(f"{form_data}")
 
         flashcards_before = Flashcard.objects.count()
         response = self.client.post(url, form_data, follow=True)
