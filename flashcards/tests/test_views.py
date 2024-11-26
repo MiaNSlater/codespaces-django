@@ -8,8 +8,8 @@ class UserListViewTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        cls.user1 = User.objects.create(username="user1", admin=True)
-        cls.user2 = User.objects.create(username="user2", admin=False)
+        cls.user1 = User.objects.create(username="user1", password="password1", admin=True)
+        cls.user2 = User.objects.create(username="user2", password="password2", admin=False)
     def test_list_users_view(self):
         url = reverse('list_users')
         response = self.client.get(url)
@@ -70,8 +70,8 @@ class DeleteUserViewTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        cls.noadminuser = User.objects.create(username="noadmin", admin=False)
-        cls.adminuser = User.objects.create(username="admin", admin=True)
+        cls.noadminuser = User.objects.create(username="noadmin", password="noadminpassword", admin=False)
+        cls.adminuser = User.objects.create(username="admin", password="adminpassword", admin=True)
     
     def test_delete_non_admin_user(self):
         url = reverse('delete_user')
@@ -785,10 +785,10 @@ class RandomCollectionTest(TestCase):
         self.assertTemplateUsed(response, 'random_collection.html')
         self.assertContains(response, "No Collections Found.")
 
-class CreateNewFlashcardTest(TestCase):
+class CreateFlashcardTest(TestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.user = User.objects.create(username="testuser", password="testpassword")
+        cls.user = User.objects.create(username="testuser", password="testpassword", admin=False)
         cls.flashcard_set = FlashcardSet.objects.create(
             name="Test Flashcard Set", author=cls.user
         )
@@ -802,7 +802,7 @@ class CreateNewFlashcardTest(TestCase):
             'difficulty': 'Easy'
         }
 
-        response = self.client.post(url, form_data)
+        response = self.client.post(url, form_data, follow=True)
         self.assertRedirects(response, '/success')
 
         flashcard = Flashcard.objects.get(question='What language does Django use?')
