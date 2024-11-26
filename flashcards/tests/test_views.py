@@ -804,7 +804,7 @@ class CreateFlashcardTest(TestCase):
         response = self.client.post(url, {'set_id': self.flashcard_set.id})
 
         form_data = {
-            #'set_id': self.flashcard_set.id,
+            'set_id': self.flashcard_set.id,
             'question': 'What language does Django use?',
             'answer': 'Python',
             'difficulty': 'Easy'
@@ -812,13 +812,15 @@ class CreateFlashcardTest(TestCase):
 
         print(f"{form_data}")
 
-        flashcards_before = Flashcard.objects.count()
         response = self.client.post(url, form_data, follow=True)
-        flashcards_after = Flashcard.objects.count()
-        print(f"Flashcards before: {flashcards_before} | Flashcards after: {flashcards_after}")
-        flashcard = Flashcard.objects.get(question='What language does Django use?')
-        self.assertEqual(flashcard.question, 'What language does Django use?')
+
         self.assertRedirects(response, '/success')
+
+        flashcard = Flashcard.objects.get(question='What language does Django use?')
+        self.assertEqual(flashcard.answer, 'Python')
+
+        flashcards_after = Flashcard.objects.count()
+        print(f"Flashcards after: {flashcards_after}")
 
         #flashcard = Flashcard.objects.get(question='What language does Django use?')
         #self.assertEqual(flashcard.question, 'What language does Django use?')
