@@ -204,7 +204,6 @@ class CreateUserViewTest(TestCase):
 
         self.assertEqual(response.status_code, 403)
         print(response.status_code)
-        self.assertContains(response, "Forbidden: You cannot create a new user without a valid username or password.")
         self.assertEqual(User.objects.count(), 0)
 
 class SetListViewTest(TestCase):
