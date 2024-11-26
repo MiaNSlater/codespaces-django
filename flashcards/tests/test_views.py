@@ -804,8 +804,10 @@ class CreateFlashcardTest(TestCase):
             'difficulty': 'Easy'
         }
 
+        flashcards_before = Flashcards.objects.count()
         response = self.client.post(url, form_data, follow=True)
-        print(f"{form_data}")
+        flashcards_after = Flashcards.objects.count()
+        print(f"Flashcards before: {flashcards_before} | Flashcards after: {flashcards_after}")
         self.assertRedirects(response, '/success')
 
         flashcard = Flashcard.objects.get(question='What language does Django use?')
