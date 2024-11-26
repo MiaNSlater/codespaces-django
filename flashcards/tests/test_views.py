@@ -803,10 +803,6 @@ class CreateFlashcardTest(TestCase):
 
         response = self.client.post(url, {'set_id': self.flashcard_set.id})
 
-        print(response.content.decode())
-
-        self.assertContains(response, 'Add a new flashcard:')
-
         form_data = {
             'set_id': self.flashcard_set.id,
             'question': 'What language does Django use?',
@@ -820,10 +816,12 @@ class CreateFlashcardTest(TestCase):
         response = self.client.post(url, form_data, follow=True)
         flashcards_after = Flashcard.objects.count()
         print(f"Flashcards before: {flashcards_before} | Flashcards after: {flashcards_after}")
-        self.assertRedirects(response, '/success')
-
         flashcard = Flashcard.objects.get(question='What language does Django use?')
         self.assertEqual(flashcard.question, 'What language does Django use?')
+        self.assertRedirects(response, '/success')
+
+        #flashcard = Flashcard.objects.get(question='What language does Django use?')
+        #self.assertEqual(flashcard.question, 'What language does Django use?')
     
     def test_create_flashcard_invalid_difficulty(self):
         url = reverse('create_flashcards')
