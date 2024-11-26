@@ -797,13 +797,11 @@ class CreateFlashcardTest(TestCase):
     
     def test_create_flashcard_success(self):
         url = reverse('create_flashcards')
-        form_data = {
-            'set_id': self.flashcard_set.id,
-        }
+        #form_data = {
+            #'set_id': self.flashcard_set.id,
+       # }
 
-        print(f"Set Id: {form_data}")
-
-        response = self.client.post(url, form_data, follow=True)
+        response = self.client.post(url, {'set_id': self.flashcard_set.id})
 
         print(response.content.decode())
 
