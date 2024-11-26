@@ -79,7 +79,7 @@ def search_col(request):
 def submit_form(request):
     if request.method == 'POST':
         username = request.POST.get('username') #.strip()
-        password = request.POST.get('password', 'NoPassword') #.strip()
+        password = request.POST.get('password', None) #.strip()
         admin = request.POST.get('admin') == 'on'
 
         print(f"Password: '{password}'")
