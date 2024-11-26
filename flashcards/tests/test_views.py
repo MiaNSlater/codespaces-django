@@ -197,6 +197,8 @@ class CreateUserViewTest(TestCase):
             'username': 'normalusername'
         }
 
+        print(f"Form Data: {form_data}")
+
         url = reverse('submit_form')
         response = self.client.post(url, form_data, follow=True)
 

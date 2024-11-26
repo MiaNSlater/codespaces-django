@@ -78,9 +78,11 @@ def search_col(request):
 
 def submit_form(request):
     if request.method == 'POST':
-        username = request.POST.get('username', '').strip()
-        password = request.POST.get('password', '').strip()
+        username = request.POST.get('username').strip()
+        password = request.POST.get('password').strip()
         admin = request.POST.get('admin') == 'on'
+
+        print(f"Password: '{password}'")
 
         if not username:
             return HttpResponseForbidden("Forbidden: You cannot create a new user without a valid username or password.")
