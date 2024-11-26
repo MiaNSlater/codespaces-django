@@ -3,6 +3,7 @@ import random
 import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseForbidden
+from django.core.exceptions import ValidationError
 from flashcards.models import User
 from flashcards.models import Flashcard
 from flashcards.models import FlashcardSet
@@ -81,11 +82,18 @@ def submit_form(request):
         password = request.POST.get('password', '').strip()
         admin = request.POST.get('admin') == 'on'
 
-        if not username or not password:
-             return HttpResponseForbidden("Forbidden: You cannot create a new user without a valid username or password.")
-
-        user_input = User(username = username, password = password, admin = admin)
-        user_input.save()
+        if not username:
+            return HttpResponseForbidden("Forbidden: You cannot create a new user without a valid username or password.")
+        if not password:
+            return HttpResponseForbidden("Forbidden: You cannot create a new user without a valid username or password.")
+            
+        try:
+            user_input = User(username = username, password = password, admin = admin)
+            user_input.full_clean()
+            user_input.save()
+        except ValidationError as e:
+            print(f"Validation Error: {e}")
+            return HttpResponseForbidden("Forbidden: You cannot create a new user without a valid username or password.")
 
         return redirect('success')
     return render(request, 'create_user.html')
