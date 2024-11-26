@@ -182,7 +182,6 @@ class CreateUserViewTest(TestCase):
 
     def test_create_empty_user(self):
         form_data = {
-            'username': '',
             'password': 'normalpassword',
         }
 
@@ -190,7 +189,7 @@ class CreateUserViewTest(TestCase):
         response = self.client.post(url, form_data, follow=True)
 
         self.assertEqual(response.status_code, 403)
-        self.assertContains(response, "Forbidden: You cannot create a new user without a valid username or password.")
+        self.assertContains(response, "Forbidden: You cannot create a new user without a valid username or password.", status_code=403)
         self.assertEqual(User.objects.count(), 0)
 
     def test_create_empty_password(self):
