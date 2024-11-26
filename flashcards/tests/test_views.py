@@ -195,6 +195,7 @@ class CreateUserViewTest(TestCase):
     def test_create_empty_password(self):
         form_data = {
             'username': 'normalusername'
+            'password': None
         }
 
         print(f"Form Data: {form_data}")
