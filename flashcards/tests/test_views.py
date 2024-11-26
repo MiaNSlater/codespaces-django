@@ -804,9 +804,9 @@ class CreateFlashcardTest(TestCase):
             'difficulty': 'Easy'
         }
 
-        flashcards_before = Flashcards.objects.count()
+        flashcards_before = Flashcard.objects.count()
         response = self.client.post(url, form_data, follow=True)
-        flashcards_after = Flashcards.objects.count()
+        flashcards_after = Flashcard.objects.count()
         print(f"Flashcards before: {flashcards_before} | Flashcards after: {flashcards_after}")
         self.assertRedirects(response, '/success')
 
