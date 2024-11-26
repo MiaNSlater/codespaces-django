@@ -9,7 +9,7 @@ class DifficultyLevel(models.TextChoices):
 class User(models.Model):
       username = models.CharField(max_length=100)
       admin = models.BooleanField(default=False)
-      password = models.CharField(max_length=100, default=None)
+      password = models.CharField(max_length=100)
 
       def __str__(self):
             return f"Id: {self.id}, Username: {self.username}, Admin: {self.admin}"
