@@ -182,7 +182,7 @@ class CreateUserViewTest(TestCase):
 
     def test_create_empty_user(self):
         form_data = {
-            'password': 'normalpassword',
+            'password': 'normalpassword'
         }
 
         url = reverse('submit_form')
@@ -194,8 +194,7 @@ class CreateUserViewTest(TestCase):
 
     def test_create_empty_password(self):
         form_data = {
-            'username': 'normalusername',
-            'password': '',
+            'username': 'normalusername'
         }
 
         url = reverse('submit_form')
@@ -341,7 +340,6 @@ class UpdateSetTest(TestCase):
         url = reverse('update_set')
         form_data = {
             'set_id': self.flashcard_set.id,
-            'name': '',
             'update': 'Update'
         }
 
@@ -390,8 +388,7 @@ class CreateSetTest(TestCase):
     def test_create_flashcardset_no_set_name(self):
         url = reverse('create_flashcard_set')
         form_data = {
-            'user_id': self.user.id,
-            'set_name': ''
+            'user_id': self.user.id
         }
 
         response = self.client.post(url, form_data)
@@ -440,7 +437,6 @@ class PostCommentTest(TestCase):
         url = reverse('comment_set')
         form_data = {
             'set_id': self.flashcard_set.id,
-            'comment': "",
             'author': self.user.id
         }
 
@@ -455,7 +451,6 @@ class PostCommentTest(TestCase):
         invalid_user_id = 999
         form_data = {
             'set_id': self.flashcard_set.id,
-            'comment': "",
             'author': invalid_user_id
         }
 
@@ -726,7 +721,6 @@ class CreateCollectionTest(TestCase):
     def test_create_collection_missing_name(self):
         url = reverse('create_collection')
         form_data = {
-            'colname': '',
             'user_id': self.user.id
         }
 
@@ -832,7 +826,6 @@ class CreateNewFlashcardTest(TestCase):
         url = reverse('create_flashcards')
         form_data = {
             'set_id': self.flashcard_set.id,
-            'question': '',
             'answer': 'Python',
             'difficulty': 'Easy'
         }
@@ -847,7 +840,6 @@ class CreateNewFlashcardTest(TestCase):
         form_data = {
             'set_id': self.flashcard_set.id,
             'question': 'What language does Django use?',
-            'answer': '',
             'difficulty': 'Easy'
         }
 
