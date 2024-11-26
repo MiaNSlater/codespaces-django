@@ -86,7 +86,7 @@ def submit_form(request):
 
         if not username:
             return HttpResponseForbidden("Forbidden: You cannot create a new user without a valid username or password.")
-        if not password or password is None:
+        if not password or password is 'None':
             return HttpResponseForbidden("Forbidden: You cannot create a new user without a valid username or password.")
             
         try:
