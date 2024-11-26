@@ -1,9 +1,9 @@
 from django.db import models
 
 class DifficultyLevel(models.TextChoices):
-        EASY = 'E', 'Easy'
-        MEDIUM = 'M', 'Medium'
-        HARD = 'H', 'Hard'
+        EASY = 'Easy', 'E'
+        MEDIUM = 'Medium', 'M'
+        HARD = 'Hard', 'H'
 
 
 class User(models.Model):
