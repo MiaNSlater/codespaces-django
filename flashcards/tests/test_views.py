@@ -93,7 +93,7 @@ class DeleteUserViewTest(TestCase):
         self.assertEqual(response.status_code, 403)
         #self.assertContains(response, "Forbidden: You cannot delete an admin user.")
 
-        admin_user = User.objects.get(id=self.admin_user.id)
+        admin_user = User.objects.get(id=self.adminuser.id)
         self.assertEqual(admin_user.username, 'admin')
     
     def test_delete_non_existent_user(self):
