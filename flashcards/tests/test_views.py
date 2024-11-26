@@ -347,7 +347,7 @@ class UpdateSetTest(TestCase):
 
         response = self.client.post(url, form_data)
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
 
         self.flashcard_set.refresh_from_db()
         self.assertEqual(self.flashcard_set.name, "Original Name")
