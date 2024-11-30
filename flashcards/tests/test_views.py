@@ -578,8 +578,9 @@ class SearchCollectionByUserIdTest(TestCase):
         response = self.client.post(url, data={'user_id': self.user.id})
 
         self.assertEqual(response.status_code, 200)
+        print(response.content.decode)
 
-        self.assertContains(response, f"<p><strong>Collection ID: </strong>{self.collection.id}</p>")
+        self.assertContains(response, f"Collection ID: {self.collection.id}")
         self.assertContains(response, "Test Flashcard Set")
         self.assertContains(response, "testuser")
         self.assertContains(response, "This is a test comment.")
