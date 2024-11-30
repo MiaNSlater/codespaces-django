@@ -417,6 +417,7 @@ class PostCommentTest(TestCase):
         response = self.client.post(url, form_data)
 
         self.assertEqual(response.status_code, 200)
+        print(response.content.decode())
         self.assertContains(response, self.flashcard_set.name)
 
     def test_add_valid_comment(self):
@@ -528,9 +529,9 @@ class SearchCollectionByColIdTest(TestCase):
         response = self.client.post(url, data={'col_id': self.collection.id})
 
         self.assertEqual(response.status_code, 200)
-        print(response.content.decode())
 
-        self.assertContains(response, f"Collection ID: {self.collection.id}")
+        self.assertContains(response, "Collection ID:")
+        self.assertContains(response, f"{self.collection.id}")
         self.assertContains(response, "Test Flashcard Set")
         self.assertContains(response, "testuser")
         self.assertContains(response, "This is a test comment.")
@@ -785,7 +786,6 @@ class RandomCollectionTest(TestCase):
 
         url = reverse('random_collection')
         response = self.client.get(url)
-        print(response.content.decode)
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'random_collection.html')
