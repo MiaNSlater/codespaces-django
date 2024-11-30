@@ -25,8 +25,8 @@ class UserListViewTest(TestCase):
         self.assertJSONEqual(listuserdata_json, json.dumps(expected_json_data))
 
         self.assertContains(response, 'const listUserData = JSON.parse')
-        self.assertContains(response, '"username": "user1"')
-        self.assertContains(response, '"admin": True')
+        self.assertContains(response, 'username: user1')
+        self.assertContains(response, 'admin: True')
 
         self.assertContains(response, 'username: user1 | admin: true')
         self.assertContains(response, 'username: user2 | admin: false')

@@ -27,10 +27,10 @@
         </form>
         {% if collectionsets %}
             <h2>Results</h2>
-            <p><strong>Collection ID:</strong> {{ collectionsets.id }}</p>
-            <p><strong>Flashcard Set:</strong> {{ collectionsets.flashcardset.name }}</p>
-            <p><strong>Author:</strong> {{ collectionsets.author.username }}</p>
-            <p><strong>Comment(s):</strong> {{ collectionsets.comment.comment }}</p>
+            <p><strong>Collection ID:</strong>{{ collectionsets.id }}</p>
+            <p><strong>Flashcard Set:</strong>{{ collectionsets.flashcardset.name }}</p>
+            <p><strong>Author:</strong>{{ collectionsets.author.username }}</p>
+            <p><strong>Comment(s):</strong>{{ collectionsets.comment.comment }}</p>
 
         {% elif collectionsets is None and request.method == "POST" %}
             <li>No flashcard collection found with that Id.</li>
