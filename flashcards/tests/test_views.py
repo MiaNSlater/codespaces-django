@@ -579,7 +579,7 @@ class SearchCollectionByUserIdTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
 
-        self.assertContains(response, f"Collection ID: {self.collection.id}")
+        self.assertContains(response, f"<p><strong>Collection ID: </strong>{self.collection.id}</p>")
         self.assertContains(response, "Test Flashcard Set")
         self.assertContains(response, "testuser")
         self.assertContains(response, "This is a test comment.")
