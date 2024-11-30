@@ -16,7 +16,7 @@ class UserListViewTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'list_users.html')
-
+        print(response.content.decode())
         listuserdata_json = response.context['listuserdata_json']
         expected_json_data = [
             {'id': 1, 'username': 'user1', 'admin': True},
@@ -417,7 +417,6 @@ class PostCommentTest(TestCase):
         response = self.client.post(url, form_data)
 
         self.assertEqual(response.status_code, 200)
-        print(response.content.decode())
         self.assertContains(response, self.flashcard_set.id)
 
     def test_add_valid_comment(self):
