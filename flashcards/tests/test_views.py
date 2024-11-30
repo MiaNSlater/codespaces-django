@@ -19,17 +19,17 @@ class UserListViewTest(TestCase):
 
         listuserdata_json = response.context['listuserdata_json']
         expected_json_data = [
-            {'Username': 'user1', 'Admin?': True},
-            {'Username': 'user2', 'Admin?': False}
+            {'id': 1, 'username': 'user1', 'admin': True},
+            {'id': 2, 'username': 'user2', 'admin': False}
         ]
         self.assertJSONEqual(listuserdata_json, json.dumps(expected_json_data))
 
         self.assertContains(response, 'const listUserData = JSON.parse')
-        self.assertContains(response, '"Username": "user1"')
-        self.assertContains(response, '"Admin?": True')
+        self.assertContains(response, '"username": "user1"')
+        self.assertContains(response, '"admin": True')
 
-        self.assertContains(response, 'Username: user1 | Admin?: true')
-        self.assertContains(response, 'Username: user2 | Admin?: false')
+        self.assertContains(response, 'username: user1 | admin: true')
+        self.assertContains(response, 'username: user2 | admin: false')
 
 class SearchUserByIdViewTest(TestCase):
 
@@ -528,6 +528,7 @@ class SearchCollectionByColIdTest(TestCase):
         response = self.client.post(url, data={'col_id': self.collection.id})
 
         self.assertEqual(response.status_code, 200)
+        print(response.content.decode())
 
         self.assertContains(response, f"Collection ID: {self.collection.id}")
         self.assertContains(response, "Test Flashcard Set")
