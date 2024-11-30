@@ -418,7 +418,7 @@ class PostCommentTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
         print(response.content.decode())
-        self.assertContains(response, self.flashcard_set.name)
+        self.assertContains(response, self.flashcard_set.id)
 
     def test_add_valid_comment(self):
         url = reverse('comment_set')
