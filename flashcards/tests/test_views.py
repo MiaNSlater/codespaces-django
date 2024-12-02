@@ -804,9 +804,11 @@ class CreateFlashcardTest(TestCase):
         }
 
         response = self.client.post(url, form_data, follow=True)
+        print("Second POST response code:", response.status_code)
+        print("Second POST response content:", response.content.decode())
         self.assertEqual(response.status_code, 302)
 
-        #self.assertRedirects(response, '/success')
+        self.assertRedirects(response, '/success')
 
         flashcard = Flashcard.objects.get(question='What language does Django use?')
         self.assertEqual(flashcard.question, 'What language does Django use?')
