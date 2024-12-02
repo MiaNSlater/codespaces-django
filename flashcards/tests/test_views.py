@@ -804,7 +804,6 @@ class CreateFlashcardTest(TestCase):
         }
 
         response = self.client.post(url, {**form_data, 'add': ''}, follow=False)
-        self.assertTrue(Flashcard.objects.filter(id=self.flashcard.id).exists())
         print("Second POST response code:", response.status_code)
         print("Second POST response content:", response.content.decode())
         self.assertEqual(response.status_code, 302)
@@ -812,6 +811,7 @@ class CreateFlashcardTest(TestCase):
         self.assertRedirects(response, '/success')
 
         flashcard = Flashcard.objects.get(question='What language does Django use?')
+        self.assertTrue(Flashcard.objects.filter(id=self.flashcard.id).exists())
         self.assertEqual(flashcard.question, 'What language does Django use?')
         self.assertEqual(flashcard.answer, 'Python')
         self.assertEqual(flashcard.difficulty, 'Easy')
