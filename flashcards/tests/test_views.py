@@ -439,13 +439,16 @@ class PostCommentTest(TestCase):
 
     def test_add_comment_invalid_author(self):
         url = reverse('comment_set')
-        invalid_user_id = 999
+        response = self.client.post(url, {'set_id': self.flashcard_set.id}, follow=True)
+        self.assertEqual(response.status_code, 200)
+
         form_data = {
             'set_id': self.flashcard_set.id,
-            'author': invalid_user_id
+            'comment': "This is a test comment.",
+            'author': 999
         }
 
-        response = self.client.post(url, form_data)
+        response = self.client.post(url, {**form_data, 'post': ''}, follow=False)
         self.assertEqual(response.status_code, 403)
 
         self.assertFalse(Comment.objects.filter(flashcardset_id=self.flashcard_set.id).exists())
@@ -833,24 +836,30 @@ class CreateFlashcardTest(TestCase):
     
     def test_create_flashcard_missing_question(self):
         url = reverse('create_flashcards')
+        response = self.client.post(url, {'set_id': self.flashcard_set.id}, follow=True)
+        self.assertEqual(response.status_code, 200)
+
         form_data = {
             'set_id': self.flashcard_set.id,
             'answer': 'Python',
             'difficulty': 'Easy'
         }
 
-        response = self.client.post(url, form_data)
+        response = self.client.post(url, {**form_data, 'add': ''}, follow=False)
         self.assertEqual(response.status_code, 403)
     
     def test_create_flashcard_missing_answer(self):
         url = reverse('create_flashcards')
+        response = self.client.post(url, {'set_id': self.flashcard_set.id}, follow=True)
+        self.assertEqual(response.status_code, 200)
+
         form_data = {
             'set_id': self.flashcard_set.id,
             'question': 'What language does Django use?',
             'difficulty': 'Easy'
         }
 
-        response = self.client.post(url, form_data)
+        response = self.client.post(url, {**form_data, 'add': ''}, follow=False)
         self.assertEqual(response.status_code, 403)
 
     def test_create_flashcard_invalid_set(self):
