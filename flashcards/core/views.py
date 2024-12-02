@@ -276,8 +276,10 @@ def comment_set(request):
         comment = request.POST.get('comment')
         author = request.POST.get('author')
 
-        if set_id and not comment and not author:
+        if set_id and (not comment and not author):
             reqset = get_object_or_404(FlashcardSet, id=set_id)
+            if not comment:
+                return HttpResponseForbidden("Forbidden. Cannot submit a new comment without a valid comment or author.")
             return render(request, 'post_comment.html', {'reqset': reqset})
 
         elif set_id and comment and author:
