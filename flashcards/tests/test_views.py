@@ -797,13 +797,13 @@ class CreateFlashcardTest(TestCase):
         #self.assertContains(response, 'Add a new flashcard:')
 
         form_data = {
-            'set_id': self.flashcard_set.id,
+            #'set_id': self.flashcard_set.id,
             'question': 'What language does Django use?',
             'answer': 'Python',
             'difficulty': 'Easy'
         }
 
-        response = self.client.post(url, {form_data: 'add'}, follow=True)
+        response = self.client.post(url, {**form_data, 'add': ''}, follow=False)
         self.assertTrue(Flashcard.objects.filter(id=self.flashcard.id).exists())
         print("Second POST response code:", response.status_code)
         print("Second POST response content:", response.content.decode())
