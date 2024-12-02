@@ -235,7 +235,6 @@ class SearchSetByIdTest(TestCase):
         url = reverse('search_set')
         response = self.client.post(url, {'set_id': self.set.id})
 
-        print(response.content.decode())
 
         self.assertContains(response, self.set.id)
         self.assertContains(response, self.set.name)
@@ -432,7 +431,7 @@ class PostCommentTest(TestCase):
         }
 
         response = self.client.post(url, {**form_data, 'post': ''}, follow=False)
-        print({form_data})
+        print(form_data)
         self.assertEqual(response.status_code, 403)
 
         self.assertFalse(Comment.objects.filter(flashcardset_id=self.flashcard_set.id).exists())
