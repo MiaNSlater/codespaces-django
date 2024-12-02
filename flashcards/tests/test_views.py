@@ -803,7 +803,7 @@ class CreateFlashcardTest(TestCase):
             'difficulty': 'Easy'
         }
 
-        response = self.client.post(url, form_data, follow=True)
+        response = self.client.post(url, form_data, 'add', follow=True)
         print("Second POST response code:", response.status_code)
         print("Second POST response content:", response.content.decode())
         self.assertEqual(response.status_code, 302)
