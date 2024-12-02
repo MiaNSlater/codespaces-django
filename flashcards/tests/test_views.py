@@ -797,7 +797,7 @@ class CreateFlashcardTest(TestCase):
         #self.assertContains(response, 'Add a new flashcard:')
 
         form_data = {
-            #'set_id': self.flashcard_set.id,
+            'set_id': self.flashcard_set.id,
             'question': 'What language does Django use?',
             'answer': 'Python',
             'difficulty': 'Easy'
