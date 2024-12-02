@@ -804,6 +804,7 @@ class CreateFlashcardTest(TestCase):
         }
 
         response = self.client.post(url, {form_data: 'add'}, follow=True)
+        self.assertTrue(Flashcard.objects.filter(id=self.flashcard.id).exists())
         print("Second POST response code:", response.status_code)
         print("Second POST response content:", response.content.decode())
         self.assertEqual(response.status_code, 302)
