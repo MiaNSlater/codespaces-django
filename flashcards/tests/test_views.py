@@ -14,8 +14,6 @@ class UserListViewTest(TestCase):
         url = reverse('list_users')
         response = self.client.get(url)
 
-        print(response.content.decode())
-
         self.assertEqual(response.status_code, 200)
         self.assertIn('user1', response.content.decode())
         self.assertIn('user2', response.content.decode())
@@ -186,13 +184,10 @@ class CreateUserViewTest(TestCase):
             'username': 'normalusername'
         }
 
-        print(f"Form Data: {form_data}")
-
         url = reverse('submit_form')
         response = self.client.post(url, form_data, follow=True)
 
         self.assertEqual(response.status_code, 403)
-        print(response.status_code)
         self.assertEqual(User.objects.count(), 0)
 
 class SetListViewTest(TestCase):
@@ -239,6 +234,8 @@ class SearchSetByIdTest(TestCase):
     def test_search_set_found(self):
         url = reverse('search_set')
         response = self.client.post(url, {'set_id': self.set.id})
+
+        print(response.content.decode())
 
         self.assertContains(response, self.set.id)
         self.assertContains(response, self.set.name)
@@ -426,13 +423,15 @@ class PostCommentTest(TestCase):
     
     def test_add_comment_missing_comment(self):
         url = reverse('comment_set')
+        response = self.client.post(url, {'set_id': self.flashcard_set.id}, follow=True)
+        self.assertEqual(response.status_code, 200)
+
         form_data = {
             'set_id': self.flashcard_set.id,
             'author': self.user.id
         }
 
-        response = self.client.post(url, form_data)
-
+        response = self.client.post(url, {**form_data, 'post': ''}, follow=False)
         self.assertEqual(response.status_code, 403)
 
         self.assertFalse(Comment.objects.filter(flashcardset_id=self.flashcard_set.id).exists())
@@ -569,7 +568,6 @@ class SearchCollectionByUserIdTest(TestCase):
         response = self.client.post(url, data={'user_id': self.user.id})
 
         self.assertEqual(response.status_code, 200)
-        print(response.content.decode)
 
         self.assertContains(response, "Collection ID:")
         self.assertContains(response, f"{self.collection.id}")
@@ -793,11 +791,8 @@ class CreateFlashcardTest(TestCase):
         url = reverse('create_flashcards')
 
         response = self.client.post(url, {'set_id': self.flashcard_set.id}, follow=True)
-        #print("First POST response code:", response.status_code)
-        #print("First POST response content:", response.content.decode())
 
         self.assertEqual(response.status_code, 200)
-        #self.assertContains(response, 'Add a new flashcard:')
 
         form_data = {
             'set_id': self.flashcard_set.id,
@@ -807,14 +802,11 @@ class CreateFlashcardTest(TestCase):
         }
 
         response = self.client.post(url, {**form_data, 'add': ''}, follow=False)
-        #print("Second POST response code:", response.status_code)
-        #print("Second POST response content:", response.content.decode())
         self.assertEqual(response.status_code, 302)
 
         self.assertRedirects(response, '/success')
 
         flashcard = Flashcard.objects.get(question='What language does Django use?')
-        #self.assertTrue(Flashcard.objects.filter(id=self.flashcard.id).exists())
         self.assertEqual(flashcard.question, 'What language does Django use?')
         self.assertEqual(flashcard.answer, 'Python')
         self.assertEqual(flashcard.difficulty, 'Easy')
