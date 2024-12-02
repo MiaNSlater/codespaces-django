@@ -790,8 +790,8 @@ class CreateFlashcardTest(TestCase):
         url = reverse('create_flashcards')
 
         response = self.client.post(url, {'set_id': self.flashcard_set.id}, follow=True)
-        print("First POST response code:", response.status_code)
-        print("First POST response content:", response.content.decode())
+        #print("First POST response code:", response.status_code)
+        #print("First POST response content:", response.content.decode())
 
         self.assertEqual(response.status_code, 200)
         #self.assertContains(response, 'Add a new flashcard:')
@@ -804,8 +804,8 @@ class CreateFlashcardTest(TestCase):
         }
 
         response = self.client.post(url, {**form_data, 'add': ''}, follow=False)
-        print("Second POST response code:", response.status_code)
-        print("Second POST response content:", response.content.decode())
+        #print("Second POST response code:", response.status_code)
+        #print("Second POST response content:", response.content.decode())
         self.assertEqual(response.status_code, 302)
 
         self.assertRedirects(response, '/success')
@@ -818,6 +818,9 @@ class CreateFlashcardTest(TestCase):
     
     def test_create_flashcard_invalid_difficulty(self):
         url = reverse('create_flashcards')
+        response = self.client.post(url, {'set_id': self.flashcard_set.id}, follow=True)
+        self.assertEqual(response.status_code, 200)
+
         form_data = {
             'set_id': self.flashcard_set.id,
             'question': 'What language does Django use?',
@@ -825,7 +828,7 @@ class CreateFlashcardTest(TestCase):
             'difficulty': 'Xenu'
         }
 
-        response = self.client.post(url, form_data)
+        response = self.client.post(url, {**form_data, 'add': ''}, follow=False)
         self.assertEqual(response.status_code, 403)
     
     def test_create_flashcard_missing_question(self):
