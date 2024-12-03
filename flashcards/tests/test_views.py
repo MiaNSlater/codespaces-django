@@ -205,8 +205,8 @@ class SetListViewTest(TestCase):
         url = reverse('list_sets')
         response = self.client.post(url, {'user_id': self.user.id})
 
-        formatted_created_at = self.set.created_at.strftime('%Y-%m-%d %H:%M:%S')
-        formatted_updated_at = self.set.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+        formatted_created_at = self.flashcard_set.created_at.strftime('%Y-%m-%d %H:%M:%S')
+        formatted_updated_at = self.flashcard_set.updated_at.strftime('%Y-%m-%d %H:%M:%S')
 
         self.assertContains(response, self.flashcard_set.name)
         self.assertContains(response, formatted_created_at)
