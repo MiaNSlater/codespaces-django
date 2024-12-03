@@ -242,7 +242,7 @@ class SearchSetByIdTest(TestCase):
         self.assertContains(response, self.set.name)
         self.assertContains(response, formatted_created_at)
         self.assertContains(response, formatted_updated_at)
-        self.assertContains(response, self.author_id)
+        self.assertContains(response, self.author.id)
 
     def test_search_set_not_found(self):
         url = reverse('search_set')
