@@ -427,6 +427,7 @@ class PostCommentTest(TestCase):
 
         form_data = {
             'set_id': self.flashcard_set.id,
+            'comment': '',
             'author': self.user.id
         }
 
