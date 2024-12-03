@@ -291,6 +291,8 @@ def comment_set(request):
             set_input = Comment(comment = comment, author = author_user, flashcardset_id = reqset.id)
             set_input.save()
             return redirect('success')
+        else:
+            return HttpResponseForbidden("Forbidden. Invalid input.")
     return render(request, 'post_comment.html', {'reqset': reqset})
 
 def search_flashcard(request):
