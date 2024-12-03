@@ -430,7 +430,7 @@ class PostCommentTest(TestCase):
             'author': self.user.id
         }
 
-        response = self.client.post(url, {**form_data, 'post': ''}, follow=False)
+        response = self.client.post(url, {**form_data, 'post': ''}, follow=True)
         print(response.content.decode())
         self.assertEqual(response.status_code, 403)
 
