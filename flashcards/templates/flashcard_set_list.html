@@ -28,8 +28,8 @@
         {% if flashcard_sets %}
             <h2>Results</h2>
                     <p><strong>Set Name:</strong> {{ flashcard_sets.name }}</p>
-                    <p><strong>Created at:</strong> {{ flashcard_sets.created_at }}</p>
-                    <p><strong>Updated at:</strong> {{ flashcard_sets.updated_at }}</p>
+                    <p><strong>Created at:</strong> {{ flashcard_sets.created_at|date:"Y-m-d H:i:s" }}</p>
+                    <p><strong>Updated at:</strong> {{ flashcard_sets.updated_at|date:"Y-m-d H:i:s" }}</p>
                     <p><strong>Comments:</strong> {{ flashcard_sets.comments_id }}</p>
                     <p><strong>User:</strong> {{ flashcard_sets.author_id }}</p>
                 </div>

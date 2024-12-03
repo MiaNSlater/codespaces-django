@@ -194,7 +194,6 @@ class SetListViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.user = User.objects.create(username='testuser', password='testpassword')
-        #cls.card = Flashcard.objects.create(question='What is 4 x 5?', answer='20', difficulty='Easy')
         cls.flashcard_set = FlashcardSet.objects.create(
             name="Test Set",
             created_at="2024-01-01",
@@ -206,10 +205,12 @@ class SetListViewTest(TestCase):
         url = reverse('list_sets')
         response = self.client.post(url, {'user_id': self.user.id})
 
+        formatted_created_at = self.set.created_at.strftime('%Y-%m-%d %H:%M:%S')
+        formatted_updated_at = self.set.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+
         self.assertContains(response, self.flashcard_set.name)
-        #self.assertContains(response, self.flashcard.name)
-        self.assertContains(response, self.flashcard_set.created_at)
-        self.assertContains(response, self.flashcard_set.updated_at)
+        self.assertContains(response, formatted_created_at)
+        self.assertContains(response, formatted_updated_at)
         self.assertContains(response, self.flashcard_set.author_id)
 
     def test_list_sets_not_found(self):
