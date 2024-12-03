@@ -431,7 +431,9 @@ class PostCommentTest(TestCase):
         }
 
         response = self.client.post(url, {**form_data, 'post': ''}, follow=False)
-        print(response.content.decode())
+        print("Response Status Code:", response.status_code)
+        print("Response Content:", response.content.decode())
+        print("Form data:", form_data)
         self.assertEqual(response.status_code, 403)
 
         self.assertFalse(Comment.objects.filter(flashcardset_id=self.flashcard_set.id).exists())
