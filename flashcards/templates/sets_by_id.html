@@ -29,8 +29,8 @@
             <h2>Results</h2>
             <p><strong>ID:</strong> {{ reqset.id }}</p>
             <p><strong>Name:</strong> {{ reqset.name }}</p>
-            <p><strong>Created:</strong> {{ reqset.created_at }}</p>
-            <p><strong>Updated:</strong> {{ reqset.updated_at }}</p>
+            <p><strong>Created:</strong> {{ reqset.created_at|date:"Y-m-d H:i:s" }}</p>
+            <p><strong>Updated:</strong> {{ reqset.updated_at|date:"Y-m-d H:i:s" }}</p>
             <p><strong>Author:</strong> {{ reqset.author.username }}</p>
 
             <h3>Flashcards:</h3>

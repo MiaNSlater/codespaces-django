@@ -235,11 +235,13 @@ class SearchSetByIdTest(TestCase):
         url = reverse('search_set')
         response = self.client.post(url, {'set_id': self.set.id})
 
+        formatted_created_at = self.set.created_at.strftime('%Y-%m-%d %H:%M:%S')
+        formatted_updated_at = self.set.updated_at.strftime('%Y-%m-%d %H:%M:%S')
 
         self.assertContains(response, self.set.id)
         self.assertContains(response, self.set.name)
-        self.assertContains(response, self.set.created_at)
-        self.assertContains(response, self.set.updated_at)
+        self.assertContains(response, formatted_created_at)
+        self.assertContains(response, formatted_updated_at)
         self.assertContains(response, self.author_id)
 
     def test_search_set_not_found(self):
