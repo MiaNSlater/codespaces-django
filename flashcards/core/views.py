@@ -15,7 +15,7 @@ def index(request):
     #context = {
     #"title": "Django example",
     #}
-    return render(request, "index.html", context)
+    return render(request, "index.html")
 
 def list_users(request):
     udata = list(User.objects.values('id', 'username', 'admin'))
