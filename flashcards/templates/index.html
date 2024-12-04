@@ -7,27 +7,32 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="GitHub Codespaces ♥️ Django">
-    <meta name="author" content="GitHub Codespaces">
-    <meta name="generator" content="GitHub Codespaces">
-    <meta name="theme-color" content="#000000">
-    <title>{% block title %}{{ title }} | GitHub Codespaces ♥️ Django{% endblock %}</title>
+    <meta name="description" content="Home Page">
+    <meta name="author" content="MS1646">
+    <meta name="generator" content="Github Codespaces">
+    <meta name="theme-color" content="#333333">
+    <title>Home Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     
     <link rel="stylesheet" href="{% static 'main.css' %}">
 </head>
 
-<body>
-    <div class="App">
-        <header class="App-header">
-            <img src="{% static 'Octocat.png' %}" class="App-logo" alt="logo" />
-            <p>
-                GitHub Codespaces <span class="heart">♥️</span> Django
-            </p>
-            <p class="small">
-                Pee Pee Poo Poo
-            </p>
-        </header>
+<body class="bg-gray=100">
+    <nav class="bg-gray-800 text-white p-4">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="text-lg font-bold">Home Page</div>
+            <div class="flex space-x-4">
+                <a href="index.html" class="hover:bg-gray-700 px-3 py-2 rounded">Home</a>
+                <a href="user_hub.html" class="hover:bg-gray-700 px-3 py-2 rounded">User Hub</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto mt-8">
+        <h1 class="text-2xl font bold">Welcome to Flashcards</h1>
+        <p class="mt-4">This is a website where you can create flashcards</p>
     </div>
+
 </body>
 
 </html>
