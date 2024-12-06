@@ -12,9 +12,6 @@ from flashcards.models import Collection
 from flashcards.models import DifficultyLevel
 
 def index(request):
-    #context = {
-    #"title": "Django example",
-    #}
     return render(request, "index.html")
 
 def list_users(request):
