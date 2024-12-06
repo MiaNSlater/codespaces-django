@@ -12,19 +12,38 @@
         <meta name="theme-color" content="#333333">
 
         <title>Create a New Collection</title>
+        <script src="https://cdn.tailwindcss.com"></script>
     </head>
-    <body>
-        <h1>Create a New Flashcard Collection</h1>
-        <h2>Create a new Flashcard Collection by filling in the form:</h2>
-        <form action="{% url 'create_collection' %}" method = "post">
-            {% csrf_token %}
-            <label for="col_name">Collection Name:</label>
-            <input type="text" id="colname" name="colname"><br><br>
 
-            <label for="user_id">Author (Enter by Id):</label>
-            <input type="text" id="user_id" name="user_id"><br><br>
+    <body class="bg-gray-100">
+        <nav class="bg-gray-800 text-white p-4">
+            <div class="container mx-auto flex items-center justify-between">
+                <div class="text-lg font-bold">Create a Collection</div>
+                <div class="flex space-x-4">
+                    <a href="homepage" class="hover:bg-gray-700 px-3 py-2 rounded">Home</a>
+                    <a href="userhub" class="hover:bg-gray-700 px-3 py-2 rounded">Users</a>
+                </div>
+            </div>
+        </nav>>
 
-            <input type="submit" value="Submit">
-        </form>
+        <div class="container mx-auto mt-8 bg-white shadow-md rounded-lg p-6">
+
+            <h1 class="text-2xl font-bold text-gray-800 mb-4">Create a New Flashcard Collection</h1>
+            <h2 class="text-gray-600 mb-6">Create a new Flashcard Collection by filling in the form:</h2>
+            <form action="{% url 'create_collection' %}" method = "post" class="mb-8">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="col_name" class="block text-gray-700 font-medium mb-2">Collection Name:</label>
+                    <input type="text" id="colname" name="colname" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter collection name...">
+                </div>
+                <div class="mb-4">
+                    <label for="user_id" class="block text-gray-700 font-medium mb-2">Author (Enter by Id):</label>
+                    <input type="text" id="user_id" name="user_id" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter author id...">
+                </div>
+                <div>
+                    <input type="submit" value="Submit" class="bg-blue-500 hover:bg-blue-600 text-white font-medium px-4 py-2 rounded-lg cursor-pointer">
+                </div>
+            </form>
+        </div>
     </body>
 </html>
