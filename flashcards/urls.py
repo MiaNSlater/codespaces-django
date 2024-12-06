@@ -48,6 +48,7 @@ urlpatterns = [
     path("deletecollection", core_views.delete_collection, name='delete_collection'),
     path("randomcollection", core_views.random_collection, name='random_collection'),
     path("createflashcards", core_views.create_flashcards, name='create_flashcards'),
+    path("userhub", core_views.userhub, name='userhub'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
