@@ -6,35 +6,54 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="title" content="User List">
+        <meta name="title" content="Flashcard Set List">
         <meta name="author" content="MS1646">
         <meta name="generator" content="GitHub Codespaces">
         <meta name="theme-color" content="#333333">
 
         <title>Flashcard Set List</title>
+        <script src="https://cdn.tailwindcss.com"></script>
     </head>
-    <body>
-        <h1>
-            Search a Flashcard Set by a User's ID
-        </h1>
-        <h2>
-            Type in an Id number to find a flashcard set owned by a user:
-        </h2>
-        <form action="{% url 'list_sets' %}" method = "post">
-            {% csrf_token %}
-            <input type="text" placeholder="Search by Id..." id="user_id" name="user_id">
-            <button type="submit">Look Up<i class="fa fa-search"></i></button>
-        </form>
-        {% if flashcard_sets %}
-            <h2>Results</h2>
-                    <p><strong>Set Name:</strong> {{ flashcard_sets.name }}</p>
-                    <p><strong>Created at:</strong> {{ flashcard_sets.created_at|date:"Y-m-d H:i:s" }}</p>
-                    <p><strong>Updated at:</strong> {{ flashcard_sets.updated_at|date:"Y-m-d H:i:s" }}</p>
-                    <p><strong>Comments:</strong> {{ flashcard_sets.comments_id }}</p>
-                    <p><strong>User:</strong> {{ flashcard_sets.author_id }}</p>
+    <body class="bg-gray-100">
+        <nav class="bg-gray-800 text-white p-4">
+            <div class="container mx-auto flex items-center justify-between">
+                <div class="text-lg font-bold">Create a Flashcard</div>
+                <div class="flex space-x-4">
+                    <a href="homepage" class="hover:bg-gray-700 px-3 py-2 rounded">Home</a>
+                    <a href="userhub" class="hover:bg-gray-700 px-3 py-2 rounded">Users</a>
                 </div>
-        {% elif flashcard_sets is None and request.method == "POST" %}
-            <p>No Flashcard Set found by this user.</p>
-        {% endif %}
+            </div>
+        </nav>
+
+        <div class="container mx-auto mt-8 bg-white shadow-md rounded-lg p-6">
+            <h1 class="text-2xl font-bold text-gray-800 mb-4">
+                Search a Flashcard Set by a User's ID
+            </h1>
+            <h2 class="text-gray-600 mb-6">
+                Type in an Id number to find a flashcard set owned by a user:
+            </h2>
+            <form action="{% url 'list_sets' %}" method = "post" class="mb-8">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="userid" class="block text-gray-700 font-medium mb-2">User Id:</label>
+                    <input type="text" placeholder="Search by Id..." id="user_id" name="user_id" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-medium px-4 py-2 rounded-lg cursor-pointer">Look Up<i class="fa fa-search ml-2"></i></button>
+            </form>
+            {% if flashcard_sets %}
+                <div class="bg-white shadow rounded-lg p-6">
+                    <h2 class="text-gray-600 mb-6">Results</h2>
+                    <div class="space-y-4">
+                        <p class="text-gray-700"><strong class="font-semibold text-grey-900">Set Name:</strong> {{ flashcard_sets.name }}</p>
+                        <p class="text-gray-700"><strong class="font-semibold text-grey-900">Created at:</strong> {{ flashcard_sets.created_at|date:"Y-m-d H:i:s" }}</p>
+                        <p class="text-gray-700"><strong class="font-semibold text-grey-900">Updated at:</strong> {{ flashcard_sets.updated_at|date:"Y-m-d H:i:s" }}</p>
+                        <p class="text-gray-700"><strong class="font-semibold text-grey-900">Comments:</strong> {{ flashcard_sets.comments_id }}</p>
+                        <p class="text-gray-700"><strong class="font-semibold text-grey-900">User:</strong> {{ flashcard_sets.author_id }}</p>
+                    </div>
+                </div>
+            {% elif flashcard_sets is None and request.method == "POST" %}
+                <p class="text-red-600 font-bold">No Flashcard Set found by this user.</p>
+            {% endif %}
+        </div>
     </body>
 </html>
