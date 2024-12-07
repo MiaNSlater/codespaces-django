@@ -12,34 +12,55 @@
         <meta name="theme-color" content="#333333">
 
         <title>Create Flashcards</title>
+        <script src="https://cdn.tailwindcss.com"></script>
     </head>
-    <body>
-        <h1>Create Flashcards for a Flashcard Set</h1>
-        <h2>Put in a valid flashcard set and create flashcards for it:</h2>
-        <form action="{% url 'create_flashcards' %}" method = "post">
-            {% csrf_token %}
-            <input type="text" placeholder="Search by Id..." id="set_id" name="set_id">
-            <button type="submit">Look Up<i class="fa fa-search"></i></button>
-        </form>
+    <body class="bg-gray-100">
+        <nav class="bg-gray-800 text-white p-4">
+            <div class="container mx-auto flex items-center justify-between">
+                <div class="text-lg font-bold">Create a Flashcard</div>
+                <div class="flex space-x-4">
+                    <a href="homepage" class="hover:bg-gray-700 px-3 py-2 rounded">Home</a>
+                    <a href="userhub" class="hover:bg-gray-700 px-3 py-2 rounded">Users</a>
+                </div>
+            </div>
+        </nav>
 
-        {% if reqset %}
-            <h2>Add a new flashcard:</h2>
-            <form action="{% url 'create_flashcards' %}" method = "post">
+        <div class="container mx-auto mt-8 bg-white shadow-md rounded-lg p-6">
+
+            <h1 class="text-2xl font-bold text-gray-800 mb-4">Create New Flashcards</h1>
+            <h2 class="text-gray-600 mb-6">Put in a valid flashcard set and create flashcards for it:</h2>
+            <form action="{% url 'create_flashcards' %}" method = "post" class="mb-8">
                 {% csrf_token %}
-                <input type="hidden" name="set_id" value="{{ reqset.id }}">
-
-                <h3><strong>New Flashcard:</strong></h3>
-                <label for="question">Question:</label>
-                <input type="text" id="question" name="question"><br><br>
-
-                <label for="answer">Answer:</label>
-                <input type="text" id="answer" name="answer"><br><br>
-
-                <label for="difficulty">Difficulty(Easy, Medium, Hard):</label>
-                <input type="text" id="difficulty" name="difficulty"><br><br>
-
-                <button type="submit" name="add">Add</button>
+                <div class="flex items-center space-x-4">
+                    <input type="text" placeholder="Search by Id..." id="set_id" name="set_id" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-blue-500">
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-medium flex items-center">Look Up<i class="fa fa-search ml-2"></i></button>
+                </div>
             </form>
-        {% endif %}
+
+            {% if reqset %}
+                <h2 class="text-gray-600 mb-6">Add a new flashcard:</h2>
+                <form action="{% url 'create_flashcards' %}" method = "post" class="mb-8">
+                    {% csrf_token %}
+                    <input type="hidden" name="set_id" value="{{ reqset.id }}">
+
+                    <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-4 border-b-2 border-gray-300 pb-2"><strong>New Flashcard:</strong></h3>
+                    <div class="mb-4">
+                        <label for="question" class="block text-gray-700 font-medium mb-2">Question:</label>
+                        <input type="text" id="question" name="question" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter a question...">
+                    </div>
+                    <div>
+                        <label for="answer" class="block text-gray-700 font-medium mb-2">Answer:</label>
+                        <input type="text" id="answer" name="answer" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter an answer...">
+                    </div>
+                    <div>
+                        <label for="difficulty" class="block text-gray-700 font-medium mb-2">Difficulty(Easy, Medium, Hard):</label>
+                        <input type="text" id="difficulty" name="difficulty" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter a difficulty...">
+                    </div>
+                    <div>
+                        <button type="submit" name="add" class="bg-blue-500 hover:bg-blue-600 text-white font-medium px-4 py-2 rounded-lg cursor-pointer">Add</button>
+                    </div>
+                </form>
+            {% endif %}
+        </div>
     </body>
 </html>
