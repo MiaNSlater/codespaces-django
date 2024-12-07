@@ -6,25 +6,41 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="title" content="User List">
+        <meta name="title" content="Delete User">
         <meta name="author" content="MS1646">
         <meta name="generator" content="GitHub Codespaces">
         <meta name="theme-color" content="#333333">
 
         <title>Delete User</title>
+        <script src="https://cdn.tailwindcss.com"></script>
     </head>
-    <body>
-        <h1>
-            Delete a User by Id
-        </h1>
-        <h2>
-            Type in a valid Id number to delete a User
-        </h2>
-        <p><strong>WARNING: .</strong>Non-Admin users cannot delete admins. Any attempts to do so will be logged and reported.</p>
-        <form action="{% url 'delete_user' %}" method = "post">
-            {% csrf_token %}
-            <input type="text" placeholder="Delete by Id..." id="id" name="id">
-            <button type="submit">Delete<i class="fa fa-search"></i></button>
-        </form>
+    <body class="bg-gray-100">
+        <nav class="bg-gray-800 text-white p-4">
+            <div class="container mx-auto flex items-center justify-between">
+                <div class="text-lg font-bold">Create a Flashcard</div>
+                <div class="flex space-x-4">
+                    <a href="homepage" class="hover:bg-gray-700 px-3 py-2 rounded">Home</a>
+                    <a href="userhub" class="hover:bg-gray-700 px-3 py-2 rounded">Users</a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container mx-auto mt-8 bg-white shadow-md rounded-lg p-6">
+            <h1 class="text-2xl font-bold text-gray-800 mb-4">
+                Delete a User by Id
+            </h1>
+            <h2 class="text-gray-600 mb-6">
+                Type in a valid Id number to delete a User
+            </h2>
+            <p class="text-red-600 font-bold"><strong>WARNING: .</strong>Non-Admin users cannot delete admins. Any attempts to do so will be logged and reported.</p>
+            <form action="{% url 'delete_user' %}" method = "post" class="mb-8">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="userid" class="block text-gray-700 font-medium mb-2">User Id:</label>
+                    <input type="text" placeholder="Delete by Id..." id="id" name="id" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-medium px-4 py-2 rounded-lg cursor-pointer">Delete<i class="fa fa-search ml-2"></i></button>
+            </form>
+        </div>
     </body>
 </html>

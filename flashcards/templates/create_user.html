@@ -12,22 +12,42 @@
         <meta name="theme-color" content="#333333">
 
         <title>Create a new User</title>
+        <script src="https://cdn.tailwindcss.com"></script>
     </head>
-    <body>
-        <h2>Create a New User</h2>
-        <h3>Fill in the fields to create a new user:</h3>
-        <form action="{% url 'submit_form' %}" method = "post">
-            {% csrf_token %}
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username"><br><br>
+    <body class="bg-gray-100">
+        <nav class="bg-gray-800 text-white p-4">
+            <div class="container mx-auto flex items-center justify-between">
+                <div class="text-lg font-bold">Create a Flashcard</div>
+                <div class="flex space-x-4">
+                    <a href="homepage" class="hover:bg-gray-700 px-3 py-2 rounded">Home</a>
+                    <a href="userhub" class="hover:bg-gray-700 px-3 py-2 rounded">Users</a>
+                </div>
+            </div>
+        </nav>
 
-            <label for="password">Password:</label>
-            <input type="text" id="password" name="password"><br><br>
-
-            <label for="admin">Admin:</label>
-            <input type="checkbox" id="admin" name="admin"><br><br>
-
-            <input type="submit" value="Submit">
-        </form>
+        <div class="container mx-auto mt-8 bg-white shadow-md rounded-lg p-6">
+            <h1 class="text-2xl font-bold text-gray-800 mb-4">Create a New User</h1>
+            <h2 class="text-gray-600 mb-6">Fill in the fields to create a new user:</h2>
+            <form action="{% url 'submit_form' %}" method = "post" class="mb-8">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="username" class="block text-gray-700 font-medium mb-2">Username:</label>
+                    <input type="text" id="username" name="username" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter a username...">
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="block text-gray-700 font-medium mb-2">Password:</label>
+                    <input type="text" id="password" name="password" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter a password...">
+                </div>
+                <div class="mb-4">
+                    <label for="admin" class="block text-gray-700 font-medium mb-2">Admin:</label>
+                    <div class="flex items-center space-x-2">
+                        <input type="checkbox" id="admin" name="admin" class="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                    </div>
+                </div>
+                <div>
+                    <input type="submit" value="Submit" class="bg-blue-500 hover:bg-blue-600 text-white font-medium px-4 py-2 rounded-lg cursor-pointer">
+                </div>
+            </form>
+        </div>
     </body>
 </html>
