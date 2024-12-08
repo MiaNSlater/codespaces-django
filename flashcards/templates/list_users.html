@@ -13,23 +13,36 @@
     <meta name="theme-color" content="#333333">
 
     <title>User List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    <link rel="stylesheet" href="{% static 'main.css' %}">
 </head>
 
-<body>
-    <h1>Here is the list of users:</h1>
-    <div id="User Data Container"></div>
-    <script>
-        const listUserData = JSON.parse('{{ listuserdata_json|escapejs }}');
+<body class="bg-gray-100">
+    <nav class="bg-gray-800 text-white p-4">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="text-lg font-bold">Create a Flashcard</div>
+            <div class="flex space-x-4">
+                <a href="homepage" class="hover:bg-gray-700 px-3 py-2 rounded">Home</a>
+                <a href="userhub" class="hover:bg-gray-700 px-3 py-2 rounded">Users</a>
+            </div>
+        </div>
+    </nav>
 
-        const userDataDiv = document.getElementById('User Data Container');
-        listUserData.forEach(user => {
-            const userList = document.createElement('p');
-            userList.textContent = `Username: ${user.username} | Admin?: ${user.admin}`;
-            userDataDiv.appendChild(userList);
-        });
-    </script>
+    <div class="container mx-auto mt-8 bg-white shadow-md rounded-lg p-6">
+        <h1 class="text-2xl font-bold text-gray-800 mb-4">List of Users</h1>
+        <h2 class="text-gray-600 mb-6">Here is the list of users:</h2>
+        <div id="User Data Container"></div>
+        <script>
+            const listUserData = JSON.parse('{{ listuserdata_json|escapejs }}');
+
+            const userDataDiv = document.getElementById('User Data Container');
+            listUserData.forEach(user => {
+                const userList = document.createElement('p');
+                userList.textContent = `Username: ${user.username} | Admin?: ${user.admin}`;
+                userDataDiv.appendChild(userList);
+            });
+        </script>
+    </div>
             
 </body>
 </html>

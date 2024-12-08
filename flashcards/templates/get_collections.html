@@ -6,28 +6,42 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="title" content="User List">
+        <meta name="title" content="Get Collections">
         <meta name="author" content="MS1646">
         <meta name="generator" content="GitHub Codespaces">
         <meta name="theme-color" content="#333333">
 
         <title>List Collections</title>
+        <script src="https://cdn.tailwindcss.com"></script>
     </head>
-    <body>
-        <h1>Here is the list of flashcard collections:</h1>
-        <ul>
-            {% for collection in collections %}
-                <li>
-                    <strong>Collection Name: {{collection.name}}</strong>
-                    <strong>Collection Flashcard Sets: {{collection.flashcardset.name}}</strong>
-                    <strong>Collection Author: {{collection.author.username}}</strong>
-                    <strong>Collection Comments: {{collection.comment.comment}}</strong>
-                </li>
-            {% empty %}
-                <li>
-                    <p>No collections found.</p>
-                </li>
-            {% endfor %}
-        </ul>
+    <body class="bg-gray-100">
+        <nav class="bg-gray-800 text-white p-4">
+            <div class="container mx-auto flex items-center justify-between">
+                <div class="text-lg font-bold">Create a Flashcard</div>
+                <div class="flex space-x-4">
+                    <a href="homepage" class="hover:bg-gray-700 px-3 py-2 rounded">Home</a>
+                    <a href="userhub" class="hover:bg-gray-700 px-3 py-2 rounded">Users</a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container mx-auto mt-8 bg-white shadow-md rounded-lg p-6">
+            <h1 class="text-2xl font-bold text-gray-800 mb-4">List of Flashcard Collections</h1>
+            <h2 class="text-gray-600 mb-6">Here is the list of flashcard collections:</h2>
+            <ul class="space-y-4">
+                {% for collection in collections %}
+                    <li class="bg-gray-100 border border-gray-300 rounded-lg p-4">
+                        <p class="text-gray-700"><strong class="font-semibold text-grey-900">Collection Name: {{collection.name}}</strong></p>
+                        <p class="text-gray-700"><strong class="font-semibold text-grey-900">Collection Flashcard Sets: {{collection.flashcardset.name}}</strong></p>
+                        <p class="text-gray-700"><strong class="font-semibold text-grey-900">Collection Author: {{collection.author.username}}</strong></p>
+                        <p class="text-gray-700"><strong class="font-semibold text-grey-900">Collection Comments: {{collection.comment.comment}}</strong></p>
+                    </li>
+                {% empty %}
+                    <li>
+                        <p class="text-red-600 font-bold">No collections found.</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
     </body>
 </html>

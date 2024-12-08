@@ -6,32 +6,50 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="title" content="User List">
+        <meta name="title" content="Get Flashcards">
         <meta name="author" content="MS1646">
         <meta name="generator" content="GitHub Codespaces">
         <meta name="theme-color" content="#333333">
 
         <title>Get Flashcards by ID</title>
+        <script src="https://cdn.tailwindcss.com"></script>
     </head>
-    <body>
-        <h1>
-            Search Flashcards by a Flashcard Set's ID
-        </h1>
-        <h2>
-            Type in an Id number to find flashcards in a flashcard set:
-        </h2>
-        <form action="{% url 'search_flashcard' %}" method = "post">
-            {% csrf_token %}
-            <input type="text" placeholder="Search by Id..." id="set_id" name="set_id">
-            <button type="submit">Look Up<i class="fa fa-search"></i></button>
-        </form>
-        {% if reqcard %}
-            <h2>Results</h2>
-                    <p><strong>Question:</strong> {{ reqcard.question }}</p>
-                    <p><strong>Answer:</strong> {{ reqcard.answer }}</p>
-                    <p><strong>Difficulty:</strong> {{ reqcard.difficulty }}</p>
-        {% elif reqcard is None and request.method == "POST" %}
-            <p>No flashcards in this set. Try adding some!</p>
-        {% endif %}
+    <body class="bg-gray-100">
+        <nav class="bg-gray-800 text-white p-4">
+            <div class="container mx-auto flex items-center justify-between">
+                <div class="text-lg font-bold">Create a Flashcard</div>
+                <div class="flex space-x-4">
+                    <a href="homepage" class="hover:bg-gray-700 px-3 py-2 rounded">Home</a>
+                    <a href="userhub" class="hover:bg-gray-700 px-3 py-2 rounded">Users</a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container mx-auto mt-8 bg-white shadow-md rounded-lg p-6">
+            <h1 class="text-2xl font-bold text-gray-800 mb-4">
+                Search Flashcards by a Flashcard Set's ID
+            </h1>
+            <h2 class="text-gray-600 mb-6">
+                Type in an Id number to find flashcards in a flashcard set:
+            </h2>
+            <form action="{% url 'search_flashcard' %}" method = "post" class="mb-8">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="set_id" class="block text-gray-700 font-medium mb-2">Set Id:</label>
+                    <input type="text" placeholder="Search by Id..." id="set_id" name="set_id" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-medium px-4 py-2 rounded-lg cursor-pointer">Look Up<i class="fa fa-search ml-2"></i></button>
+            </form>
+            {% if reqcard %}
+                <div class="bg-white shadow rounded-lg p-6">
+                    <h2 class="text-gray-600 mb-6">Results</h2>
+                        <p class="text-gray-700"><strong class="font-semibold text-grey-900">Question:</strong> {{ reqcard.question }}</p>
+                        <p class="text-gray-700"><strong class="font-semibold text-grey-900">Answer:</strong> {{ reqcard.answer }}</p>
+                        <p class="text-gray-700"><strong class="font-semibold text-grey-900">Difficulty:</strong> {{ reqcard.difficulty }}</p>
+                </div>
+            {% elif reqcard is None and request.method == "POST" %}
+                <p class="text-red-600 font-bold">No flashcards in this set. Try adding some!</p>
+            {% endif %}
+        </div>
     </body>
 </html>
