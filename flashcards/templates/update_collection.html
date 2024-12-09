@@ -6,37 +6,50 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="title" content="User List">
+        <meta name="title" content="Update Collection">
         <meta name="author" content="MS1646">
         <meta name="generator" content="GitHub Codespaces">
         <meta name="theme-color" content="#333333">
 
         <title>Update Collection by ID</title>
+        <script src="https://cdn.tailwindcss.com"></script>
     </head>
-    <body>
-        <h1>
-            Update a Flashcard Collection by Id
-        </h1>
-        <h2>
-            Type in an Id number to update a flashcard collection:
-        </h2>
-        <form action="{% url 'update_collection' %}" method = "post">
-            {% csrf_token %}
-            <input type="text" placeholder="Search by Id..." id="col_id" name="col_id">
-            <button type="submit">Look Up<i class="fa fa-search"></i></button>
-        </form>
+    <body class="bg-gray-100">
+        <nav class="bg-gray-800 text-white p-4">
+            <div class="container mx-auto flex items-center justify-between">
+                <div class="text-lg font-bold">Update Collections (ID)</div>
+                <div class="flex space-x-4">
+                    <a href="homepage" class="hover:bg-gray-700 px-3 py-2 rounded">Home</a>
+                    <a href="userhub" class="hover:bg-gray-700 px-3 py-2 rounded">Users</a>
+                </div>
+            </div>
+        </nav>
 
-        {% if reqcol %}
-            <h2>Update Flashcard Collection Details:</h2>
+        <div class="container mx-auto mt-8 bg-white shadow-md rounded-lg p-6">
+            <h1>
+                Update a Flashcard Collection by Id
+            </h1>
+            <h2>
+                Type in an Id number to update a flashcard collection:
+            </h2>
             <form action="{% url 'update_collection' %}" method = "post">
                 {% csrf_token %}
-                <input type="hidden" name="col_id" value="{{ reqcol.id }}">
-
-                <h3><strong>New Collection Name:</strong></h3>
-                <input type="text" id="name" name="name" value="{{ reqcol.name }}"><br><br>
-
-                <button type="submit" name="update">Update</button>
+                <input type="text" placeholder="Search by Id..." id="col_id" name="col_id">
+                <button type="submit">Look Up<i class="fa fa-search"></i></button>
             </form>
-        {% endif %}
+
+            {% if reqcol %}
+                <h2>Update Flashcard Collection Details:</h2>
+                <form action="{% url 'update_collection' %}" method = "post">
+                    {% csrf_token %}
+                    <input type="hidden" name="col_id" value="{{ reqcol.id }}">
+
+                    <h3><strong>New Collection Name:</strong></h3>
+                    <input type="text" id="name" name="name" value="{{ reqcol.name }}"><br><br>
+
+                    <button type="submit" name="update">Update</button>
+                </form>
+            {% endif %}
+        </div>
     </body>
 </html>
