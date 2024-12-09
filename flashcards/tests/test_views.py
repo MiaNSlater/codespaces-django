@@ -783,7 +783,7 @@ class RandomCollectionTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'random_collection.html')
-        self.assertContains(response, "<p>No Collections found.</p>")
+        self.assertContains(response, "<p class="text-red-600 font-bold">No Collections found.</p>")
 
 class CreateFlashcardTest(TestCase):
     @classmethod
