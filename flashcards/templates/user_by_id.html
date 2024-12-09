@@ -6,31 +6,51 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="title" content="User List">
+        <meta name="title" content="Find a User by Id">
         <meta name="author" content="MS1646">
         <meta name="generator" content="GitHub Codespaces">
         <meta name="theme-color" content="#333333">
 
         <title>Find a User by ID</title>
+        <script src="https://cdn.tailwindcss.com"></script>
     </head>
-    <body>
-        <h1>
-            Find a User by Id
-        </h1>
-        <h2>
-            Type in an Id number to find a user:
-        </h2>
-        <form action="{% url 'search_id' %}" method = "post">
-            {% csrf_token %}
-            <input type="text" placeholder="Search by Id..." id="user_id" name="user_id">
-            <button type="submit">Look Up<i class="fa fa-search"></i></button>
-        </form>
-        {% if user %}
-            <h2>Results</h2>
-            <p><strong>ID:</strong> {{ user.id }}</p>
-            <p><strong>Name:</strong> {{ user.username }}</p>
-        {% elif user is None and request.method == "POST" %}
-            <p>No user found with that Id.</p>
-        {% endif %}
+    <body class="bg-gray-100">
+        <nav class="bg-gray-800 text-white p-4">
+            <div class="container mx-auto flex items-center justify-between">
+                <div class="text-lg font-bold">Find a User (Id)</div>
+                <div class="flex space-x-4">
+                    <a href="homepage" class="hover:bg-gray-700 px-3 py-2 rounded">Home</a>
+                    <a href="userhub" class="hover:bg-gray-700 px-3 py-2 rounded">Users</a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container mx-auto mt-8 bg-white shadow-md rounded-lg p-6">
+            <h1 class="text-2xl font-bold text-gray-800 mb-4">
+                Find a User by Id
+            </h1>
+            <h2 class="text-gray-600 mb-6">
+                Type in an Id number to find a user:
+            </h2>
+            <form action="{% url 'search_id' %}" method = "post" class="mb-8">
+                {% csrf_token %}
+                <div class="flex items-center space-x-4">
+                    <label for="user_id" class="block text-gray-700 font-medium mb-2">Enter a valid User Id:</label>
+                    <input type="text" placeholder="Search by Id..." id="user_id" name="user_id" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-blue-500">
+                </div>
+                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-medium flex items-center">Look Up<i class="fa fa-search ml-2"></i></button>
+            </form>
+            {% if user %}
+                <div class="bg-gray-50 border border-gray-300 rounded-lg p-6">
+                    <h2 class="text-x1 font-semibold text-gray-700 mb-4">Results</h2>
+                    <p class="text-gray-700 font-medium"><strong class="text-gray-900">ID:</strong> {{ user.id }}</p>
+                    <p class="text-gray-700 font-medium"><strong class="text-gray-900">Name:</strong> {{ user.username }}</p>
+                </div>
+            {% elif user is None and request.method == "POST" %}
+                <div>
+                    <p class="text-red-600 font-bold">No user found with that Id.</p>
+                </div>
+            {% endif %}
+        </div>
     </body>
 </html>
