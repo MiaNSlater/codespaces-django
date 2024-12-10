@@ -50,6 +50,7 @@ urlpatterns = [
     path("createflashcards", core_views.create_flashcards, name='create_flashcards'),
     path("userhub", core_views.userhub, name='userhub'),
     path("sethub", core_views.sethub, name='sethub'),
+    path("collectionhub", core_views.collectionhub, name='collectionhub'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

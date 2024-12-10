@@ -315,3 +315,6 @@ def userhub(request):
 
 def sethub(request):
     return render(request, 'flashcard_set_hub.html')
+
+def collectionhub(request):
+    return render(request, 'collection_hub.html')
