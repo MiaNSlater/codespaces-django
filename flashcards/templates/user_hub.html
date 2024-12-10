@@ -17,7 +17,7 @@
     <body class="bg-gray-100">
         <nav class="bg-gray-800 text-white p-4">
             <div class="container mx-auto flex items-center justify-between">
-                <div class="text-lg font-bold">Home Page</div>
+                <div class="text-lg font-bold">User Hub</div>
                 <div class="flex space-x-4">
                     <a href="homepage" class="hover:bg-gray-700 px-3 py-2 rounded">Home</a>
                     <a href="userhub" class="hover:bg-gray-700 px-3 py-2 rounded">Users</a>
@@ -28,7 +28,25 @@
         <div class="container mx-auto mt-8">
             <h1 class="text-2xl font bold">This is the User Hub</h1>
             <p class="mt-4">Click on one of the boxes to navigate to a user page:</p>
-        </div>
 
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-6">
+                <a href="createuser" class="bg-blue-500 text-white text-center rounded-lg p-6 shadow-lg hover:bg-blue-600 transition">
+                    <h2 class="text-xl font-bold">Create User</h2>
+                    <p class="mt-2 text-sm">Create a new User</p>
+                </a>
+                <a href="userbyid" class="bg-blue-500 text-white text-center rounded-lg p-6 shadow-lg hover:bg-blue-600 transition">
+                    <h2 class="text-xl font-bold">Find a User by Id</h2>
+                    <p class="mt-2 text-sm">Find a registered user by their id</p>
+                </a>
+                <a href="deleteuser" class="bg-blue-500 text-white text-center rounded-lg p-6 shadow-lg hover:bg-blue-600 transition">
+                    <h2 class="text-xl font-bold">Delete a User</h2>
+                    <p class="mt-2 text-sm">Delete a User by Id</p>
+                </a>
+                <a href="updateuser" class="bg-blue-500 text-white text-center rounded-lg p-6 shadow-lg hover:bg-blue-600 transition">
+                    <h2 class="text-xl font-bold">Update a User</h2>
+                    <p class="mt-2 text-sm">Update a User by Id</p>
+                </a>
+            </div>
+        </div>
     </body>
 </html>
