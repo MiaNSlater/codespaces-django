@@ -60,7 +60,7 @@
                         </div>
                     {% endfor %}
                 </div>
-            {% elif request.method == 'POST'}
+            {% elif not flashcards and request.method == 'POST' %}
                 <p class="text-red-500 mt-4">No flashcards available in the selected set</p>
             {% endif %}
         </div>
