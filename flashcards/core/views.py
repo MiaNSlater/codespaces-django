@@ -312,3 +312,6 @@ def success(request):
 
 def userhub(request):
     return render(request, 'user_hub.html')
+
+def sethub(request):
+    return render(request, 'flashcard_set_hub.html')

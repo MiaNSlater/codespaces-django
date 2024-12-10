@@ -1,0 +1,52 @@
+{% load django_browser_reload %}
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="title" content="Flashcard Set Hub">
+        <meta name="author" content="MS1646">
+        <meta name="generator" content="GitHub Codespaces">
+        <meta name="theme-color" content="#333333">
+
+        <title>Flashcard Set Hub</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="bg-gray-100">
+        <nav class="bg-gray-800 text-white p-4">
+            <div class="container mx-auto flex items-center justify-between">
+                <div class="text-lg font-bold">Flashcard Set Hub</div>
+                <div class="flex space-x-4">
+                    <a href="homepage" class="hover:bg-gray-700 px-3 py-2 rounded">Home</a>
+                    <a href="userhub" class="hover:bg-gray-700 px-3 py-2 rounded">Users</a>
+                    <a href="sethub" class="hover:bg-gray-700 px-3 py-2 rounded">Flashcard Sets</a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container mx-auto mt-8">
+            <h1 class="text-2xl font bold">This is the Flashcard Set Hub</h1>
+            <p class="mt-4">Click on one of the boxes to navigate to a flashcard set page:</p>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-6">
+                <a href="createsets" class="bg-blue-500 text-white text-center rounded-lg p-6 shadow-lg hover:bg-blue-600 transition">
+                    <h2 class="text-xl font-bold">Create Flashcard Sets</h2>
+                    <p class="mt-2 text-sm">Create a new Flashcard Set</p>
+                </a>
+                <a href="flashcardsetsearch" class="bg-blue-500 text-white text-center rounded-lg p-6 shadow-lg hover:bg-blue-600 transition">
+                    <h2 class="text-xl font-bold">Find a Set by Id</h2>
+                    <p class="mt-2 text-sm">Find a registered set by their id</p>
+                </a>
+                <a href="deleteset" class="bg-blue-500 text-white text-center rounded-lg p-6 shadow-lg hover:bg-blue-600 transition">
+                    <h2 class="text-xl font-bold">Delete a Set</h2>
+                    <p class="mt-2 text-sm">Delete a Set by Id</p>
+                </a>
+                <a href="updateset" class="bg-blue-500 text-white text-center rounded-lg p-6 shadow-lg hover:bg-blue-600 transition">
+                    <h2 class="text-xl font-bold">Update a Set</h2>
+                    <p class="mt-2 text-sm">Update a Set by Id</p>
+                </a>
+            </div>
+        </div>
+    </body>
