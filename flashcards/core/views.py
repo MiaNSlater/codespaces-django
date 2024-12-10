@@ -313,8 +313,10 @@ def study_flashcards(request):
 
     if request.method == 'POST':
         selected_set_id = request.POST.get('flashcard_set')
-        selected_set = get_object_or_404(FlashcardSet, id=selected_set_id)
-        flashcards = selected_set.flashcards.all()
+        try:
+            flashcards = Flashcard.objects.filter(flashcardset_id=selected_set_id)
+        except Flashcard.DoesNotExist:
+            flashcards = None
     
     return render(request, 'study_flashcards.html', {'flashcard_sets': flashcard_sets, 'flashcards': flashcards,})
 
