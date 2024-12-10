@@ -307,6 +307,19 @@ def random_collection(request):
     random_col = random.choice(collections) if collections else None
     return render(request, 'random_collection.html', {'collection': random_col})
 
+def study_flashcards(request):
+    flashcard_sets = FlashcardSet.objects.all()
+    flashcards = None
+
+    if request.method == 'POST':
+        selected_set_id = request.POST.get('flashcard_set')
+        selected_set = get_object_or_404(FlashcardSet, id=selected_set_id)
+        flashcards = selected_set.flashcards.all()
+    
+    return render(request, 'study_flashcards.html', {'flashcard_sets': flashcard_sets, 'flashcards': flashcards,})
+
+    #return render(request, 'study_flashcards.html', {'flashcard_sets': flashcard_sets})
+
 def success(request):
     return render(request, 'success.html')
 
