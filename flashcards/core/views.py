@@ -311,4 +311,4 @@ def success(request):
     return render(request, 'success.html')
 
 def userhub(request):
-    return render(request, 'userhub.html')
+    return render(request, 'user_hub.html')
