@@ -150,22 +150,23 @@ def create_flashcards(request):
         except FlashcardSet.DoesNotExist:
             return HttpResponseForbidden("Forbidden: Cannot add cards to a non-existent set.")
         
-        if reqset:
-            if 'add' in request.POST:
-                question = request.POST.get('question')
-                answer = request.POST.get('answer')
-                difficulty = request.POST.get('difficulty')
+        #if reqset:
+        if 'add' in request.POST:
+            question = request.POST.get('question')
+            answer = request.POST.get('answer')
+            difficulty = request.POST.get('difficulty')
 
-                if not question or not answer or not difficulty:
-                    return HttpResponseForbidden("Forbidden: Cannot create a new flashcard without a question, answer, or difficulty.")
+            if not question or not answer or not difficulty:
+                return HttpResponseForbidden("Forbidden: Cannot create a new flashcard without a question, answer, or difficulty.")
                 
-                valid_difficulties = {choice[0]: choice[1] for choice in DifficultyLevel.choices}
-                if difficulty not in valid_difficulties.keys() and difficulty not in valid_difficulties.values():
-                    return HttpResponseForbidden("Forbidden: You must enter a valid difficulty.")
+            valid_difficulties = {choice[0]: choice[1] for choice in DifficultyLevel.choices}
+            if difficulty not in valid_difficulties.keys() and difficulty not in valid_difficulties.values():
+                return HttpResponseForbidden("Forbidden: You must enter a valid difficulty.")
                 
-                card_input = Flashcard(question=question, answer=answer, difficulty=difficulty, flashcardset=reqset)
-                card_input.save()
+            card_input = Flashcard(question=question, answer=answer, difficulty=difficulty, flashcardset=reqset)
+            card_input.save()
             return redirect('success')
+        return render(request, 'create_flashcards.html', {'reqset': reqset})
     return render(request, 'create_flashcards.html', {'reqset': reqset})
 
 def delete_user(request):
