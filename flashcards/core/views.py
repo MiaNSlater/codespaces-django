@@ -150,7 +150,6 @@ def create_flashcards(request):
         except FlashcardSet.DoesNotExist:
             return HttpResponseForbidden("Forbidden: Cannot add cards to a non-existent set.")
         
-        #if reqset:
         if 'add' in request.POST:
             question = request.POST.get('question')
             answer = request.POST.get('answer')
